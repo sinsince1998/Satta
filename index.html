@@ -1,0 +1,1637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gambling - Kids Edition</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Roboto+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07090e;
+      --card-bg: rgba(18, 22, 33, 0.75);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --accent: #ff2a5f;
+      --accent-glow: rgba(255, 42, 95, 0.35);
+      --accent-alt: #00d2ff;
+      --accent-alt-glow: rgba(0, 210, 255, 0.3);
+      --accent-science: #00ff88;
+      --accent-chaos: #f7b731;
+      --accent-bolly: #ff8500;
+      --accent-sports: #2ecc71;
+      --accent-gaming: #9b59b6;
+      --text: #f8fafc;
+      --text-muted: #8492a6;
+      --border: #1e2638;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; }
+
+    body {
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(0, 210, 255, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 10% 90%, rgba(255, 42, 95, 0.06) 0%, transparent 40%),
+        radial-gradient(circle at 90% 85%, rgba(247, 183, 49, 0.05) 0%, transparent 40%);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: clamp(1rem, 2vw, 2rem) clamp(0.75rem, 2vw, 1.25rem);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 860px;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(1rem, 2vw, 1.5rem);
+      position: relative;
+    }
+
+    header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.25rem;
+      padding-bottom: 0.5rem;
+      width: 100%;
+    }
+
+    .header-top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 0.25rem;
+    }
+
+    .nav-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-muted);
+      font-size: clamp(0.7rem, 2vw, 0.8rem);
+      font-weight: 700;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover { color: var(--text); background: rgba(255, 255, 255, 0.1); border-color: var(--accent-alt); }
+
+    h1 {
+      font-size: clamp(1.6rem, 5vw, 2.2rem);
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #ffffff 40%, var(--accent-alt) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 30px rgba(0, 210, 255, 0.2);
+      text-align: center;
+    }
+
+    .header-sub {
+      font-size: clamp(0.65rem, 2vw, 0.75rem);
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .deck-stats-pill {
+      font-size: 0.75rem;
+      font-family: 'Roboto Mono', monospace;
+      color: var(--text-muted);
+      background: rgba(0, 0, 0, 0.3);
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      margin-top: 0.35rem;
+    }
+
+    .mix-control-box {
+      width: 100%;
+      background: rgba(18, 22, 33, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .mix-label-group { display: flex; align-items: center; gap: 0.5rem; }
+    .mix-title { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); }
+    .mix-value-badge {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--accent-alt);
+      background: rgba(0, 210, 255, 0.1);
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      border: 1px solid rgba(0, 210, 255, 0.2);
+    }
+
+    .slider-wrapper { display: flex; align-items: center; gap: 0.75rem; flex: 1 1 240px; max-width: 400px; }
+    .mix-slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.1);
+      outline: none;
+    }
+    .mix-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--accent-alt);
+      cursor: pointer;
+      box-shadow: 0 0 10px var(--accent-alt);
+    }
+    .slider-limit-label { font-size: 0.7rem; color: var(--text-muted); font-family: 'Roboto Mono', monospace; }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: clamp(16px, 3vw, 24px);
+      padding: clamp(1.5rem, 3.5vw, 2.5rem) clamp(1rem, 3vw, 2.25rem);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1.25rem;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      min-height: 320px;
+      justify-content: center;
+      position: relative;
+    }
+
+    .card.blind-active {
+      border-color: rgba(255, 42, 95, 0.5);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 25px rgba(255, 42, 95, 0.25);
+    }
+
+    .card-top-row { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; justify-content: center; }
+
+    .category {
+      font-size: clamp(0.7rem, 2vw, 0.8rem);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .cat-music, .cat-movies, .cat-pop { color: var(--accent-alt); border-color: rgba(0, 210, 255, 0.3); box-shadow: 0 0 15px rgba(0, 210, 255, 0.15); }
+    .cat-bollywood { color: var(--accent-bolly); border-color: rgba(255, 133, 0, 0.3); box-shadow: 0 0 15px rgba(255, 133, 0, 0.15); }
+    .cat-science { color: var(--accent-science); border-color: rgba(0, 255, 136, 0.3); box-shadow: 0 0 15px rgba(0, 255, 136, 0.15); }
+    .cat-chaos { color: var(--accent-chaos); border-color: rgba(247, 183, 49, 0.3); box-shadow: 0 0 15px rgba(247, 183, 49, 0.15); }
+    .cat-sports { color: var(--accent-sports); border-color: rgba(46, 204, 113, 0.3); box-shadow: 0 0 15px rgba(46, 204, 113, 0.15); }
+    .cat-gaming { color: var(--accent-gaming); border-color: rgba(155, 89, 182, 0.3); box-shadow: 0 0 15px rgba(155, 89, 182, 0.15); }
+
+    .bounty-pill {
+      font-size: clamp(0.65rem, 1.8vw, 0.75rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      background: rgba(255, 42, 95, 0.15);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      display: none;
+      animation: pulse 1s infinite alternate;
+    }
+
+    .pot-badge {
+      font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0.4rem 1.2rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s;
+    }
+
+    .pot-badge.boosted {
+      background: linear-gradient(135deg, rgba(247, 183, 49, 0.25), rgba(255, 42, 95, 0.25));
+      color: #ffd166;
+      border-color: rgba(247, 183, 49, 0.6);
+      font-size: clamp(1.1rem, 3vw, 1.35rem);
+      padding: 0.45rem 1.4rem;
+      animation: potPulse 1.4s infinite alternate;
+    }
+
+    @keyframes potPulse {
+      from { transform: scale(1); box-shadow: 0 0 15px rgba(247, 183, 49, 0.3); }
+      to { transform: scale(1.05); box-shadow: 0 0 30px rgba(247, 183, 49, 0.7); }
+    }
+
+    .prompt {
+      font-size: clamp(1.35rem, 4vw, 2.1rem);
+      font-weight: 800;
+      line-height: 1.35;
+      max-width: 720px;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .cloaked-box {
+      display: inline-block;
+      background: rgba(255, 42, 95, 0.15);
+      border: 1px dashed var(--accent);
+      color: #ff85a1;
+      padding: 0.15rem 0.55rem;
+      border-radius: 8px;
+      letter-spacing: 1px;
+      font-size: clamp(1.1rem, 3vw, 1.6rem);
+      animation: pulse 1s infinite alternate;
+    }
+
+    .bidding-box {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      margin-top: 0.25rem;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 0.5rem 1.25rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .bid-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text);
+      font-size: 1.3rem;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .bid-btn:hover { background: rgba(255, 42, 95, 0.2); border-color: var(--accent); color: #fff; }
+
+    .bid-display {
+      font-family: 'Roboto Mono', monospace;
+      font-size: clamp(2.6rem, 7vw, 3.4rem);
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 70px;
+      text-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .bid-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
+
+    .timer-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.9rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .time-selector {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 0.3rem 0.5rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .time-pill {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .time-pill.active {
+      background: linear-gradient(135deg, var(--accent-alt), #0088ff);
+      color: #040810;
+      box-shadow: 0 0 15px var(--accent-alt-glow);
+    }
+
+    .custom-time-input {
+      width: 44px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      color: var(--text);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-align: center;
+      padding: 0.25rem 0.2rem;
+      outline: none;
+      font-family: 'Roboto Mono', monospace;
+    }
+
+    .timer {
+      font-family: 'Roboto Mono', monospace;
+      font-size: clamp(3.2rem, 8vw, 4.2rem);
+      font-weight: 700;
+      letter-spacing: -2px;
+      font-variant-numeric: tabular-nums;
+      color: #ffffff;
+      text-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
+    }
+
+    .timer.warning { 
+      color: var(--accent); 
+      text-shadow: 0 0 35px var(--accent-glow);
+      animation: pulse 0.5s infinite alternate; 
+    }
+
+    @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.05); } }
+
+    .actions { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; width: 100%; }
+
+    button.primary {
+      background: linear-gradient(135deg, var(--accent), #d61b4a);
+      color: #fff;
+      border: none;
+      padding: 0.8rem 1.6rem;
+      font-weight: 800;
+      font-size: clamp(0.85rem, 2vw, 0.95rem);
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 8px 25px var(--accent-glow);
+      transition: all 0.2s;
+    }
+
+    button.primary:hover { transform: translateY(-2px); box-shadow: 0 12px 30px var(--accent-glow); }
+
+    button.secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 0.8rem 1.25rem;
+      font-weight: 700;
+      font-size: clamp(0.8rem, 2vw, 0.9rem);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    button.secondary:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.2); }
+
+    button.reveal-bounty-btn {
+      background: linear-gradient(135deg, #00d2ff, #0051ff);
+      color: #fff;
+      border: none;
+      padding: 0.8rem 1.4rem;
+      font-weight: 900;
+      font-size: clamp(0.85rem, 2vw, 0.95rem);
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 0 25px rgba(0, 210, 255, 0.4);
+      display: none;
+      animation: pulse 1s infinite alternate;
+    }
+
+    button.wash-btn {
+      background: rgba(247, 183, 49, 0.1);
+      border: 1px solid rgba(247, 183, 49, 0.3);
+      color: #ffd166;
+      padding: 0.8rem 1.25rem;
+      font-weight: 800;
+      font-size: clamp(0.8rem, 2vw, 0.9rem);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    button.wash-btn:hover { background: rgba(247, 183, 49, 0.2); border-color: var(--accent-chaos); }
+
+    .button-group-row { display: flex; gap: 0.6rem; flex-wrap: wrap; justify-content: center; margin-top: 0.25rem; }
+
+    .key-btn {
+      background: rgba(0, 210, 255, 0.08);
+      border: 1px solid rgba(0, 210, 255, 0.3);
+      color: var(--accent-alt);
+      font-size: clamp(0.75rem, 2vw, 0.8rem);
+      font-weight: 800;
+      padding: 0.4rem 0.9rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .key-btn:hover { background: rgba(0, 210, 255, 0.18); }
+
+    .sabotage-btn {
+      background: rgba(255, 42, 95, 0.08);
+      border: 1px solid rgba(255, 42, 95, 0.3);
+      color: #ff5e84;
+      font-size: clamp(0.75rem, 2vw, 0.8rem);
+      font-weight: 800;
+      padding: 0.4rem 0.9rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .sabotage-btn:hover { background: rgba(255, 42, 95, 0.2); border-color: var(--accent); }
+    .sabotage-btn.activated {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+      cursor: default;
+    }
+
+    .sabotage-banner {
+      display: none;
+      width: 100%;
+      background: rgba(255, 42, 95, 0.1);
+      border: 1px solid var(--accent);
+      border-radius: 12px;
+      padding: 0.85rem 1.15rem;
+      margin-top: 0.6rem;
+      font-size: clamp(0.85rem, 2vw, 0.95rem);
+      color: #ffb8c7;
+      text-align: center;
+      line-height: 1.5;
+      box-shadow: 0 0 30px rgba(255, 42, 95, 0.15);
+      animation: fadeIn 0.25s ease-in-out;
+    }
+
+    .sabotage-banner strong { color: #ffffff; }
+    .sabotage-banner .sub-stake {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--accent-chaos);
+      margin-top: 0.3rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+
+    .answer-key-box {
+      display: none;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(0, 210, 255, 0.25);
+      border-radius: 14px;
+      padding: 1.1rem 1.25rem;
+      margin-top: 0.6rem;
+      font-size: 0.85rem;
+      color: #d1d5db;
+      text-align: left;
+      line-height: 1.6;
+    }
+
+    .key-section { margin-bottom: 0.75rem; }
+    .key-section-title {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--accent-alt);
+      margin-bottom: 0.35rem;
+    }
+
+    .lore-box {
+      background: rgba(0, 210, 255, 0.05);
+      border-left: 3px solid var(--accent-alt);
+      padding: 0.6rem 0.85rem;
+      border-radius: 4px;
+      margin-top: 0.5rem;
+      font-size: 0.82rem;
+      color: #e2e8f0;
+      font-style: italic;
+    }
+
+    .scoreboard-container {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: clamp(1rem, 2.5vw, 1.5rem);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .scoreboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding-bottom: 0.6rem;
+    }
+
+    .scoreboard-title {
+      font-size: clamp(0.75rem, 2vw, 0.85rem);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--text-muted);
+    }
+
+    .team-manage-btns { display: flex; gap: 0.4rem; }
+    .team-ctrl-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.3rem 0.65rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .team-ctrl-btn:hover { background: rgba(255, 255, 255, 0.1); border-color: var(--accent-alt); }
+
+    .teams-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(0.75rem, 2vw, 1.5rem);
+    }
+
+    .team {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+      flex: 1 1 125px;
+      max-width: 170px;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 0.75rem 0.85rem;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .team-name {
+      font-size: clamp(0.8rem, 2vw, 0.9rem);
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      outline: none;
+      padding-bottom: 0.15rem;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .team-name:focus { border-bottom-color: var(--accent); color: var(--text); }
+
+    .team-score { 
+      font-family: 'Roboto Mono', monospace;
+      font-size: clamp(1.6rem, 4vw, 2rem); 
+      font-weight: 700;
+      color: #ffffff;
+      transition: color 0.2s;
+    }
+
+    .team-score.negative { color: var(--accent); text-shadow: 0 0 15px var(--accent-glow); }
+
+    .score-controls { display: flex; flex-direction: column; gap: 0.4rem; width: 100%; align-items: center; }
+    .manual-controls-row { display: flex; gap: 0.3rem; width: 100%; justify-content: center; }
+
+    .score-btn {
+      width: 34px;
+      height: 30px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 0.85rem;
+      transition: all 0.15s;
+    }
+
+    .score-btn:hover { background: rgba(255, 255, 255, 0.12); }
+
+    .score-btn.award-win {
+      width: 100%;
+      padding: 0.35rem 0.5rem;
+      background: linear-gradient(135deg, rgba(0, 210, 255, 0.2), rgba(0, 136, 255, 0.2));
+      border: 1px solid rgba(0, 210, 255, 0.4);
+      color: var(--accent-alt);
+      font-weight: 800;
+      font-size: clamp(0.7rem, 1.8vw, 0.8rem);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .score-btn.award-win:hover {
+      background: linear-gradient(135deg, rgba(0, 210, 255, 0.35), rgba(0, 136, 255, 0.35));
+      border-color: var(--accent-alt);
+      transform: scale(1.02);
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+      animation: fadeIn 0.2s ease-out;
+    }
+
+    .modal-content {
+      background: #10141f;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      max-width: 680px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: clamp(1.25rem, 3vw, 2rem);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 0.75rem;
+    }
+
+    .modal-title { font-size: clamp(1.1rem, 3vw, 1.25rem); font-weight: 900; letter-spacing: 1px; text-transform: uppercase; color: #fff; }
+    .modal-close-btn { background: transparent; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; }
+    .rule-block { display: flex; flex-direction: column; gap: 0.35rem; font-size: clamp(0.85rem, 2vw, 0.9rem); line-height: 1.55; color: #cbd5e1; }
+    .rule-heading { font-size: clamp(0.85rem, 2vw, 0.95rem); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--accent-alt); }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div class="header-top-nav">
+      <button class="nav-btn" onclick="toggleFullscreen()">⛶ Fullscreen</button>
+      <button class="nav-btn" onclick="toggleRulesModal(true)">📖 Official Rules</button>
+    </div>
+    <h1>Gambling</h1>
+    <div class="header-sub">Kids Edition</div>
+    <div class="deck-stats-pill" id="deckStatsPill">Deck: Initializing...</div>
+  </header>
+
+  <div class="mix-control-box">
+    <div class="mix-label-group">
+      <span class="mix-title">Pop Culture Mix:</span>
+      <span class="mix-value-badge" id="mixValueBadge">60%</span>
+    </div>
+    <div class="slider-wrapper">
+      <span class="slider-limit-label">25%</span>
+      <input type="range" min="25" max="100" value="60" step="5" class="mix-slider" id="popMixSlider" oninput="updatePopCultureMix(this.value)">
+      <span class="slider-limit-label">100%</span>
+    </div>
+  </div>
+
+  <div class="card" id="mainCard">
+    <div class="card-top-row">
+      <div class="bounty-pill" id="bountyPill">⚡ Blind Bounty Round</div>
+      <div class="category" id="category">Category</div>
+      <div class="pot-badge" id="potBadge">Worth: 1 Pt</div>
+    </div>
+
+    <div class="prompt" id="prompt">Name items matching the criteria...</div>
+
+    <div style="display:flex; flex-direction:column; align-items:center;">
+      <div class="bid-label">Current High Bid</div>
+      <div class="bidding-box">
+        <button class="bid-btn" onclick="changeBid(-1)">-</button>
+        <div class="bid-display" id="bidCount">3</div>
+        <button class="bid-btn" onclick="changeBid(1)">+</button>
+      </div>
+    </div>
+
+    <div class="timer-section">
+      <div class="time-selector">
+        <button class="time-pill" onclick="setTimerDuration(30)">30s</button>
+        <button class="time-pill active" onclick="setTimerDuration(45)">45s</button>
+        <button class="time-pill" onclick="setTimerDuration(60)">60s</button>
+        <button class="time-pill" onclick="setTimerDuration(90)">90s</button>
+        <input type="number" id="customTime" class="custom-time-input" placeholder="sec" onchange="setCustomDuration(this.value)">
+      </div>
+
+      <div class="timer" id="timer">45</div>
+      <div class="actions">
+        <button class="reveal-bounty-btn" id="revealBountyBtn" onclick="revealBountyPrompt()">🔓 Reveal Cloaked Bounty</button>
+        <button class="primary" id="timerBtn" onclick="toggleTimer()">Start Countdown</button>
+        <button class="secondary" onclick="resetTimer()">Reset Timer</button>
+        <button class="secondary" onclick="drawNextCard(false)">Next Card 🎲</button>
+        <button class="wash-btn" onclick="passDeadCard()">☠️ Dead Pot (+1)</button>
+      </div>
+
+      <div class="button-group-row">
+        <button id="sabotageBtn" class="sabotage-btn" onclick="triggerSabotage()">⚠ Activate Sabotage</button>
+        <button id="keyBtn" class="key-btn" onclick="toggleKey()">💡 Reveal Answers & Lore</button>
+      </div>
+
+      <div id="sabotageBanner" class="sabotage-banner"></div>
+      <div id="answerKeyBox" class="answer-key-box"></div>
+    </div>
+  </div>
+
+  <div class="scoreboard-container">
+    <div class="scoreboard-header">
+      <span class="scoreboard-title">Live Scoreboard (Option A: -1 on Choke)</span>
+      <div class="team-manage-btns">
+        <button class="team-ctrl-btn" onclick="removeTeam()">- Team</button>
+        <button class="team-ctrl-btn" onclick="addTeam()">+ Team</button>
+      </div>
+    </div>
+    <div class="teams-grid" id="teamsGrid"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="rulesModal" onclick="if(event.target === this) toggleRulesModal(false)">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="modal-title">Rulebook & Table Mechanics</span>
+      <button class="modal-close-btn" onclick="toggleRulesModal(false)">&times;</button>
+    </div>
+
+    <div class="rule-block">
+      <span class="rule-heading">1. The Objective</span>
+      First team to reach the target points (typically 7 or 10) wins. Negative scores are fully allowed.
+    </div>
+    <div class="rule-block">
+      <span class="rule-heading">2. The Auction Phase</span>
+      Starting bid minimum is 3. Teams raise or pass in clockwise rotation. Last team standing attempts the prompt within the countdown.
+    </div>
+    <div class="rule-block">
+      <span class="rule-heading">3. Scoring</span>
+      • <strong>Success:</strong> Tap <strong>🏆 Claim Win (+X)</strong> on the winning team. Adds the pot points and draws the next card.<br>
+      • <strong>Choke / Fail:</strong> Tap <strong>-1</strong> on the failing team. Card stays active until passed or manually advanced.
+    </div>
+    <div class="rule-block">
+      <span class="rule-heading">4. Blind Bounty (Every 5th Card)</span>
+      Every 5th card conceals the exact prompt variable. Teams bid blind based on the category and lead-in. Hit <strong>🔓 Reveal Cloaked Bounty</strong> before running the timer.
+    </div>
+    <div class="rule-block">
+      <span class="rule-heading">5. Verified Dispute Drawer</span>
+      Hit <strong>💡 Reveal Answers & Lore</strong> post-round to inspect verified examples and historical lore.
+    </div>
+  </div>
+</div>
+
+<script>
+  // ==========================================
+  // REBALANCED UNIVERSAL CARD DATABASE (80+ UNIQUE CARDS)
+  // Balanced across Pop, Rock, 80s/90s, Hip-Hop, Movies, Celebs, Gaming & Brands
+  // ==========================================
+  const CARD_DATABASE = [
+    // --- WESTERN POP: MUSIC (20 Cards - Balanced Genres) ---
+    {
+      group: "pop", cat: "Music", cls: "cat-music",
+      base: "Hit singles or tracks produced or co-written by pop maestro", variable: "Max Martin", entity: "Max Martin",
+      answers: ["Britney Spears – ...Baby One More Time", "The Weeknd – Blinding Lights", "Taylor Swift – Shake It Off", "Backstreet Boys – I Want It That Way", "Katy Perry – Roar", "Kelly Clarkson – Since U Been Gone", "Ariana Grande – Problem"],
+      lore: "Max Martin has written or co-written 27 Billboard Hot 100 #1 singles, trailing only Paul McCartney and John Lennon in music history."
+    },
+    {
+      group: "pop", cat: "Music", cls: "cat-music",
+      base: "Hit tracks or singles produced by hip-hop titan", variable: "Dr. Dre", entity: "Dr. Dre",
+      answers: ["50 Cent – In Da Club", "Eminem – The Real Slim Shady", "Dr. Dre ft. Snoop – Still D.R.E.", "2Pac – California Love", "Mary J. Blige – Family Affair", "Snoop Dogg – Gin and Juice", "Eminem – My Name Is"],
+      lore: "The iconic piano chord riff on 'Still D.R.E.' was actually written and played by Scott Storch during an overnight session."
+    },
+    {
+      group: "pop", cat: "Music", cls: "cat-music",
+      base: "Billboard Hot 100 #1 hit singles by", variable: "Taylor Swift", entity: "Taylor Swift",
+      answers: ["Shake It Off", "Blank Space", "Bad Blood", "Look What You Made Me Do", "Cardigan", "Willow", "Anti-Hero", "Cruel Summer", "Fortnight"],
+      lore: "Taylor Swift became the first artist in history to occupy all top 10 spots of the Billboard Hot 100 simultaneously following Midnights' release in 2022."
+    },
+    {
+      group: "pop", cat: "Music", cls: "cat-music",
+      base: "Iconic Alternative or Grunge rock bands", variable: "formed in the 1980s or 1990s",
+      answers: ["Nirvana", "Green Day", "Red Hot Chili Peppers", "Linkin Park", "Radiohead", "Foo Fighters", "Blink-182", "Pearl Jam", "The Smashing Pumpkins", "Weezer"],
+      lore: "Nirvana's 'Smells Like Teen Spirit' title came from Kathleen Hanna of Bikini Kill spray-painting 'Kurt Smells Like Teen Spirit' on his bedroom wall—referencing a deodorant brand."
+    },
+    {
+      group: "pop", cat: "Music", cls: "cat-music",
+      base: "Hit singles or songs by pop icon", variable: "Rihanna", entity: "Rihanna",
+      answers: ["Umbrella", "Diamonds", "We Found Love", "Work", "Disturbia", "Only Girl (In the World)", "Stay", "SOS", "Don't Stop the Music"],
+      lore: "'Umbrella' was originally written for Britney Spears, but her label rejected it before it was sent to Rihanna and became a worldwide defining hit."
+    },
+    {
+      group: "pop", cat: "Music", cls: "cat-music",
+      base: "Electronic dance music (EDM) or house artists", variable: "with major Billboard Hot 100 crossover hits",
+      answers: ["Avicii (Wake Me Up)", "Calvin Harris (Summer, Feel So Close)", "Daft Punk (Get Lucky, One More Time)", "The Chainsmokers (Closer)", "David Guetta (Titanium)", "Marshmello (Happier)", "Zedd (Clarity)"],
+      lore: "Daft Punk wore their iconic robotic helmets in public for over two decades to protect their personal anonymity and everyday private lives."
+    },
+    {
+      group: "pop", cat: "Music", cls: "cat-music",
+      base: "Billboard Hot 100 #1 hit singles released in", variable: "the 1980s (1980–1989)",
+      answers: ["Michael Jackson – Billie Jean", "Whitney Houston – I Wanna Dance with Somebody", "Bon Jovi – Livin' on a Prayer", "Cyndi Lauper – Time After Time", "Prince – When Doves Cry", "Queen – Another One Bites the Dust", "Madonna – Like a Virgin"],
+      lore: "Prince played every single instrument on 'When Doves Cry' and famously removed the entire bassline track at the last second because he thought it sounded too conventional."
+    },
+    {
+      group: "pop", cat: "Music", cls: "cat-music",
+      base: "Songs where the title is", variable: "never spoken or sung anywhere in the lyrics",
+      answers: ["Queen – Bohemian Rhapsody", "New Order – Blue Monday", "Blur – Song 2", "The Who – Baba O'Riley", "Nirvana – Smells Like Teen Spirit", "Goo Goo Dolls – Iris", "Fall Out Boy – Thnks fr th Mmrs"],
+      lore: "The Who's 'Baba O'Riley' is named after two of Pete Townshend's spiritual and musical inspirations: Meher Baba and Terry Riley."
+    },
+    {
+      group: "pop", cat: "Music", cls: "cat-music",
+      base: "Hit tracks produced by hip-hop producer", variable: "Metro Boomin", entity: "Metro Boomin",
+      answers: ["Future – Mask Off", "The Weeknd – Creepin'", "Migos – Bad and Boujee", "Future – Superhero", "Offset – Ric Flair Drip", "21 Savage – Bank Account", "Kanye West – Father Stretch My Hands Pt. 1"],
+      lore: "Metro's iconic 'If young Metro don't trust you I'm gon' shoot you' tag was recorded by Future during a studio session for Uncle Murda."
+    },
+    {
+      group: "pop", cat: "Music", cls: "cat-music",
+      base: "Solo female artists who have won the", variable: "Grammy Award for Album of the Year (since 1990)",
+      answers: ["Adele (21, 25)", "Taylor Swift (Fearless, 1989, Folklore, Midnights)", "Billie Eilish (When We All Fall Asleep...)", "Lauryn Hill (The Miseducation of Lauryn Hill)", "Alanis Morissette (Jagged Little Pill)", "Kacey Musgraves (Golden Hour)", "Norah Jones (Come Away with Me)"],
+      lore: "Lauryn Hill's 1999 win was the first time in Grammy history that a hip-hop album won the prestigious Album of the Year award."
+    },
+    {
+      group: "pop", cat: "Music", cls: "cat-music",
+      base: "Iconic hip-hop or pop direct", variable: "named diss tracks released since 1990",
+      answers: ["Nas – Ether (targeting Jay-Z)", "2Pac – Hit 'Em Up (targeting Biggie)", "Kendrick Lamar – Not Like Us (targeting Drake)", "Pusha T – The Story of Adidon (targeting Drake)", "Ice Cube – No Vaseline (targeting N.W.A)", "Eminem – Killshot (targeting MGK)", "Drake – Back to Back (targeting Meek Mill)"],
+      lore: "Pusha T's 'The Story of Adidon' famously revealed Drake's son Adonis to the public, forcing Drake to acknowledge fatherhood on 'Scorpion'."
+    },
+    {
+      group: "pop", cat: "Music", cls: "cat-music",
+      base: "Hit singles by Canadian pop star", variable: "Justin Bieber", entity: "Justin Bieber",
+      answers: ["Baby", "Sorry", "Love Yourself", "What Do You Mean?", "Peaches", "Stay (with The Kid LAROI)", "Boyfriend", "Yummy", "Ghost"],
+      lore: "Justin Bieber was originally discovered at age 13 by talent manager Scooter Braun, who clicked on one of Bieber's amateur singing videos on YouTube by accident."
+    },
+    {
+      group: "pop", cat: "Music", cls: "cat-music",
+      base: "Music videos that have surpassed", variable: "2 Billion views on YouTube",
+      answers: ["Luis Fonsi – Despacito", "Ed Sheeran – Shape of You", "Wiz Khalifa ft. Charlie Puth – See You Again", "Mark Ronson ft. Bruno Mars – Uptown Funk", "Psy – Gangnam Style", "Justin Bieber – Sorry", "Maroon 5 – Sugar"],
+      lore: "In 2014, Psy's 'Gangnam Style' broke YouTube's view counter, forcing Google engineers to rewrite the counter integer from 32-bit to 64-bit."
+    },
+    {
+      group: "pop", cat: "Music", cls: "cat-music",
+      base: "Hit tracks built around an iconic", variable: "whistling melody or hook",
+      answers: ["Flo Rida – Whistle", "Peter Bjorn and John – Young Folks", "Maroon 5 – Moves Like Jagger", "Foster the People – Pumped Up Kicks", "Wiz Khalifa – See You Again", "Jason Derulo – Wiggle", "OneRepublic – Good Life"],
+      lore: "The infectious whistling hook on Maroon 5's 'Moves Like Jagger' was recorded in 10 minutes on a smartphone microphone in the studio lounge."
+    },
+
+    // --- WESTERN POP: MOVIES & DIRECTORS (16 Cards) ---
+    {
+      group: "pop", cat: "Movies", cls: "cat-movies",
+      base: "Feature films directed by", variable: "Christopher Nolan", entity: "Christopher Nolan",
+      answers: ["Inception", "The Dark Knight", "Oppenheimer", "Interstellar", "Memento", "The Prestige", "Tenet", "Dunkirk", "Batman Begins"],
+      lore: "For Oppenheimer's Trinity test, Nolan refused CGI, recreating the blinding atomic explosion using magnesium, gasoline, and aluminum powder."
+    },
+    {
+      group: "pop", cat: "Movies", cls: "cat-movies",
+      base: "Feature films directed by", variable: "Steven Spielberg (since 1980)", entity: "Steven Spielberg",
+      answers: ["Jurassic Park", "E.T. the Extra-Terrestrial", "Schindler's List", "Raiders of the Lost Ark", "Saving Private Ryan", "Catch Me If You Can", "Minority Report", "Ready Player One"],
+      lore: "Spielberg cast real amputees as background soldiers during Saving Private Ryan's Normandy beach opening scene to show catastrophic combat trauma authentically."
+    },
+    {
+      group: "pop", cat: "Movies", cls: "cat-movies",
+      base: "Feature films directed by", variable: "Quentin Tarantino", entity: "Quentin Tarantino",
+      answers: ["Pulp Fiction", "Kill Bill (Vol. 1 & 2)", "Django Unchained", "Inglourious Basterds", "Reservoir Dogs", "Once Upon a Time in Hollywood", "The Hateful Eight", "Jackie Brown"],
+      lore: "Tarantino wrote the role of Jules Winnfield in Pulp Fiction specifically for Samuel L. Jackson after Jackson auditioned for Reservoir Dogs."
+    },
+    {
+      group: "pop", cat: "Movies", cls: "cat-movies",
+      base: "Feature films directed by", variable: "Denis Villeneuve", entity: "Denis Villeneuve",
+      answers: ["Dune (Part One & Two)", "Blade Runner 2049", "Arrival", "Sicario", "Prisoners", "Incendies", "Enemy"],
+      lore: "Villeneuve spent over a year working with acoustic sound engineers on Dune to develop the visceral chest rumble of 'The Voice'."
+    },
+    {
+      group: "pop", cat: "Movies", cls: "cat-movies",
+      base: "Feature films starring", variable: "Leonardo DiCaprio", entity: "Leonardo DiCaprio",
+      answers: ["Titanic", "Inception", "The Wolf of Wall Street", "The Revenant", "Catch Me If You Can", "Shutter Island", "Django Unchained", "The Departed", "Once Upon a Time in Hollywood"],
+      lore: "In 'Django Unchained', DiCaprio smashed his hand on a glass goblet, cutting his palm deeply, but stayed in character and smeared actual blood on Kerry Washington's face."
+    },
+    {
+      group: "pop", cat: "Movies", cls: "cat-movies",
+      base: "Feature films directed by", variable: "James Cameron", entity: "James Cameron",
+      answers: ["Titanic", "Avatar", "Avatar: The Way of Water", "Terminator 2: Judgment Day", "The Terminator", "Aliens", "True Lies", "The Abyss"],
+      lore: "James Cameron is the only filmmaker in history to direct three movies that each surpassed $2 Billion at the worldwide box office."
+    },
+    {
+      group: "pop", cat: "Movies", cls: "cat-movies",
+      base: "Movies where the protagonist", variable: "dies or is revealed to have already been dead",
+      answers: ["The Sixth Sense", "Gladiator", "The Departed", "Saving Private Ryan", "American Beauty", "Fight Club", "Donnie Darko", "The Others"],
+      lore: "In The Sixth Sense, Bruce Willis never interacts with anyone besides Cole after the opening scene, and wears subtle shades of red or drab funeral clothes."
+    },
+    {
+      group: "pop", cat: "Movies", cls: "cat-movies",
+      base: "Animated feature films that won the", variable: "Academy Award for Best Animated Feature (since 2001)",
+      answers: ["Shrek", "Spirited Away", "Spider-Man: Into the Spider-Verse", "The Incredibles", "Ratatouille", "WALL-E", "Up", "Guillermo del Toro's Pinocchio", "The Boy and the Heron"],
+      lore: "DreamWorks' 'Shrek' made history by winning the very first Academy Award for Best Animated Feature ever awarded in 2002."
+    },
+    {
+      group: "pop", cat: "Movies", cls: "cat-movies",
+      base: "Feature films directed by", variable: "Tim Burton", entity: "Tim Burton",
+      answers: ["Beetlejuice", "Batman (1989)", "Edward Scissorhands", "The Nightmare Before Christmas", "Sleepy Hollow", "Charlie and the Chocolate Factory", "Sweeney Todd", "Corpse Bride"],
+      lore: "Tim Burton's gothic 1989 Batman was the fastest movie to reach $100 Million at the box office and kicked off the modern comic book movie craze."
+    },
+    {
+      group: "pop", cat: "Movies", cls: "cat-movies",
+      base: "Movies featuring characters from the", variable: "Marvel Cinematic Universe (MCU)",
+      answers: ["Iron Man", "The Avengers", "Avengers: Endgame", "Captain America: Civil War", "Black Panther", "Spider-Man: No Way Home", "Guardians of the Galaxy", "Thor: Ragnarok"],
+      lore: "Robert Downey Jr. famously hid actual snacks all over the Avengers laboratory set; whenever Tony Stark offers food to others on camera, it was completely unscripted."
+    },
+
+    // --- WESTERN POP: GENERAL & CELEB (14 Cards) ---
+    {
+      group: "pop", cat: "Pop Culture", cls: "cat-pop",
+      base: "Celebrities or musicians who hosted", variable: "Saturday Night Live (SNL) 2 or more times",
+      answers: ["Justin Timberlake", "Dave Chappelle", "Tom Hanks", "Alec Baldwin", "John Mulaney", "Steve Martin", "Emma Stone", "Adam Driver", "Ryan Gosling"],
+      lore: "The iconic SNL 'Five-Timers Club' originated from a December 1990 sketch when Tom Hanks was inducted by Steve Martin and Paul Simon."
+    },
+    {
+      group: "pop", cat: "Pop Culture", cls: "cat-pop",
+      base: "Video game franchises adapted into", variable: "a live-action Hollywood movie or major TV series",
+      answers: ["The Last of Us", "Fallout", "Uncharted", "Sonic the Hedgehog", "Resident Evil", "Mortal Kombat", "Tomb Raider", "Halo", "Silent Hill", "Gran Turismo"],
+      lore: "The Sonic the Hedgehog movie was delayed by months after unprecedented internet backlash forced Paramount to redesign the lead character's CGI teeth and eyes."
+    },
+    {
+      group: "pop", cat: "Pop Culture", cls: "cat-pop",
+      base: "Artists or bands who headlined the", variable: "Super Bowl Halftime Show since 2000",
+      answers: ["Prince (2007)", "Rihanna (2023)", "Beyoncé (2013)", "The Weeknd (2021)", "Dr. Dre / Snoop / Eminem / Kendrick (2022)", "U2 (2002)", "Michael Jackson (1993)", "Lady Gaga (2017)", "Usher (2024)"],
+      lore: "Prince performed 'Purple Rain' during the 2007 Super Bowl in a literal torrential downpour; when asked if he wanted to postpone, he replied: 'Can you make it rain harder?'"
+    },
+    {
+      group: "pop", cat: "Pop Culture", cls: "cat-pop",
+      base: "Fictional comic or fantasy characters portrayed by", variable: "3 or more distinct live-action actors",
+      answers: ["Batman (Michael Keaton, Christian Bale, Robert Pattinson, Ben Affleck)", "The Joker (Jack Nicholson, Heath Ledger, Joaquin Phoenix)", "Spider-Man (Tobey Maguire, Andrew Garfield, Tom Holland)", "James Bond (Sean Connery, Roger Moore, Pierce Brosnan, Daniel Craig)", "Superman (Christopher Reeve, Henry Cavill, Brandon Routh)"],
+      lore: "Heath Ledger and Joaquin Phoenix both won Academy Awards for portraying the exact same character (The Joker) in completely unrelated films."
+    },
+    {
+      group: "pop", cat: "Pop Culture", cls: "cat-pop",
+      base: "Actors who have been nominated for both an", variable: "Oscar and a Razzie Award in the exact same year",
+      answers: ["Sandra Bullock (2010)", "Amy Irving (1984)", "Glenn Close (2021 for Hillbilly Elegy)", "Jack Nicholson (1993)", "Christopher Walken (2003)"],
+      lore: "Sandra Bullock showed up in person to accept her Worst Actress Razzie for 'All About Steve', pulling a wagon full of DVDs for the audience, and won Best Actress for 'The Blind Side' 24 hours later."
+    },
+
+    // --- BOLLYWOOD & PUNJABI (16 Cards) ---
+    {
+      group: "nonpop", cat: "Bollywood & Punjabi", cls: "cat-bollywood",
+      base: "Hit tracks or singles by Punjabi artist", variable: "Sidhu Moose Wala", entity: "Sidhu Moose Wala",
+      answers: ["So High", "295", "The Last Ride", "Old Skool", "Same Beef", "Dollar", "Legend", "Levels", "Bambiha Bole", "Warning Shots"],
+      lore: "Sidhu Moose Wala's '295' entered the Billboard Global 200 chart and was named after Section 295 of the Indian Penal Code dealing with religious insult laws."
+    },
+    {
+      group: "nonpop", cat: "Bollywood & Punjabi", cls: "cat-bollywood",
+      base: "Hit tracks or singles by Punjabi artist", variable: "Shubh", entity: "Shubh",
+      answers: ["Cheques", "Baller", "No Love", "Still Rollin", "Elevated", "Her", "King Shit", "One Love", "You and Me"],
+      lore: "Shubh recorded and broke out with 'Elevated' and 'No Love' independently from his home in Canada without backing from major Indian record labels."
+    },
+    {
+      group: "nonpop", cat: "Bollywood & Punjabi", cls: "cat-bollywood",
+      base: "Hit tracks or singles by Punjabi artist", variable: "Karan Aujla", entity: "Karan Aujla",
+      answers: ["Softly", "White Brown Black", "Tauba Tauba", "52 Bars", "Winning Speech", "Admirin' You", "Chitta Kurta", "Don't Look", "Mexico"],
+      lore: "Karan Aujla's 'Tauba Tauba' from the Bollywood movie 'Bad Newz' exploded into a viral dance craze across TikTok and Instagram worldwide."
+    },
+    {
+      group: "nonpop", cat: "Bollywood & Punjabi", cls: "cat-bollywood",
+      base: "Hit tracks or singles by Punjabi artist", variable: "Diljit Dosanjh", entity: "Diljit Dosanjh",
+      answers: ["Lover", "G.O.A.T.", "Born to Shine", "Naina (Crew)", "Lemonade", "Clash", "Do You Know", "Kinni Kinni", "Patiala Peg"],
+      lore: "In 2023, Diljit Dosanjh became the first Punjabi-language artist to ever perform at the Coachella Valley Music and Arts Festival."
+    },
+    {
+      group: "nonpop", cat: "Bollywood & Punjabi", cls: "cat-bollywood",
+      base: "Hit tracks or singles by Punjabi artist", variable: "AP Dhillon", entity: "AP Dhillon",
+      answers: ["Brown Munde", "Excuses", "With You", "Insane", "Summer High", "Majhail", "Dil Nu", "Tareef", "Saada Pyaar"],
+      lore: "'Brown Munde' became an international anthem for the South Asian diaspora, with its music video featuring cameos from Nav and Sidhu Moose Wala."
+    },
+    {
+      group: "nonpop", cat: "Bollywood & Punjabi", cls: "cat-bollywood",
+      base: "Blockbuster Hindi movies starring", variable: "Shah Rukh Khan (SRK)", entity: "Shah Rukh Khan",
+      answers: ["Dilwale Dulhania Le Jayenge (DDLJ)", "Kuch Kuch Hota Hai", "Pathaan", "Jawan", "Kabhi Khushi Kabhie Gham", "Chak De! India", "Om Shanti Om", "Devdas", "Don", "Baazigar"],
+      lore: "DDLJ has played continuously at the Maratha Mandir theatre in Mumbai since its initial release in October 1995, running for over 28 consecutive years."
+    },
+    {
+      group: "nonpop", cat: "Bollywood & Punjabi", cls: "cat-bollywood",
+      base: "Blockbuster Hindi movies starring", variable: "Aamir Khan", entity: "Aamir Khan",
+      answers: ["3 Idiots", "Dangal", "Lagaan", "PK", "Taare Zameen Par", "Ghajini", "Rang De Basanti", "Dil Chahta Hai"],
+      lore: "Dangal became the highest-grossing Indian film in history, generating over $200 Million in China alone thanks to word-of-mouth acclaim."
+    },
+    {
+      group: "nonpop", cat: "Bollywood & Punjabi", cls: "cat-bollywood",
+      base: "Hit tracks produced by Punjabi producer", variable: "Ikky (Ikwinder Singh)", entity: "Ikky",
+      answers: ["Baller (Shubh)", "52 Bars (Karan Aujla)", "Challa (Gurdas Maan)", "She's The One", "Hello", "Four Me", "Admirin' You"],
+      lore: "Ikky produced multiple international crossover smashes from his 4N Records imprint out of Toronto, blending Punjabi vocals with Western trap rhythms."
+    },
+    {
+      group: "nonpop", cat: "Bollywood & Punjabi", cls: "cat-bollywood",
+      base: "Hit movies starring Bollywood action star", variable: "Akshay Kumar", entity: "Akshay Kumar",
+      answers: ["Hera Pheri", "Bhool Bhulaiyaa", "Welcome", "Rowdy Rathore", "Toilet: Ek Prem Katha", "Khiladi", "Airlift", "Mission Mangal"],
+      lore: "Akshay Kumar performed all his own death-defying helicopter and rooftop stunts without body doubles in his 1990s 'Khiladi' series."
+    },
+    {
+      group: "nonpop", cat: "Bollywood & Punjabi", cls: "cat-bollywood",
+      base: "Grand epic films directed by", variable: "Sanjay Leela Bhansali", entity: "Sanjay Leela Bhansali",
+      answers: ["Padmaavat", "Bajirao Mastani", "Devdas", "Gangubai Kathiawadi", "Hum Dil De Chuke Sanam", "Black", "Goliyon Ki Raasleela Ram-Leela"],
+      lore: "Bhansali builds lavish, life-sized palatial sets rather than relying heavily on digital green screens, spending months calibrating costume lighting."
+    },
+
+    // --- CHAOS & BRANDS (10 Cards - Broadened Beyond Streetwear) ---
+    {
+      group: "nonpop", cat: "Chaos & Brands", cls: "cat-chaos",
+      base: "Iconic global fast food chains with over", variable: "10,000 physical locations",
+      answers: ["Subway", "McDonald's", "Starbucks", "KFC", "Burger King", "Domino's Pizza", "Pizza Hut"],
+      lore: "Subway actually has more physical restaurant locations globally than McDonald's, largely due to low franchise setup and kitchen space requirements."
+    },
+    {
+      group: "nonpop", cat: "Chaos & Brands", cls: "cat-chaos",
+      base: "Food products or sodas that suffered infamous", variable: "consumer backlashes or discontinued flops",
+      answers: ["New Coke (1985)", "Crystal Pepsi", "McDonald's Arch Deluxe", "Heinz EZ Squirt (Colored Ketchup)", "Lay's WOW Chips (Olestra)", "Four Loko (original formula)"],
+      lore: "Coca-Cola received over 400,000 phone calls and letters protesting New Coke in 1985, forcing them to bring back Coca-Cola Classic in just 79 days."
+    },
+    {
+      group: "nonpop", cat: "Chaos & Brands", cls: "cat-chaos",
+      base: "Infamous corporate frauds, Ponzi schemes, or", variable: "high-profile startup collapses",
+      answers: ["Enron", "FTX (Sam Bankman-Fried)", "Theranos (Elizabeth Holmes)", "Bernie Madoff", "WeWork", "Wirecard", "WorldCom"],
+      lore: "Elizabeth Holmes deliberately lowered the pitch of her speaking voice to a deep baritone during investor pitches to sound more authoritative to venture capitalists."
+    },
+    {
+      group: "nonpop", cat: "Chaos & Brands", cls: "cat-chaos",
+      base: "High-fashion luxury fashion houses based in", variable: "Paris or Milan",
+      answers: ["Louis Vuitton", "Gucci", "Prada", "Balenciaga", "Chanel", "Dior", "Bottega Veneta", "Versace", "Saint Laurent (YSL)"],
+      lore: "Gucci was founded in Florence in 1921 by Guccio Gucci, who was inspired by the luxurious leather luggage he handled as an elevator operator at the Savoy Hotel in London."
+    },
+    {
+      group: "nonpop", cat: "Chaos & Brands", cls: "cat-chaos",
+      base: "Signature sneaker silhouettes or collabs from", variable: "Nike / Air Jordan",
+      answers: ["Air Jordan 1", "Air Jordan 4", "Air Jordan 11", "Air Force 1", "Nike Dunk Low", "Air Max 90", "Travis Scott Cactus Jack", "Off-White The Ten"],
+      lore: "Michael Jordan was fined $5,000 per game by the NBA in 1984 for wearing his black-and-red Air Ship/Jordan 1s because they violated uniform color rules; Nike happily paid every fine for marketing."
+    },
+
+    // --- SCIENCE & MATH (10 Cards) ---
+    {
+      group: "nonpop", cat: "Science & Math", cls: "cat-science",
+      base: "Chemical elements belonging strictly to", variable: "Noble Gases (Group 18)",
+      answers: ["Helium (He)", "Neon (Ne)", "Argon (Ar)", "Krypton (Kr)", "Xenon (Xe)", "Radon (Rn)", "Oganesson (Og)"],
+      lore: "Argon's name derives from the Greek word 'argos' meaning 'lazy' or 'idle' because it refuses to bond with other elements under standard conditions."
+    },
+    {
+      group: "nonpop", cat: "Science & Math", cls: "cat-science",
+      base: "Scientific laws or principles named after", variable: "historic physicists (e.g. Newton, Kepler, Ohm)",
+      answers: ["Newton's Laws of Motion", "Ohm's Law", "Hooke's Law", "Kepler's Laws of Planetary Motion", "Bernoulli's Principle", "Coulomb's Law", "Planck's Law", "Heisenberg Uncertainty Principle"],
+      lore: "Robert Hooke published his law of elasticity in 1676 as a Latin anagram 'ceiiinosssttuv' to establish priority before officially translating it to 'ut tensio, sic vis' two years later."
+    },
+    {
+      group: "nonpop", cat: "Science & Math", cls: "cat-science",
+      base: "Fundamental named bones of the", variable: "human skeletal system",
+      answers: ["Femur", "Tibia", "Fibula", "Humerus", "Radius", "Ulna", "Clavicle", "Scapula", "Sternum", "Mandible", "Patella"],
+      lore: "The femur (thigh bone) is the longest, strongest bone in the human body, capable of supporting 30 times an adult's body weight."
+    },
+    {
+      group: "nonpop", cat: "Science & Math", cls: "cat-science",
+      base: "Major moons orbiting", variable: "Jupiter or Saturn",
+      answers: ["Europa (Jupiter)", "Ganymede (Jupiter)", "Io (Jupiter)", "Callisto (Jupiter)", "Titan (Saturn)", "Enceladus (Saturn)", "Mimas (Saturn)", "Iapetus (Saturn)"],
+      lore: "Jupiter's moon Ganymede is the largest moon in the Solar System—larger than the planet Mercury and the dwarf planet Pluto."
+    },
+
+    // --- SPORTS LORE (NO RUGBY / NO AMERICAN FOOTBALL) (6 Cards) ---
+    {
+      group: "nonpop", cat: "Sports Lore", cls: "cat-sports",
+      base: "Soccer clubs that have won the", variable: "UEFA Champions League (European Cup) 2 or more times",
+      answers: ["Real Madrid", "AC Milan", "Bayern Munich", "Liverpool", "Barcelona", "Ajax", "Inter Milan", "Manchester United", "Chelsea", "Juventus", "Benfica", "Nottingham Forest"],
+      lore: "Nottingham Forest has the unique distinction of having won the European Cup more times (2) than their domestic top flight league (1)."
+    },
+    {
+      group: "nonpop", cat: "Sports Lore", cls: "cat-sports",
+      base: "NBA franchises that have won", variable: "an NBA Championship since 2000",
+      answers: ["Los Angeles Lakers", "Golden State Warriors", "San Antonio Spurs", "Miami Heat", "Boston Celtics", "Cleveland Cavaliers", "Toronto Raptors", "Milwaukee Bucks", "Denver Nuggets", "Dallas Mavericks", "Detroit Pistons"],
+      lore: "The 2016 Cleveland Cavaliers became the only team in NBA Finals history to recover from a 3–1 series deficit to win the championship."
+    },
+    {
+      group: "nonpop", cat: "Sports Lore", cls: "cat-sports",
+      base: "Athletes who have won", variable: "the Ballon d'Or in Men's Football (Soccer)",
+      answers: ["Lionel Messi", "Cristiano Ronaldo", "Zinedine Zidane", "Ronaldinho", "Luka Modrić", "Karim Benzema", "Ronaldo Nazário", "Kaká", "George Weah", "Michael Owen"],
+      lore: "George Weah (Liberia) in 1995 remains the only African player in history to win the Ballon d'Or."
+    },
+    {
+      group: "nonpop", cat: "Sports Lore", cls: "cat-sports",
+      base: "Tennis champions who have won", variable: "5 or more Grand Slam Men's Singles titles in the Open Era",
+      answers: ["Novak Djokovic (24)", "Rafael Nadal (22)", "Roger Federer (20)", "Pete Sampras (14)", "Björn Borg (11)", "Jimmy Connors (8)", "Andre Agassi (8)", "John McEnroe (7)"],
+      lore: "Rafael Nadal won 14 French Open titles on the clay courts of Roland Garros, compiling an unreal career tournament match record of 112–4."
+    },
+
+    // --- GAMING & TECH (POST-1990 - BROADENED) (6 Cards) ---
+    {
+      group: "nonpop", cat: "Gaming & Tech", cls: "cat-gaming",
+      base: "Video games that have sold over", variable: "30 Million copies worldwide",
+      answers: ["Minecraft", "Grand Theft Auto V", "Tetris (EA)", "Wii Sports", "PUBG: Battlegrounds", "Mario Kart 8 Deluxe", "Red Dead Redemption 2", "Super Mario Bros."],
+      lore: "Minecraft is the best-selling video game of all time, having surpassed 300 million copies sold across all platforms."
+    },
+    {
+      group: "nonpop", cat: "Gaming & Tech", cls: "cat-gaming",
+      base: "Mainline or generational games from the", variable: "Pokémon RPG franchise (Game Boy / DS / Switch)",
+      answers: ["Pokémon Red and Blue", "Pokémon Gold and Silver", "Pokémon Ruby and Sapphire", "Pokémon Diamond and Pearl", "Pokémon Black and White", "Pokémon Sword and Shield", "Pokémon Scarlet and Violet"],
+      lore: "Pokémon creator Satoshi Tajiri was inspired to create the franchise by his childhood hobby of collecting and catching insects in rural Japan."
+    },
+    {
+      group: "nonpop", cat: "Gaming & Tech", cls: "cat-gaming",
+      base: "Competitive multiplayer esports titles", variable: "with active global championship circuits",
+      answers: ["Counter-Strike (CS:GO / CS2)", "League of Legends", "Dota 2", "Valorant", "Overwatch", "Rocket League", "Rainbow Six Siege", "Street Fighter"],
+      lore: "Dota 2's premier tournament, 'The International', broke esports history in 2021 with a crowdfunding prize pool that exceeded $40 Million."
+    },
+    {
+      group: "nonpop", cat: "Gaming & Tech", cls: "cat-gaming",
+      base: "Video game home consoles or handhelds", variable: "released between 1990 and 2015",
+      answers: ["Sony PlayStation (PS1, PS2, PS3, PS4)", "Nintendo 64", "Nintendo GameCube", "Sega Dreamcast", "Xbox / Xbox 360", "Nintendo DS / 3DS", "PlayStation Portable (PSP)", "Nintendo Wii"],
+      lore: "The PlayStation 2 is the best-selling gaming console of all time, with lifetime sales exceeding 155 million units."
+    }
+  ];
+
+  // ==========================================
+  // CONTEXT-AWARE SABOTAGE BANS
+  // ==========================================
+  const BANNED_ITEMS_MAP = {
+    "Metro Boomin": ["Mask Off", "Creepin'", "Bad and Boujee", "Superhero"],
+    "Max Martin": ["...Baby One More Time", "Blinding Lights", "Shake It Off", "Roar"],
+    "Dr. Dre": ["Still D.R.E.", "In Da Club", "California Love", "The Real Slim Shady"],
+    "Taylor Swift": ["Shake It Off", "Blank Space", "Anti-Hero", "Cruel Summer"],
+    "Justin Bieber": ["Baby", "Sorry", "Love Yourself", "Stay"],
+    "Christopher Nolan": ["Inception", "The Dark Knight", "Oppenheimer", "Interstellar"],
+    "Quentin Tarantino": ["Pulp Fiction", "Kill Bill", "Django Unchained", "Inglourious Basterds"],
+    "Denis Villeneuve": ["Dune", "Blade Runner 2049", "Arrival", "Sicario"],
+    "Steven Spielberg": ["Jurassic Park", "E.T.", "Schindler's List", "Saving Private Ryan"],
+    "Leonardo DiCaprio": ["Titanic", "Inception", "The Wolf of Wall Street", "The Revenant"],
+    "Sidhu Moose Wala": ["So High", "295", "The Last Ride", "Old Skool"],
+    "Shubh": ["Cheques", "Baller", "No Love", "Still Rollin"],
+    "Karan Aujla": ["Softly", "White Brown Black", "Tauba Tauba", "52 Bars"],
+    "Diljit Dosanjh": ["Lover", "G.O.A.T.", "Born to Shine", "Naina"],
+    "AP Dhillon": ["Brown Munde", "Excuses", "With You", "Insane"],
+    "Shah Rukh Khan": ["Dilwale Dulhania Le Jayenge (DDLJ)", "Kuch Kuch Hota Hai", "Pathaan", "Jawan"],
+    "Aamir Khan": ["3 Idiots", "Dangal", "Lagaan", "PK"]
+  };
+
+  function pickMultiple(arr, count) {
+    const shuffled = [...arr].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, Math.min(count, arr.length));
+  }
+
+  // ==========================================
+  // DUAL-PILE PROPORTIONAL EXHAUSTION ENGINE
+  // (Prevents repetition and strictly respects slider mix)
+  // ==========================================
+  let targetPopPercentage = 60;
+  let popDrawPile = [];
+  let nonPopDrawPile = [];
+  let popDiscardPile = [];
+  let nonPopDiscardPile = [];
+
+  function resetCategoryPiles() {
+    const popCards = CARD_DATABASE.filter(c => c.group === "pop");
+    const nonPopCards = CARD_DATABASE.filter(c => c.group === "nonpop");
+
+    popDrawPile = [...popCards].sort(() => 0.5 - Math.random());
+    nonPopDrawPile = [...nonPopCards].sort(() => 0.5 - Math.random());
+    popDiscardPile = [];
+    nonPopDiscardPile = [];
+
+    updateDeckStats();
+  }
+
+  function updateDeckStats() {
+    const pill = document.getElementById("deckStatsPill");
+    const totalRemaining = popDrawPile.length + nonPopDrawPile.length;
+    const totalDiscarded = popDiscardPile.length + nonPopDiscardPile.length;
+    pill.innerText = `🃏 Draw Pool: ${totalRemaining} Unseen Cards | Discarded: ${totalDiscarded}`;
+  }
+
+  function updatePopCultureMix(val) {
+    targetPopPercentage = parseInt(val);
+    document.getElementById("mixValueBadge").innerText = `${targetPopPercentage}%`;
+  }
+
+  function pickNextCardFromPiles() {
+    const popRatio = targetPopPercentage / 100;
+
+    // Reset piles if completely exhausted
+    if (popDrawPile.length === 0 && nonPopDrawPile.length === 0) {
+      resetCategoryPiles();
+    }
+
+    let drawFromPop = Math.random() < popRatio;
+
+    // If one pile is empty, fall back to the other
+    if (drawFromPop && popDrawPile.length === 0) drawFromPop = false;
+    if (!drawFromPop && nonPopDrawPile.length === 0) drawFromPop = true;
+
+    let chosenCard = null;
+    if (drawFromPop && popDrawPile.length > 0) {
+      chosenCard = popDrawPile.pop();
+      popDiscardPile.push(chosenCard);
+    } else if (nonPopDrawPile.length > 0) {
+      chosenCard = nonPopDrawPile.pop();
+      nonPopDiscardPile.push(chosenCard);
+    }
+
+    updateDeckStats();
+    return chosenCard;
+  }
+
+  // ==========================================
+  // GAMEPLAY STATE & BLIND BOUNTY ENGINE
+  // ==========================================
+  let roundCounter = 0;
+  let isBlindRound = false;
+  let isBlindRevealed = false;
+
+  let currentBid = 3;
+  let defaultDuration = 45;
+  let timerVal = 45;
+  let interval = null;
+  let currentCardData = null;
+  let sabotageActive = false;
+  let deadCardPot = 1;
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+  function playTone(freq, type, duration) {
+    try {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = type;
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + duration);
+    } catch (e) {}
+  }
+
+  function updatePotDisplay() {
+    const potBadge = document.getElementById("potBadge");
+    const activeValue = deadCardPot + (sabotageActive ? 1 : 0);
+    
+    if (activeValue > 1) {
+      potBadge.className = "pot-badge boosted";
+      potBadge.innerHTML = `🔥 Worth: ${activeValue} Pts`;
+    } else {
+      potBadge.className = "pot-badge";
+      potBadge.innerHTML = `Worth: 1 Pt`;
+    }
+    renderTeams();
+  }
+
+  function drawNextCard(fromPot = false) {
+    resetTimer();
+    roundCounter++;
+
+    currentCardData = pickNextCardFromPiles();
+    currentCardData.fullText = `${currentCardData.base} ${currentCardData.variable}`;
+    sabotageActive = false;
+
+    // Blind Bounty every 5th card
+    isBlindRound = (roundCounter % 5 === 0);
+    isBlindRevealed = !isBlindRound;
+
+    const mainCard = document.getElementById("mainCard");
+    const bountyPill = document.getElementById("bountyPill");
+    const revealBountyBtn = document.getElementById("revealBountyBtn");
+
+    if (isBlindRound) {
+      mainCard.classList.add("blind-active");
+      bountyPill.style.display = "inline-block";
+      revealBountyBtn.style.display = "inline-block";
+      playTone(300, "triangle", 0.4);
+    } else {
+      mainCard.classList.remove("blind-active");
+      bountyPill.style.display = "none";
+      revealBountyBtn.style.display = "none";
+    }
+
+    // Reset Sabotage UI
+    const sabBtn = document.getElementById("sabotageBtn");
+    const sabBanner = document.getElementById("sabotageBanner");
+    sabBtn.className = "sabotage-btn";
+    sabBtn.innerText = "⚠ Activate Sabotage";
+    sabBanner.style.display = "none";
+    sabBanner.innerHTML = "";
+    
+    const catEl = document.getElementById("category");
+    catEl.innerText = currentCardData.cat;
+    catEl.className = "category " + currentCardData.cls;
+
+    const promptEl = document.getElementById("prompt");
+    if (isBlindRound) {
+      promptEl.innerHTML = `${currentCardData.base} <span class="cloaked-box">🔒 [CLOAKED BOUNTY]</span>`;
+    } else {
+      promptEl.innerText = currentCardData.fullText;
+    }
+    
+    currentBid = 3;
+    document.getElementById("bidCount").innerText = currentBid;
+
+    if (!fromPot) {
+      deadCardPot = isBlindRound ? 2 : 1;
+    }
+    updatePotDisplay();
+
+    // Reset Answers & Lore Drawer
+    const keyBox = document.getElementById("answerKeyBox");
+    const keyBtn = document.getElementById("keyBtn");
+    keyBox.style.display = "none";
+    keyBtn.innerText = "💡 Reveal Answers & Lore";
+
+    let answersHtml = "";
+    if (currentCardData.answers && currentCardData.answers.length > 0) {
+      answersHtml = currentCardData.answers.map(a => `• ${a}`).join("<br>");
+    } else {
+      answersHtml = "• Valid answers verified by official records or discography credits.";
+    }
+
+    keyBox.innerHTML = `
+      <div class="key-section">
+        <div class="key-section-title">Verified Dispute Answers:</div>
+        <div>${answersHtml}</div>
+      </div>
+      <div class="key-section">
+        <div class="key-section-title">Did You Know? Lore:</div>
+        <div class="lore-box">${currentCardData.lore || "Knowledge discovery unlocked for this prompt!"}</div>
+      </div>
+    `;
+  }
+
+  function revealBountyPrompt() {
+    if (!isBlindRound || isBlindRevealed) return;
+    isBlindRevealed = true;
+    
+    playTone(523.25, "sine", 0.2);
+    setTimeout(() => playTone(783.99, "sine", 0.3), 150);
+
+    const promptEl = document.getElementById("prompt");
+    promptEl.innerHTML = `${currentCardData.base} <u style="color:var(--accent-alt);">${currentCardData.variable}</u>`;
+    
+    const revealBtn = document.getElementById("revealBountyBtn");
+    revealBtn.style.display = "none";
+  }
+
+  function passDeadCard() {
+    deadCardPot++;
+    playTone(180, "triangle", 0.25);
+    drawNextCard(true);
+  }
+
+  function triggerSabotage() {
+    if (sabotageActive) return;
+    sabotageActive = true;
+
+    playTone(220, "sawtooth", 0.3);
+
+    const sabBtn = document.getElementById("sabotageBtn");
+    const sabBanner = document.getElementById("sabotageBanner");
+    sabBtn.className = "sabotage-btn activated";
+    sabBtn.innerText = "SABOTAGE ACTIVE";
+
+    let ruleText = "";
+
+    if (currentCardData.entity && BANNED_ITEMS_MAP[currentCardData.entity]) {
+      const fullPool = BANNED_ITEMS_MAP[currentCardData.entity];
+      const numToBan = (Math.random() < 0.5 && fullPool.length >= 3) ? 3 : 2;
+      const bannedAnswers = pickMultiple(fullPool, numToBan);
+      
+      let formattedBans = "";
+      if (bannedAnswers.length === 1) {
+        formattedBans = `<u>"${bannedAnswers[0]}"</u>`;
+      } else if (bannedAnswers.length === 2) {
+        formattedBans = `<u>"${bannedAnswers[0]}"</u> or <u>"${bannedAnswers[1]}"</u>`;
+      } else {
+        formattedBans = `<u>"${bannedAnswers[0]}"</u>, <u>"${bannedAnswers[1]}"</u>, or <u>"${bannedAnswers[2]}"</u>`;
+      }
+
+      ruleText = `<strong>BANNED ANSWERS (${bannedAnswers.length} BLOCKED):</strong> You cannot use ${formattedBans}!`;
+    } else {
+      const isShortTimer = timerVal <= 20;
+      const mechanicalTraps = [
+        "<strong>SOLO RUN:</strong> Only ONE player on the team is allowed to speak. Teammates must stay dead silent.",
+        "<strong>ALPHABET TRAP:</strong> Every answer you give must start with a distinct, different letter.",
+        "<strong>RAPID FIRE:</strong> Any hesitation or dead silence longer than 3 seconds ends your turn immediately.",
+        "<strong>PERFECTION DEMAND:</strong> 1 single invalid or disputed answer voids the entire round!"
+      ];
+
+      if (isShortTimer) {
+        ruleText = mechanicalTraps[Math.floor(Math.random() * mechanicalTraps.length)];
+      } else {
+        const roll = Math.random();
+        if (roll < 0.5) {
+          const oldVal = timerVal;
+          timerVal = Math.max(10, timerVal - 15);
+          document.getElementById("timer").innerText = timerVal;
+          ruleText = `<strong>TIME CRUNCH:</strong> Clock slashed by 15s (from ${oldVal}s down to <u>${timerVal}s</u>)!`;
+        } else {
+          ruleText = mechanicalTraps[Math.floor(Math.random() * mechanicalTraps.length)];
+        }
+      }
+    }
+
+    const totalWinPoints = deadCardPot + 1;
+    sabBanner.innerHTML = `${ruleText}<span class="sub-stake">STAKES: +${totalWinPoints} Points if you beat the Sabotage! (-1 if you fail)</span>`;
+    sabBanner.style.display = "block";
+    updatePotDisplay();
+  }
+
+  function toggleKey() {
+    const box = document.getElementById("answerKeyBox");
+    const btn = document.getElementById("keyBtn");
+    if (box.style.display === "block") {
+      box.style.display = "none";
+      btn.innerText = "💡 Reveal Answers & Lore";
+    } else {
+      box.style.display = "block";
+      btn.innerText = "Hide Answers & Lore";
+    }
+  }
+
+  function changeBid(delta) {
+    currentBid = Math.max(1, currentBid + delta);
+    document.getElementById("bidCount").innerText = currentBid;
+    playTone(350 + (currentBid * 25), "sine", 0.08);
+  }
+
+  function setTimerDuration(seconds) {
+    defaultDuration = parseInt(seconds);
+    document.querySelectorAll(".time-pill").forEach(p => p.classList.remove("active"));
+    const matched = Array.from(document.querySelectorAll(".time-pill")).find(p => p.innerText === seconds + "s");
+    if (matched) matched.classList.add("active");
+    resetTimer();
+  }
+
+  function setCustomDuration(val) {
+    const parsed = parseInt(val);
+    if (!isNaN(parsed) && parsed > 5) {
+      document.querySelectorAll(".time-pill").forEach(p => p.classList.remove("active"));
+      defaultDuration = parsed;
+      resetTimer();
+    }
+  }
+
+  function toggleTimer() {
+    if (isBlindRound && !isBlindRevealed) {
+      revealBountyPrompt();
+    }
+
+    if (interval) {
+      clearInterval(interval);
+      interval = null;
+      document.getElementById("timerBtn").innerText = "Resume Countdown";
+    } else {
+      if (timerVal <= 0) timerVal = defaultDuration;
+      document.getElementById("timerBtn").innerText = "Pause";
+      interval = setInterval(() => {
+        timerVal--;
+        const timerEl = document.getElementById("timer");
+        timerEl.innerText = timerVal;
+        
+        if (timerVal <= 5 && timerVal > 0) {
+          timerEl.classList.add("warning");
+          playTone(440, "square", 0.1);
+        }
+        
+        if (timerVal <= 0) {
+          clearInterval(interval);
+          interval = null;
+          timerEl.classList.remove("warning");
+          document.getElementById("timerBtn").innerText = "Time's Up!";
+          playTone(150, "sawtooth", 0.8);
+        }
+      }, 1000);
+    }
+  }
+
+  function resetTimer() {
+    if (interval) clearInterval(interval);
+    interval = null;
+    timerVal = defaultDuration;
+    const timerEl = document.getElementById("timer");
+    timerEl.innerText = timerVal;
+    timerEl.classList.remove("warning");
+    document.getElementById("timerBtn").innerText = "Start Countdown";
+  }
+
+  // ==========================================
+  // DYNAMIC TEAMS ENGINE
+  // ==========================================
+  let teams = [
+    { name: "Team 1", score: 0 },
+    { name: "Team 2", score: 0 },
+    { name: "Team 3", score: 0 }
+  ];
+
+  function renderTeams() {
+    const grid = document.getElementById("teamsGrid");
+    grid.innerHTML = "";
+    const currentCardPayout = deadCardPot + (sabotageActive ? 1 : 0);
+
+    teams.forEach((team, idx) => {
+      const div = document.createElement("div");
+      div.className = "team";
+      const isNeg = team.score < 0;
+      div.innerHTML = `
+        <div class="team-name" contenteditable="true" onblur="renameTeam(${idx}, this.innerText)">${team.name}</div>
+        <div class="team-score ${isNeg ? 'negative' : ''}">${team.score}</div>
+        <div class="score-controls">
+          <div class="manual-controls-row">
+            <button class="score-btn" onclick="updateTeamScore(${idx}, -1)" title="Manual -1">-1</button>
+            <button class="score-btn" onclick="updateTeamScore(${idx}, 1)" title="Manual +1">+1</button>
+          </div>
+          <button class="score-btn award-win" onclick="awardCardWin(${idx})" title="Award Round Win & Advance Card">
+            🏆 Claim Win (+${currentCardPayout})
+          </button>
+        </div>
+      `;
+      grid.appendChild(div);
+    });
+  }
+
+  function awardCardWin(teamIdx) {
+    const currentCardPayout = deadCardPot + (sabotageActive ? 1 : 0);
+    teams[teamIdx].score += currentCardPayout;
+    playTone(587.33, "sine", 0.2);
+    setTimeout(() => playTone(880, "sine", 0.3), 150);
+    
+    deadCardPot = 1;
+    drawNextCard(false);
+  }
+
+  function updateTeamScore(idx, delta) {
+    teams[idx].score += delta;
+    playTone(delta > 0 ? 440 : 220, "sine", 0.05);
+    renderTeams();
+  }
+
+  function addTeam() {
+    if (teams.length >= 6) return;
+    teams.push({ name: `Team ${teams.length + 1}`, score: 0 });
+    renderTeams();
+  }
+
+  function removeTeam() {
+    if (teams.length <= 2) return;
+    teams.pop();
+    renderTeams();
+  }
+
+  function renameTeam(idx, newName) {
+    teams[idx].name = newName.trim() || `Team ${idx + 1}`;
+  }
+
+  function toggleRulesModal(show) {
+    const modal = document.getElementById("rulesModal");
+    modal.style.display = show ? "flex" : "none";
+  }
+
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+      if (document.exitFullscreen) document.exitFullscreen();
+    }
+  }
+
+  // Initial boot
+  renderTeams();
+  resetCategoryPiles();
+  drawNextCard();
+</script>
+</body>
+</html>
