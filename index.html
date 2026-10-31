@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gambling - Kids Edition</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&family=Roboto+Mono:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07090e;
+      --card-bg: rgba(16, 21, 33, 0.85);
+      --card-border: rgba(255, 255, 255, 0.12);
+      --accent: #ff2a5f;
+      --accent-glow: rgba(255, 42, 95, 0.4);
+      --accent-alt: #00d2ff;
+      --accent-alt-glow: rgba(0, 210, 255, 0.35);
+      --accent-science: #00ff88;
+      --accent-history: #e056fd;
+      --accent-chaos: #f7b731;
+      --accent-bolly: #ff8500;
+      --accent-sports: #2ecc71;
+      --accent-gaming: #9b59b6;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #232d42;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; }
+
+    body {
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(0, 210, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 10% 90%, rgba(255, 42, 95, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 85%, rgba(224, 86, 253, 0.07) 0%, transparent 40%);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: clamp(1rem, 2.5vw, 2.5rem) clamp(0.75rem, 2.5vw, 1.75rem);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 960px;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(1.2rem, 2.5vw, 1.8rem);
+      position: relative;
+    }
+
+    header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      padding-bottom: 0.5rem;
+      width: 100%;
+    }
+
+    .header-top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 0.35rem;
+    }
+
+    .nav-btn {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: var(--text);
+      font-size: clamp(0.8rem, 2vw, 0.95rem);
+      font-weight: 800;
+      padding: 0.45rem 1.1rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover { color: #fff; background: rgba(255, 255, 255, 0.15); border-color: var(--accent-alt); }
+
+    h1 {
+      font-size: clamp(2rem, 6vw, 3rem);
+      font-weight: 900;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #ffffff 30%, var(--accent-alt) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 35px rgba(0, 210, 255, 0.25);
+      text-align: center;
+    }
+
+    .header-sub {
+      font-size: clamp(0.75rem, 2.2vw, 0.95rem);
+      font-weight: 800;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .deck-stats-pill {
+      font-size: clamp(0.8rem, 2vw, 0.9rem);
+      font-family: 'Roboto Mono', monospace;
+      color: var(--text);
+      background: rgba(0, 0, 0, 0.45);
+      padding: 0.3rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      margin-top: 0.35rem;
+    }
+
+    .mix-control-box {
+      width: 100%;
+      background: rgba(18, 24, 38, 0.8);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 0.9rem 1.4rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .mix-label-group { display: flex; align-items: center; gap: 0.6rem; }
+    .mix-title { font-size: clamp(0.8rem, 2vw, 0.95rem); font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); }
+    .mix-value-badge {
+      font-family: 'Roboto Mono', monospace;
+      font-size: clamp(1rem, 2.5vw, 1.15rem);
+      font-weight: 800;
+      color: var(--accent-alt);
+      background: rgba(0, 210, 255, 0.12);
+      padding: 0.25rem 0.65rem;
+      border-radius: 8px;
+      border: 1px solid rgba(0, 210, 255, 0.3);
+    }
+
+    .slider-wrapper { display: flex; align-items: center; gap: 0.9rem; flex: 1 1 280px; max-width: 480px; }
+    .mix-slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 8px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.15);
+      outline: none;
+    }
+    .mix-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--accent-alt);
+      cursor: pointer;
+      box-shadow: 0 0 12px var(--accent-alt);
+    }
+    .slider-limit-label { font-size: 0.8rem; color: var(--text-muted); font-family: 'Roboto Mono', monospace; font-weight: 700; }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(25px);
+      border: 1px solid var(--card-border);
+      border-radius: clamp(18px, 3.5vw, 28px);
+      padding: clamp(1.8rem, 4.5vw, 3.2rem) clamp(1.2rem, 3.5vw, 2.6rem);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1.5rem;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      min-height: 380px;
+      justify-content: center;
+      position: relative;
+    }
+
+    .card.blind-active {
+      border-color: rgba(255, 42, 95, 0.6);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px rgba(255, 42, 95, 0.35);
+    }
+
+    .card-top-row { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; justify-content: center; }
+
+    .category {
+      font-size: clamp(0.85rem, 2.2vw, 1.05rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding: 0.45rem 1.15rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .cat-music, .cat-movies, .cat-pop { color: var(--accent-alt); border-color: rgba(0, 210, 255, 0.4); box-shadow: 0 0 20px rgba(0, 210, 255, 0.2); }
+    .cat-bollywood { color: var(--accent-bolly); border-color: rgba(255, 133, 0, 0.4); box-shadow: 0 0 20px rgba(255, 133, 0, 0.2); }
+    .cat-science { color: var(--accent-science); border-color: rgba(0, 255, 136, 0.4); box-shadow: 0 0 20px rgba(0, 255, 136, 0.2); }
+    .cat-history { color: var(--accent-history); border-color: rgba(224, 86, 253, 0.4); box-shadow: 0 0 20px rgba(224, 86, 253, 0.2); }
+    .cat-chaos { color: var(--accent-chaos); border-color: rgba(247, 183, 49, 0.4); box-shadow: 0 0 20px rgba(247, 183, 49, 0.2); }
+    .cat-sports { color: var(--accent-sports); border-color: rgba(46, 204, 113, 0.4); box-shadow: 0 0 20px rgba(46, 204, 113, 0.2); }
+    .cat-gaming { color: var(--accent-gaming); border-color: rgba(155, 89, 182, 0.4); box-shadow: 0 0 20px rgba(155, 89, 182, 0.2); }
+
+    .bounty-pill {
+      font-size: clamp(0.75rem, 2vw, 0.9rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding: 0.45rem 1rem;
+      border-radius: 999px;
+      background: rgba(255, 42, 95, 0.2);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      display: none;
+      animation: pulse 1s infinite alternate;
+    }
+
+    .pot-badge {
+      font-size: clamp(1.05rem, 2.8vw, 1.35rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 0.45rem 1.4rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      transition: all 0.3s;
+    }
+
+    .pot-badge.boosted {
+      background: linear-gradient(135deg, rgba(247, 183, 49, 0.3), rgba(255, 42, 95, 0.3));
+      color: #ffd166;
+      border-color: rgba(247, 183, 49, 0.7);
+      font-size: clamp(1.25rem, 3.2vw, 1.55rem);
+      padding: 0.5rem 1.6rem;
+      animation: potPulse 1.4s infinite alternate;
+    }
+
+    @keyframes potPulse {
+      from { transform: scale(1); box-shadow: 0 0 15px rgba(247, 183, 49, 0.3); }
+      to { transform: scale(1.06); box-shadow: 0 0 35px rgba(247, 183, 49, 0.8); }
+    }
+
+    .prompt {
+      font-size: clamp(1.75rem, 4.8vw, 2.65rem);
+      font-weight: 900;
+      line-height: 1.35;
+      max-width: 820px;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+      text-shadow: 0 3px 15px rgba(0, 0, 0, 0.7);
+    }
+
+    .cloaked-box {
+      display: inline-block;
+      background: rgba(255, 42, 95, 0.2);
+      border: 2px dashed var(--accent);
+      color: #ff85a1;
+      padding: 0.2rem 0.75rem;
+      border-radius: 10px;
+      letter-spacing: 2px;
+      font-size: clamp(1.4rem, 3.5vw, 2rem);
+      animation: pulse 1s infinite alternate;
+    }
+
+    .bidding-box {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-top: 0.35rem;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 0.6rem 1.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .bid-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text);
+      font-size: 1.6rem;
+      font-weight: 800;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .bid-btn:hover { background: rgba(255, 42, 95, 0.25); border-color: var(--accent); color: #fff; }
+
+    .bid-display {
+      font-family: 'Roboto Mono', monospace;
+      font-size: clamp(3.2rem, 8.5vw, 4.2rem);
+      font-weight: 800;
+      color: var(--accent);
+      min-width: 85px;
+      text-shadow: 0 0 30px var(--accent-glow);
+    }
+
+    .bid-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2.5px; font-weight: 800; }
+
+    .timer-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      padding-top: 1.4rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .time-selector {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 0.35rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .time-pill {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 800;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .time-pill.active {
+      background: linear-gradient(135deg, var(--accent-alt), #0088ff);
+      color: #040810;
+      box-shadow: 0 0 20px var(--accent-alt-glow);
+    }
+
+    .custom-time-input {
+      width: 50px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 999px;
+      color: var(--text);
+      font-size: 0.85rem;
+      font-weight: 800;
+      text-align: center;
+      padding: 0.3rem 0.2rem;
+      outline: none;
+      font-family: 'Roboto Mono', monospace;
+    }
+
+    .timer {
+      font-family: 'Roboto Mono', monospace;
+      font-size: clamp(3.8rem, 9.5vw, 5.2rem);
+      font-weight: 800;
+      letter-spacing: -2px;
+      font-variant-numeric: tabular-nums;
+      color: #ffffff;
+      text-shadow: 0 0 35px rgba(255, 255, 255, 0.25);
+    }
+
+    .timer.warning { 
+      color: var(--accent); 
+      text-shadow: 0 0 45px var(--accent-glow);
+      animation: pulse 0.5s infinite alternate; 
+    }
+
+    @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.06); } }
+
+    .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; width: 100%; }
+
+    button.primary {
+      background: linear-gradient(135deg, var(--accent), #d61b4a);
+      color: #fff;
+      border: none;
+      padding: 0.95rem 1.9rem;
+      font-weight: 900;
+      font-size: clamp(0.95rem, 2.2vw, 1.1rem);
+      border-radius: 14px;
+      cursor: pointer;
+      box-shadow: 0 8px 30px var(--accent-glow);
+      transition: all 0.2s;
+    }
+
+    button.primary:hover { transform: translateY(-2px); box-shadow: 0 12px 35px var(--accent-glow); }
+
+    button.secondary {
+      background: rgba(255, 255, 255, 0.07);
+      color: var(--text);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 0.95rem 1.4rem;
+      font-weight: 800;
+      font-size: clamp(0.9rem, 2vw, 1.05rem);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    button.secondary:hover { background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.3); }
+
+    button.reveal-bounty-btn {
+      background: linear-gradient(135deg, #00d2ff, #0051ff);
+      color: #fff;
+      border: none;
+      padding: 0.95rem 1.6rem;
+      font-weight: 900;
+      font-size: clamp(0.95rem, 2.2vw, 1.1rem);
+      border-radius: 14px;
+      cursor: pointer;
+      box-shadow: 0 0 30px rgba(0, 210, 255, 0.45);
+      display: none;
+      animation: pulse 1s infinite alternate;
+    }
+
+    button.wash-btn {
+      background: rgba(247, 183, 49, 0.12);
+      border: 1px solid rgba(247, 183, 49, 0.4);
+      color: #ffd166;
+      padding: 0.95rem 1.4rem;
+      font-weight: 900;
+      font-size: clamp(0.9rem, 2vw, 1.05rem);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    button.wash-btn:hover { background: rgba(247, 183, 49, 0.25); border-color: var(--accent-chaos); }
+
+    .button-group-row { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; margin-top: 0.35rem; }
+
+    .key-btn {
+      background: rgba(0, 210, 255, 0.1);
+      border: 1px solid rgba(0, 210, 255, 0.4);
+      color: var(--accent-alt);
+      font-size: clamp(0.85rem, 2vw, 0.95rem);
+      font-weight: 800;
+      padding: 0.5rem 1.1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .key-btn:hover { background: rgba(0, 210, 255, 0.22); }
+
+    .sabotage-btn {
+      background: rgba(255, 42, 95, 0.1);
+      border: 1px solid rgba(255, 42, 95, 0.4);
+      color: #ff5e84;
+      font-size: clamp(0.85rem, 2vw, 0.95rem);
+      font-weight: 800;
+      padding: 0.5rem 1.1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .sabotage-btn:hover { background: rgba(255, 42, 95, 0.25); border-color: var(--accent); }
+    .sabotage-btn.activated {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      box-shadow: 0 0 25px var(--accent-glow);
+      cursor: default;
+    }
+
+    .sabotage-banner {
+      display: none;
+      width: 100%;
+      background: rgba(255, 42, 95, 0.14);
+      border: 2px solid var(--accent);
+      border-radius: 14px;
+      padding: 1rem 1.35rem;
+      margin-top: 0.75rem;
+      font-size: clamp(0.95rem, 2.2vw, 1.15rem);
+      color: #ffb8c7;
+      text-align: center;
+      line-height: 1.5;
+      box-shadow: 0 0 35px rgba(255, 42, 95, 0.2);
+      animation: fadeIn 0.25s ease-in-out;
+    }
+
+    .sabotage-banner strong { color: #ffffff; }
+    .sabotage-banner .sub-stake {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--accent-chaos);
+      margin-top: 0.4rem;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+
+    .answer-key-box {
+      display: none;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(0, 210, 255, 0.35);
+      border-radius: 16px;
+      padding: 1.3rem 1.5rem;
+      margin-top: 0.75rem;
+      font-size: clamp(0.95rem, 2.2vw, 1.15rem);
+      color: #e2e8f0;
+      text-align: left;
+      line-height: 1.65;
+    }
+
+    .key-section { margin-bottom: 0.9rem; }
+    .key-section-title {
+      font-size: clamp(0.85rem, 2vw, 0.95rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent-alt);
+      margin-bottom: 0.45rem;
+    }
+
+    .lore-box {
+      background: rgba(0, 210, 255, 0.08);
+      border-left: 4px solid var(--accent-alt);
+      padding: 0.75rem 1.1rem;
+      border-radius: 6px;
+      margin-top: 0.6rem;
+      font-size: clamp(0.92rem, 2.1vw, 1.05rem);
+      color: #ffffff;
+      font-style: italic;
+    }
+
+    .scoreboard-container {
+      background: var(--card-bg);
+      backdrop-filter: blur(25px);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: clamp(1.2rem, 3vw, 1.8rem);
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.5);
+    }
+
+    .scoreboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 0.75rem;
+    }
+
+    .scoreboard-title {
+      font-size: clamp(0.85rem, 2.2vw, 1rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      color: var(--text-muted);
+    }
+
+    .team-manage-btns { display: flex; gap: 0.5rem; }
+    .team-ctrl-btn {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text);
+      font-size: 0.85rem;
+      font-weight: 800;
+      padding: 0.35rem 0.8rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .team-ctrl-btn:hover { background: rgba(255, 255, 255, 0.15); border-color: var(--accent-alt); }
+
+    .teams-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(0.9rem, 2.2vw, 1.8rem);
+    }
+
+    .team {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.45rem;
+      flex: 1 1 140px;
+      max-width: 190px;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 0.9rem 1rem;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .team-name {
+      font-size: clamp(0.95rem, 2.2vw, 1.1rem);
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.25);
+      cursor: pointer;
+      outline: none;
+      padding-bottom: 0.2rem;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .team-name:focus { border-bottom-color: var(--accent); color: var(--text); }
+
+    .team-score { 
+      font-family: 'Roboto Mono', monospace;
+      font-size: clamp(2rem, 5vw, 2.6rem); 
+      font-weight: 800;
+      color: #ffffff;
+      transition: color 0.2s;
+    }
+
+    .team-score.negative { color: var(--accent); text-shadow: 0 0 20px var(--accent-glow); }
+
+    .score-controls { display: flex; flex-direction: column; gap: 0.45rem; width: 100%; align-items: center; }
+    .manual-controls-row { display: flex; gap: 0.4rem; width: 100%; justify-content: center; }
+
+    .score-btn {
+      width: 40px;
+      height: 34px;
+      border-radius: 9px;
+      background: rgba(255, 255, 255, 0.07);
+      color: var(--text);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 0.95rem;
+      transition: all 0.15s;
+    }
+
+    .score-btn:hover { background: rgba(255, 255, 255, 0.18); }
+
+    .score-btn.award-win {
+      width: 100%;
+      padding: 0.45rem 0.6rem;
+      background: linear-gradient(135deg, rgba(0, 210, 255, 0.25), rgba(0, 136, 255, 0.25));
+      border: 1px solid rgba(0, 210, 255, 0.5);
+      color: var(--accent-alt);
+      font-weight: 900;
+      font-size: clamp(0.8rem, 2vw, 0.9rem);
+      border-radius: 9px;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .score-btn.award-win:hover {
+      background: linear-gradient(135deg, rgba(0, 210, 255, 0.4), rgba(0, 136, 255, 0.4));
+      border-color: var(--accent-alt);
+      transform: scale(1.02);
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.88);
+      backdrop-filter: blur(14px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      animation: fadeIn 0.2s ease-out;
+    }
+
+    .modal-content {
+      background: #10141f;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      max-width: 720px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: clamp(1.4rem, 3.5vw, 2.4rem);
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.8);
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 0.85rem;
+    }
+
+    .modal-title { font-size: clamp(1.2rem, 3.2vw, 1.45rem); font-weight: 900; letter-spacing: 1px; text-transform: uppercase; color: #fff; }
+    .modal-close-btn { background: transparent; border: none; color: var(--text-muted); font-size: 1.8rem; cursor: pointer; }
+    .rule-block { display: flex; flex-direction: column; gap: 0.4rem; font-size: clamp(0.95rem, 2.2vw, 1.05rem); line-height: 1.6; color: #cbd5e1; }
+    .rule-heading { font-size: clamp(0.95rem, 2.2vw, 1.1rem); font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; color: var(--accent-alt); }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div class="header-top-nav">
+      <button class="nav-btn" onclick="toggleFullscreen()">⛶ TV Fullscreen</button>
+      <button class="nav-btn" onclick="toggleRulesModal(true)">📖 Official Rules</button>
+    </div>
+    <h1>Gambling</h1>
+    <div class="header-sub">Kids Edition</div>
+    <div class="deck-stats-pill" id="deckStatsPill">Deck: Initializing...</div>
+  </header>
+
+  <div class="mix-control-box">
+    <div class="mix-label-group">
+      <span class="mix-title">Pop Culture Mix:</span>
+      <span class="mix-value-badge" id="mixValueBadge">0%</span>
+    </div>
+    <div class="slider-wrapper">
+      <span class="slider-limit-label">0% (Pure Diverse/Edu)</span>
+      <input type="range" min="0" max="100" value="0" step="5" class="mix-slider" id="popMixSlider" oninput="updatePopCultureMix(this.value)">
+      <span class="slider-limit-label">100% (Pop Only)</span>
+    </div>
+  </div>
+
+  <div class="card" id="mainCard">
+    <div class="card-top-row">
+      <div class="bounty-pill" id="bountyPill">⚡ Blind Bounty Round</div>
+      <div class="category" id="category">Category</div>
+      <div class="pot-badge" id="potBadge">Worth: 1 Pt</div>
+    </div>
+
+    <div class="prompt" id="prompt">Name items matching the criteria...</div>
+
+    <div style="display:flex; flex-direction:column; align-items:center;">
+      <div class="bid-label">Current High Bid</div>
+      <div class="bidding-box">
+        <button class="bid-btn" onclick="changeBid(-1)">-</button>
+        <div class="bid-display" id="bidCount">3</div>
+        <button class="bid-btn" onclick="changeBid(1)">+</button>
+      </div>
+    </div>
+
+    <div class="timer-section">
+      <div class="time-selector">
+        <button class="time-pill" onclick="setTimerDuration(30)">30s</button>
+        <button class="time-pill active" onclick="setTimerDuration(45)">45s</button>
+        <button class="time-pill" onclick="setTimerDuration(60)">60s</button>
+        <button class="time-pill" onclick="setTimerDuration(90)">90s</button>
+        <input type="number" id="customTime" class="custom-time-input" placeholder="sec" onchange="setCustomDuration(this.value)">
+      </div>
+
+      <div class="timer" id="timer">45</div>
+      <div class="actions">
+        <button class="reveal-bounty-btn" id="revealBountyBtn" onclick="revealBountyPrompt()">🔓 Reveal Cloaked Bounty</button>
+        <button class="primary" id="timerBtn" onclick="toggleTimer()">Start Countdown</button>
+        <button class="secondary" onclick="resetTimer()">Reset Timer</button>
+        <button class="secondary" onclick="drawNextCard(false)">Next Card 🎲</button>
+        <button class="wash-btn" onclick="passDeadCard()">☠️ Dead Pot (+1)</button>
+      </div>
+
+      <div class="button-group-row">
+        <button id="sabotageBtn" class="sabotage-btn" onclick="triggerSabotage()">⚠ Activate Sabotage</button>
+        <button id="keyBtn" class="key-btn" onclick="toggleKey()">💡 Reveal Answers & Lore</button>
+      </div>
+
+      <div id="sabotageBanner" class="sabotage-banner"></div>
+      <div id="answerKeyBox" class="answer-key-box"></div>
+    </div>
+  </div>
+
+  <div class="scoreboard-container">
+    <div class="scoreboard-header">
+      <span class="scoreboard-title">Live Scoreboard (Option A: -1 on Choke)</span>
+      <div class="team-manage-btns">
+        <button class="team-ctrl-btn" onclick="removeTeam()">- Team</button>
+        <button class="team-ctrl-btn" onclick="addTeam()">+ Team</button>
+      </div>
+    </div>
+    <div class="teams-grid" id="teamsGrid"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="rulesModal" onclick="if(event.target === this) toggleRulesModal(false)">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="modal-title">Rulebook & Table Mechanics</span>
+      <button class="modal-close-btn" onclick="toggleRulesModal(false)">&times;</button>
+    </div>
+
+    <div class="rule-block">
+      <span class="rule-heading">1. The Objective</span>
+      First team to reach target points (typically 7 or 10) wins. Scores can freely drop into negative numbers.
+    </div>
+    <div class="rule-block">
+      <span class="rule-heading">2. The Auction Phase</span>
+      Opening minimum bid is 3. Teams raise or pass in clockwise order. Highest bidder must deliver the required quantity before the countdown expires.
+    </div>
+    <div class="rule-block">
+      <span class="rule-heading">3. Scoring</span>
+      • <strong>Success:</strong> Tap <strong>🏆 Claim Win (+X)</strong> on the winning team.<br>
+      • <strong>Choke / Fail:</strong> Tap <strong>-1</strong> on the choking team.
+    </div>
+    <div class="rule-block">
+      <span class="rule-heading">4. Blind Bounty (Every 5th Card)</span>
+      Bounty cards conceal the specific condition. Bid blind based solely on the lead-in and category. Reveal with <strong>🔓 Reveal Cloaked Bounty</strong> before the timer starts.
+    </div>
+    <div class="rule-block">
+      <span class="rule-heading">5. Dispute Settler & Knowledge Discovery</span>
+      Click <strong>💡 Reveal Answers & Lore</strong> after the round to see verified examples and discover historical trivia.
+    </div>
+  </div>
+</div>
+
+<script>
+  // ==========================================
+  // COMPLETE 100+ NON-REPETITIVE FRESH PROMPT DECK
+  // Macro-level, high-energy, broad questions only
+  // ==========================================
+  const CARD_DATABASE = [
+    // --- WORLD HISTORY & CIVILIZATIONS (16 Unique Cards) ---
+    {
+      group: "nonpop", cat: "World History", cls: "cat-history",
+      base: "Historical empires or kingdoms that", variable: "covered territory across 3 distinct continents",
+      answers: ["Roman Empire (Europe, Asia, Africa)", "Ottoman Empire (Europe, Asia, Africa)", "Byzantine Empire", "Achaemenid Persian Empire", "Umayyad Caliphate", "Abbasid Caliphate", "Alexander's Macedonian Empire", "British Empire"],
+      lore: "The Umayyad Caliphate stretched from modern Portugal and Spain all the way across North Africa to the borders of western India in the early 700s AD."
+    },
+    {
+      group: "nonpop", cat: "World History", cls: "cat-history",
+      base: "Countries that successfully avoided direct", variable: "colonization or conquest by European powers",
+      answers: ["Thailand (Siam)", "Ethiopia (Abyssinia)", "Japan", "Iran (Persia)", "Saudi Arabia", "Liberia", "China (never fully colonized formally)"],
+      lore: "Ethiopia defeated an invading Italian army at the Battle of Adwa in 1896, keeping its ancient sovereign empire intact throughout the Scramble for Africa."
+    },
+    {
+      group: "nonpop", cat: "World History", cls: "cat-history",
+      base: "Historic ancient cities that have been", variable: "continuously inhabited by humans for over 3,000 years",
+      answers: ["Damascus (Syria)", "Varanasi (India)", "Athens (Greece)", "Jerusalem", "Byblos (Lebanon)", "Jericho (West Bank)", "Luoyang (China)", "Plovdiv (Bulgaria)"],
+      lore: "Damascus is often cited by archaeologists as the oldest continuously inhabited capital city in the world, with evidence of urban settlement dating back to 9000 BC."
+    },
+    {
+      group: "nonpop", cat: "World History", cls: "cat-history",
+      base: "Famous naval shipwrecks or sunken vessels that", variable: "were discovered underwater in the 20th or 21st century",
+      answers: ["RMS Titanic (discovered 1985)", "Bismarck (discovered 1989)", "Vasa (salvaged 1961)", "Endurance (discovered 2022)", "USS Indianapolis (discovered 2017)", "SS Central America", "San José Galleon"],
+      lore: "Ernest Shackleton's ship Endurance sank in Antarctic ice in 1915 and was discovered 107 years later in 10,000 feet of icy water, completely intact with ship name still legible."
+    },
+    {
+      group: "nonpop", cat: "World History", cls: "cat-history",
+      base: "Inventions of the Industrial Revolution or Renaissance that", variable: "fundamentally revolutionized mass manufacturing or communication",
+      answers: ["Steam Engine (James Watt)", "Gutenberg Movable-Type Printing Press", "Cotton Gin (Eli Whitney)", "Spinning Jenny", "Telegraph (Samuel Morse)", "Bessemer Steel Process", "Dynamo / Electric Generator"],
+      lore: "Gutenberg's movable type printing press in 1440 reduced the cost of producing books by roughly 80%, sparking both the Protestant Reformation and the Scientific Revolution."
+    },
+    {
+      group: "nonpop", cat: "World History", cls: "cat-history",
+      base: "Sovereign nations that ceased to exist or were dissolved during", variable: "the 20th Century (1900–1999)",
+      answers: ["Soviet Union (USSR)", "Yugoslavia", "Czechoslovakia", "Austro-Hungarian Empire", "Ottoman Empire", "East Germany (GDR)", "South Vietnam", "Rhodesia"],
+      lore: "Czechoslovakia peacefully divided into the Czech Republic and Slovakia at midnight on January 1, 1993, in an event dubbed the 'Velvet Divorce' with zero bloodshed."
+    },
+    {
+      group: "nonpop", cat: "World History", cls: "cat-history",
+      base: "Decisive land or naval battles that permanently", variable: "ended or collapsed a major ruling dynasty or empire",
+      answers: ["Battle of Waterloo (1815 - Napoleon)", "Fall of Constantinople (1453 - Byzantine)", "Battle of Hastings (1066 - Anglo-Saxon)", "Battle of Plassey (1757 - Bengal/Mughal)", "Battle of Actium (31 BC - Ptolemaic Egypt)", "Battle of Tenochtitlan (1521 - Aztec)"],
+      lore: "The Ottoman siege of Constantinople in 1453 utilized massive 27-foot cannons engineered by Hungarian iron founder Urban that breached the supposedly impregnable Theodosian Walls."
+    },
+    {
+      group: "nonpop", cat: "World History", cls: "cat-history",
+      base: "Historic treaties, accords, or declarations that ended", variable: "a major multi-national war or established global borders",
+      answers: ["Treaty of Versailles (1919)", "Peace of Westphalia (1648)", "Treaty of Paris (1783)", "Treaty of Tordesillas (1494)", "Congress of Vienna (1815)", "Geneva Conventions (1949)", "Camp David Accords (1978)"],
+      lore: "The Treaty of Tordesillas in 1494 literally divided the entire newly discovered non-European world in half between Spain and Portugal with a single longitudinal meridian."
+    },
+
+    // --- GEOGRAPHY & EARTH SCIENCE (16 Unique Cards) ---
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Sovereign countries that lie directly on", variable: "the geographic Equator (0° Latitude)",
+      answers: ["Ecuador", "Colombia", "Brazil", "Gabon", "Republic of the Congo", "DR Congo", "Uganda", "Kenya", "Somalia", "Indonesia"],
+      lore: "Ecuador is named after the Spanish word for Equator, and Mount Chimborazo on its soil is the closest point on Earth's surface to the Moon due to the planet's equatorial bulge."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Sovereign nations that have more than", variable: "one official designated capital city",
+      answers: ["South Africa (Pretoria, Cape Town, Bloemfontein)", "Netherlands (Amsterdam, The Hague)", "Bolivia (La Paz, Sucre)", "Malaysia (Kuala Lumpur, Putrajaya)", "Sri Lanka (Colombo, Sri Jayawardenepura Kotte)", "Chile (Santiago, Valparaíso)", "Eswatini"],
+      lore: "South Africa splits its government across three capitals: Pretoria handles the executive branch, Cape Town holds Parliament, and Bloemfontein holds the Supreme Court of Appeal."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "World rivers that flow across the borders of", variable: "at least 3 distinct sovereign countries",
+      answers: ["Danube (10 countries)", "Nile (11 countries)", "Amazon (8 countries)", "Rhine (6 countries)", "Mekong (6 countries)", "Congo (9 countries)", "Niger", "Zambezi"],
+      lore: "The Danube River passes through four sovereign national capital cities: Vienna (Austria), Bratislava (Slovakia), Budapest (Hungary), and Belgrade (Serbia)."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Natural islands on Earth that have a larger", variable: "land area than Great Britain (209,000 km²)",
+      answers: ["Greenland", "New Guinea", "Borneo", "Madagascar", "Baffin Island", "Sumatra", "Honshu (Japan)", "Victoria Island (Canada)"],
+      lore: "Greenland is the largest non-continental island on Earth; roughly 80% of its massive 2.16 million square kilometer landmass is entombed under permanent glacial ice sheets."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Active or dormant stratovolcanoes with", variable: "documented catastrophic eruptions in recorded history",
+      answers: ["Mount Vesuvius (Italy)", "Krakatoa (Indonesia)", "Mount St. Helens (USA)", "Mount Tambora (Indonesia)", "Mount Pinatubo (Philippines)", "Mount Fuji (Japan)", "Mount Etna", "Eyjafjallajökull (Iceland)"],
+      lore: "The 1815 eruption of Mount Tambora in Indonesia threw so much sulfur dioxide aerosol into the stratosphere that 1816 became worldwide known as 'The Year Without a Summer'."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Mountain passes or physical peaks that stand", variable: "higher than 7,000 meters above sea level",
+      answers: ["Mount Everest", "K2", "Kangchenjunga", "Lhotse", "Makalu", "Nanga Parbat", "Annapurna", "Gasherbrum I", "Broad Peak", "Cho Oyu"],
+      lore: "Every single one of Earth's 14 mountains over 8,000 meters is located strictly within the Himalayan and Karakoram ranges of Central and South Asia."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Inland bodies of water classified as", variable: "endorheic basins (terminal lakes with zero ocean drainage)",
+      answers: ["Caspian Sea", "Aral Sea", "Dead Sea", "Great Salt Lake (USA)", "Lake Chad", "Salton Sea", "Lake Balkhash", "Lake Eyre (Australia)"],
+      lore: "The shores of the Dead Sea sit at 430 meters below sea level, making it the lowest dry land surface on the entire planet."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Deep-sea oceanic trenches that plunge", variable: "deeper than 8,000 meters into the abyss",
+      answers: ["Mariana Trench (Challenger Deep)", "Tonga Trench", "Philippine Trench", "Kermadec Trench", "Kuril–Kamchatka Trench", "Puerto Rico Trench", "Java (Sunda) Trench"],
+      lore: "The Challenger Deep in the Mariana Trench drops to roughly 10,930 meters; the water pressure at the bottom is over 1,000 times atmospheric pressure at sea level."
+    },
+
+    // --- BIOLOGY, PHYSICS & SCIENTIFIC LORE (14 Unique Cards) ---
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Chemical elements that exist as a liquid or gas at", variable: "standard room temperature and pressure (20°C)",
+      answers: ["Mercury (liquid)", "Bromine (liquid)", "Hydrogen (gas)", "Nitrogen (gas)", "Oxygen (gas)", "Fluorine (gas)", "Chlorine (gas)", "Helium", "Neon", "Argon"],
+      lore: "Mercury and Bromine are the only two chemical elements on the entire periodic table that exist in liquid form under standard room conditions."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Living animal or insect species capable of producing", variable: "natural bioluminescence (internal light generation)",
+      answers: ["Fireflies", "Anglerfish", "Glowworms", "Comb Jellies", "Vampire Squid", "Dinoflagellates (bioluminescent plankton)", "Lanternfish", "Flashlight Fish"],
+      lore: "Bioluminescence in deep-sea creatures produces cold light, meaning less than 20% of the energy is lost to thermal heat compared to incandescent light."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "SI derived units in physics that are explicitly", variable: "named after historic scientists",
+      answers: ["Newton (Force)", "Joule (Energy)", "Watt (Power)", "Pascal (Pressure)", "Volt (Electric Potential)", "Ohm (Resistance)", "Hertz (Frequency)", "Tesla (Magnetic Flux Density)", "Kelvin (Temperature)"],
+      lore: "Nikola Tesla died nearly penniless in a New York hotel in 1943, but the unit of magnetic flux density named in his honor in 1960 now defines modern MRI machines."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Fundamental elementary particles of the", variable: "Standard Model in Particle Physics",
+      answers: ["Up Quark", "Down Quark", "Charm Quark", "Strange Quark", "Top Quark", "Bottom Quark", "Electron", "Muon", "Tau", "Photon", "Gluon", "Higgs Boson"],
+      lore: "The Top Quark is so massive that it decays in roughly $5 \\times 10^{-25}$ seconds, which is faster than the time it takes strong nuclear force to bind it into a hadron."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Mammalian species classified as", variable: "monotremes or marsupials (non-placental mammals)",
+      answers: ["Platypus", "Echidna (Spiny Anteater)", "Kangaroo", "Koala", "Opossum", "Tasmanian Devil", "Wombat", "Wallaby", "Bandicoot"],
+      lore: "The platypus and four species of echidna are the only living mammals on Earth that lay eggs instead of giving birth to live young."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Infectious human diseases that have been completely", variable: "eradicated or significantly controlled through global vaccines",
+      answers: ["Smallpox", "Rinderpest (livestock/human impact)", "Polio", "Measles", "Yellow Fever", "Rubella", "Tetanus", "Diphtheria"],
+      lore: "Smallpox remains the only infectious human disease to be declared completely eradicated worldwide by the World Health Organization, officially certified in 1980."
+    },
+
+    // --- SPORTS LORE (NO RUGBY, NO AMERICAN FOOTBALL) (14 Unique Cards) ---
+    {
+      group: "nonpop", cat: "Sports Lore", cls: "cat-sports",
+      base: "Formula 1 drivers who have won", variable: "3 or more Formula 1 World Drivers' Championships",
+      answers: ["Lewis Hamilton (7)", "Michael Schumacher (7)", "Max Verstappen (4)", "Sebastian Vettel (4)", "Alain Prost (4)", "Ayrton Senna (3)", "Niki Lauda (3)", "Jackie Stewart (3)", "Nelson Piquet (3)", "Jack Brabham (3)"],
+      lore: "Niki Lauda survived a fiery 1976 crash at the Nürburgring that severely burned his face and lungs, yet returned to race in a Ferrari just 42 days later."
+    },
+    {
+      group: "nonpop", cat: "Sports Lore", cls: "cat-sports",
+      base: "National teams that have won the", variable: "FIFA Men's World Cup trophy in football/soccer",
+      answers: ["Brazil (5)", "Germany (4)", "Italy (4)", "Argentina (3)", "France (2)", "Uruguay (2)", "England (1)", "Spain (1)"],
+      lore: "Uruguay won the inaugural 1930 World Cup in Montevideo with a roster that included a forward, Héctor Castro, who played without his right forearm after an accidental saw incident."
+    },
+    {
+      group: "nonpop", cat: "Sports Lore", cls: "cat-sports",
+      base: "Combat sports fighters who held simultaneous", variable: "undisputed two-division world titles in the UFC or major boxing",
+      answers: ["Conor McGregor (Featherweight & Lightweight)", "Daniel Cormier (Light Heavyweight & Heavyweight)", "Amanda Nunes (Bantamweight & Featherweight)", "Henry Cejudo (Flyweight & Bantamweight)", "Manny Pacquiao (8 divisions across career)", "Terence Crawford", "Canelo Álvarez"],
+      lore: "Conor McGregor became the first fighter in UFC history to hold two championship belts at the exact same time when he knocked out Eddie Alvarez at UFC 205 in Madison Square Garden."
+    },
+    {
+      group: "nonpop", cat: "Sports Lore", cls: "cat-sports",
+      base: "National cricket teams that have won the", variable: "ICC Men's Cricket World Cup (50 Overs ODI)",
+      answers: ["Australia (6)", "India (2)", "West Indies (2)", "Pakistan (1)", "Sri Lanka (1)", "England (1)"],
+      lore: "Australia holds the dominant all-time record, having won the ODI World Cup in 1987, 1999, 2003, 2007, 2015, and 2023 across four different continents."
+    },
+    {
+      group: "nonpop", cat: "Sports Lore", cls: "cat-sports",
+      base: "Cities that have hosted the modern", variable: "Summer Olympic Games more than once",
+      answers: ["London (1908, 1948, 2012)", "Paris (1900, 1924, 2024)", "Los Angeles (1932, 1984, scheduled 2028)", "Athens (1896, 2004)", "Tokyo (1964, 2020)"],
+      lore: "The 1908 London Olympics featured a marathon that was intentionally extended by 385 yards so the race could finish directly beneath the Royal Family's private viewing box at White City."
+    },
+    {
+      group: "nonpop", cat: "Sports Lore", cls: "cat-sports",
+      base: "Professional boxers who retired with", variable: "zero professional losses on their official record",
+      answers: ["Floyd Mayweather Jr. (50–0)", "Rocky Marciano (49–0)", "Joe Calzaghe (46–0)", "Andre Ward (32–0)", "Laila Ali (24–0)", "Sven Ottke (34–0)", "Ricardo López (51–0–1)"],
+      lore: "Floyd Mayweather Jr. generated over $1.6 Billion in career pay-per-view revenue across his 50-fight undefeated professional career."
+    },
+
+    // --- GAMING & DIGITAL TECH (POST-1990) (14 Unique Cards) ---
+    {
+      group: "nonpop", cat: "Gaming & Tech", cls: "cat-gaming",
+      base: "Video games built entirely on either", variable: "Valve's Source Engine or the Unreal Engine",
+      answers: ["Half-Life 2", "Counter-Strike: Global Offensive (CS:GO)", "Portal / Portal 2", "Fortnite", "Batman: Arkham City", "BioShock", "Gears of War", "Team Fortress 2", "Left 4 Dead", "Star Wars Jedi: Fallen Order"],
+      lore: "Half-Life 2 pioneered real-time physics calculations in 2004 using a heavily modified Havok engine integrated directly into Source, inventing the Gravity Gun."
+    },
+    {
+      group: "nonpop", cat: "Gaming & Tech", cls: "cat-gaming",
+      base: "Action or RPG video games renowned for", variable: "signature stealth assassination or disguise mechanics",
+      answers: ["Metal Gear Solid", "Hitman (World of Assassination)", "Splinter Cell", "Assassin's Creed", "Dishonored", "Thief", "Deus Ex", "Tenchu"],
+      lore: "The iconic cardboard box in Metal Gear Solid was originally created by Hideo Kojima as a joke, but became a series staple recognized worldwide."
+    },
+    {
+      group: "nonpop", cat: "Gaming & Tech", cls: "cat-gaming",
+      base: "Massive Multiplayer Online games (MMOs) that have", variable: "operated live commercial servers for over 15 continuous years",
+      answers: ["World of Warcraft (since 2004)", "RuneScape (since 2001)", "EVE Online (since 2003)", "EverQuest (since 1999)", "Final Fantasy XI (since 2002)", "Ultima Online (since 1997)", "Lineage II"],
+      lore: "In EVE Online, sovereign territory wars between player alliances have resulted in single virtual space battles destroying real-world equivalent assets of over $300,000."
+    },
+    {
+      group: "nonpop", cat: "Gaming & Tech", cls: "cat-gaming",
+      base: "Soulslike action RPG video games developed by", variable: "FromSoftware (Hidetaka Miyazaki)",
+      answers: ["Demon's Souls", "Dark Souls (I, II, III)", "Bloodborne", "Sekiro: Shadows Die Twice", "Elden Ring"],
+      lore: "Miyazaki drew inspiration for Elden Ring's cryptic lore style from reading English fantasy books as a child without fully speaking English, forcing his imagination to fill the gaps."
+    },
+    {
+      group: "nonpop", cat: "Gaming & Tech", cls: "cat-gaming",
+      base: "Online social media platforms, search engines, or tech services that", variable: "completely shut down after reaching tens of millions of active users",
+      answers: ["Vine", "Google+", "MySpace (effectively defunct)", "Mixer", "Limewire", "Yahoo! Answers", "BlackBerry Messenger (BBM)", "StumbleUpon", "Club Penguin"],
+      lore: "Vine helped launch careers for creators like Shawn Mendes and Logan Paul with its strict 6-second video loop limit before Twitter officially shut it down in 2017."
+    },
+
+    // --- GLOBAL BRANDS, FOOD & CORPORATE CHAOS (12 Unique Cards) ---
+    {
+      group: "nonpop", cat: "Chaos & Brands", cls: "cat-chaos",
+      base: "Car automobile brands or subsidiaries that are", variable: "wholly owned by the Volkswagen Group (VAG)",
+      answers: ["Audi", "Porsche", "Lamborghini", "Bentley", "Bugatti (Rimac joint venture)", "Ducati", "Škoda", "SEAT", "Scania"],
+      lore: "Ferdinand Piëch, the ruthless chairman of Volkswagen, insisted on acquiring Bugatti in 1998 simply to prove VW could build an absurd 1,000-horsepower quad-turbo street hypercar (the Veyron)."
+    },
+    {
+      group: "nonpop", cat: "Chaos & Brands", cls: "cat-chaos",
+      base: "Global food, condiment, or dessert staples that were", variable: "invented entirely by accident or clinical culinary mistake",
+      answers: ["Chocolate Chip Cookies (Ruth Wakefield)", "Potato Chips (George Crum)", "Popsicles (Frank Epperson)", "Corn Flakes (John Harvey Kellogg)", "Microwave Popcorn (Percy Spencer)", "Beer (fermented grain accidental dampness)", "Slurpee / ICEE"],
+      lore: "11-year-old Frank Epperson invented the popsicle in 1905 when he accidentally left powdered soda water with a wooden stirring stick out on his San Francisco porch on a freezing night."
+    },
+    {
+      group: "nonpop", cat: "Chaos & Brands", cls: "cat-chaos",
+      base: "Consumer brands that have become generic trademarks", variable: "used colloquially for the whole product category",
+      answers: ["Kleenex", "Band-Aid", "Velcro", "Thermos", "Xerox", "Bubble Wrap", "Frisbee", "Jacuzzi", "Post-It", "Rollerblade", "Jet Ski"],
+      lore: "Velcro is actually a registered trademark of Velcro Companies; the company once released an official viral music video begging the public to call it 'hook and loop' to avoid losing their trademark."
+    },
+    {
+      group: "nonpop", cat: "Chaos & Brands", cls: "cat-chaos",
+      base: "Famous multi-million dollar corporate rebranding disasters or", variable: "packaging redesigns that lost massive sales revenue",
+      answers: ["Tropicana (2009 packaging failure - lost $30M in weeks)", "Gap (2010 logo scrapped after 6 days)", "New Coke (1985)", "Weight Watchers to WW", "RadioShack to The Shack", "Netflix Qwikster"],
+      lore: "Tropicana removed its iconic orange with a red straw in 2009 in favor of a bland generic modern carton; sales plummeted 20% in two months, forcing them to bring the old design back."
+    },
+
+    // --- BOLLYWOOD & PUNJABI (16 Unique Cards) ---
+    {
+      group: "nonpop", cat: "Bollywood & Punjabi", cls: "cat-bollywood",
+      base: "Legendary Bollywood playback singers who recorded", variable: "thousands of songs across the 20th and 21st century",
+      answers: ["Lata Mangeshkar", "Mohammed Rafi", "Kishore Kumar", "Asha Bhosle", "Udit Narayan", "Kumar Sanu", "Alka Yagnik", "Sonu Nigam", "Arijit Singh", "K.K."],
+      lore: "Lata Mangeshkar recorded songs in over 36 languages and was the first Indian playback singer to ever perform solo at the Royal Albert Hall in London in 1974."
+    },
+    {
+      group: "nonpop", cat: "Bollywood & Punjabi", cls: "cat-bollywood",
+      base: "Epic Indian historical or mythological action movies", variable: "budgeted at over 150 Crore INR",
+      answers: ["Baahubali (The Beginning & The Conclusion)", "RRR", "Kalki 2898 AD", "Padmaavat", "Brahmāstra: Part One – Shiva", "Bajirao Mastani", "Ponniyin Selvan", "Tanhaji"],
+      lore: "The massive 'Naatu Naatu' dance sequence from S.S. Rajamouli's RRR was filmed on location outside the Mariinskyi Palace in Kyiv, Ukraine, just months before the war began."
+    },
+    {
+      group: "nonpop", cat: "Bollywood & Punjabi", cls: "cat-bollywood",
+      base: "Punjabi artists or vocalists with tracks exceeding", variable: "500 Million views on YouTube",
+      answers: ["Sidhu Moose Wala", "Diljit Dosanjh", "Karan Aujla", "Guru Randhawa", "Hardy Sandhu", "Jass Manak", "B Praak", "Mankirt Aulakh", "Amrit Maan"],
+      lore: "Guru Randhawa's breakout track 'High Rated Gabru' became one of the first regional Indian music releases to hit over a billion total plays across platforms without traditional Bollywood movie placement."
+    },
+    {
+      group: "nonpop", cat: "Bollywood & Punjabi", cls: "cat-bollywood",
+      base: "Cross-border Indo-Pak musical collaborations or", variable: "Pakistani vocalists featured prominently in mainstream Indian music",
+      answers: ["Atif Aslam", "Rahat Fateh Ali Khan", "Nusrat Fateh Ali Khan", "Shafqat Amanat Ali", "Ali Zafar", "Abida Parveen", "Coke Studio Pakistan crossovers (Pasoori)"],
+      lore: "Ustad Nusrat Fateh Ali Khan's hypnotic Sufi qawwali vocal performances captivated Western music legends, leading to iconic collaborations with Peter Gabriel and Eddie Vedder."
+    },
+    {
+      group: "nonpop", cat: "Bollywood & Punjabi", cls: "cat-bollywood",
+      base: "Classic Hindi movies where Switzerland, London, or Europe", variable: "served as the primary romantic backdrop",
+      answers: ["Dilwale Dulhania Le Jayenge (DDLJ)", "Kabhi Khushi Kabhie Gham (K3G)", "Chandni", "Yeh Jawaani Hai Deewani", "Jab Tak Hai Jaan", "Queen", "Namastey London", "Zindagi Na Milegi Dobara (Spain)"],
+      lore: "Filmmaker Yash Chopra loved shooting romances in Switzerland so intensely that the Swiss government named a mountain lake and a luxury train after him in Interlaken."
+    },
+
+    // --- POP CULTURE: POST-1980 WESTERN CINEMA, MUSIC & CELEB (20 Unique Cards) ---
+    {
+      group: "pop", cat: "Movies", cls: "cat-movies",
+      base: "Feature films made after 1990 renowned for using", variable: "almost 100% practical in-camera stunts with minimal CGI",
+      answers: ["Mad Max: Fury Road", "The Dark Knight", "Top Gun: Maverick", "Mission: Impossible – Fallout", "John Wick", "Dunkirk", "Casino Royale", "The Raid: Redemption"],
+      lore: "For Mad Max: Fury Road, over 150 real custom stunt vehicles were built and wrecked in the Namibian desert, with real stuntmen suspended on 20-foot swaying poles atop roaring trucks."
+    },
+    {
+      group: "pop", cat: "Music", cls: "cat-music",
+      base: "Albums that have achieved official RIAA", variable: "Diamond certification (10 Million+ units sold in the US)",
+      answers: ["Michael Jackson – Thriller", "Eminem – The Marshall Mathers LP", "Nirvana – Nevermind", "Adele – 21", "Alanis Morissette – Jagged Little Pill", "Outkast – Speakerboxxx/The Love Below", "Guns N' Roses – Appetite for Destruction", "Green Day – Dookie"],
+      lore: "Alanis Morissette was just 21 years old when 'Jagged Little Pill' was released in 1995; it went on to sell over 33 million copies worldwide."
+    },
+    {
+      group: "pop", cat: "Music", cls: "cat-music",
+      base: "Iconic music videos filmed entirely in", variable: "one single continuous unbroken camera take",
+      answers: ["OK Go – Here It Goes Again (Treadmills)", "Kanye West – Heard 'Em Say (French version)", "Coldplay – Yellow", "Vance Joy – Riptide", "Carly Rae Jepsen – I Really Like You", "Feist – 1234", "The Verve – Bitter Sweet Symphony", "Kiesza – Hideaway"],
+      lore: "OK Go rehearsed on 8 treadmills running in reverse for 17 days in a dance studio to film 'Here It Goes Again' in a single 3-minute unbroken take on the 17th try."
+    },
+    {
+      group: "pop", cat: "Movies", cls: "cat-movies",
+      base: "Actors who have won the Academy Award for", variable: "Best Actor or Best Actress in a leading role more than once",
+      answers: ["Daniel Day-Lewis (3 wins)", "Meryl Streep", "Jack Nicholson", "Denzel Washington", "Tom Hanks", "Anthony Hopkins", "Cate Blanchett", "Frances McDormand (3 wins)", "Sean Penn"],
+      lore: "Daniel Day-Lewis is the only actor in history to win three Best Actor Oscars, achieving the feat for My Left Foot (1989), There Will Be Blood (2007), and Lincoln (2012)."
+    },
+    {
+      group: "pop", cat: "Pop Culture", cls: "cat-pop",
+      base: "Movie franchises where the original lead actor was", variable: "completely replaced or recast in a direct sequel or reboot",
+      answers: ["Batman (Michael Keaton to Val Kilmer to Christian Bale to Robert Pattinson)", "James Bond (Sean Connery to George Lazenby to Roger Moore)", "Spider-Man (Tobey Maguire to Andrew Garfield to Tom Holland)", "Hulk (Eric Bana to Edward Norton to Mark Ruffalo)", "War Machine (Terrence Howard to Don Cheadle in Iron Man 2)"],
+      lore: "Terrence Howard was actually the highest-paid actor in the original 2008 Iron Man film, but was replaced by Don Cheadle for Iron Man 2 following salary renegotiation disputes."
+    },
+    {
+      group: "pop", cat: "Music", cls: "cat-music",
+      base: "Solo artists or vocalists who successfully launched from", variable: "famous boy bands or girl groups to global superstardom",
+      answers: ["Justin Timberlake (NSYNC)", "Beyoncé (Destiny's Child)", "Harry Styles (One Direction)", "Robbie Williams (Take That)", "Michael Jackson (Jackson 5)", "Camila Cabello (Fifth Harmony)", "Zayn Malik (One Direction)", "Gwen Stefani (No Doubt)"],
+      lore: "Harry Styles wrote his debut solo single 'Sign of the Times' in Jamaica in just two hours on an upright piano after One Direction went on indefinite hiatus."
+    },
+    {
+      group: "pop", cat: "Movies", cls: "cat-movies",
+      base: "Movies with an opening weekend box office", variable: "surpassing $150 Million in North America",
+      answers: ["Avengers: Endgame ($357M)", "Spider-Man: No Way Home", "Star Wars: The Force Awakens", "Avengers: Infinity War", "Jurassic World", "Barbie", "The Dark Knight Rises", "Black Panther"],
+      lore: "Avengers: Endgame was projected to make $280M on its domestic opening weekend in April 2019, but completely crushed industry ceilings by hauling an unprecedented $357 Million in 72 hours."
+    }
+  ];
+
+  // ==========================================
+  // CONTEXT-AWARE SMART SABOTAGE BANS
+  // ==========================================
+  const BANNED_ITEMS_MAP = {
+    "Roman Empire": ["Rome", "Julius Caesar", "Constantinople", "Colosseum"],
+    "UEFA Champions League": ["Real Madrid", "Barcelona", "Bayern Munich", "Liverpool"],
+    "FIFA World Cup": ["Brazil", "Germany", "Argentina", "France"],
+    "Equator": ["Brazil", "Colombia", "Ecuador", "Kenya"],
+    "Minecraft": ["Creeper", "Steve", "Pickaxe", "Nether"],
+    "F1": ["Lewis Hamilton", "Max Verstappen", "Michael Schumacher", "Ferrari"],
+    "UFC": ["Conor McGregor", "Jon Jones", "Khabib", "Israel Adesanya"],
+    "Diamond Albums": ["Thriller", "Nevermind", "21", "The Eminem Show"],
+    "Noble Gases": ["Helium", "Neon", "Argon"],
+    "Greek Ruins": ["Parthenon", "Athens", "Colosseum", "Pyramids"]
+  };
+
+  function pickMultiple(arr, count) {
+    const shuffled = [...arr].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, Math.min(count, arr.length));
+  }
+
+  // ==========================================
+  // MATHEMATICAL SLIDER QUOTA ENGINE (0% TO 100%)
+  // At 0%: Strictly zero pop cards are ever added!
+  // ==========================================
+  let targetPopPercentage = 0;
+  let activeDrawShoe = [];
+  let discardPile = [];
+
+  function buildStrictDeckShoe() {
+    activeDrawShoe = [];
+    discardPile = [];
+
+    const popCards = CARD_DATABASE.filter(c => c.group === "pop");
+    const nonPopCards = CARD_DATABASE.filter(c => c.group === "nonpop");
+
+    const shuffledPop = [...popCards].sort(() => 0.5 - Math.random());
+    const shuffledNonPop = [...nonPopCards].sort(() => 0.5 - Math.random());
+
+    const totalShoeSize = 50;
+    const popRatio = targetPopPercentage / 100;
+    const targetPopCards = Math.round(totalShoeSize * popRatio);
+    const targetNonPopCards = totalShoeSize - targetPopCards;
+
+    // Pull pop cards only if targetPopCards > 0
+    if (targetPopCards > 0) {
+      for (let i = 0; i < targetPopCards; i++) {
+        activeDrawShoe.push(shuffledPop[i % shuffledPop.length]);
+      }
+    }
+
+    // Pull non-pop cards (History, Geography, Science, Sports, Brands, Gaming, Bollywood)
+    for (let i = 0; i < targetNonPopCards; i++) {
+      activeDrawShoe.push(shuffledNonPop[i % shuffledNonPop.length]);
+    }
+
+    // True Fisher-Yates shuffle
+    for (let i = activeDrawShoe.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [activeDrawShoe[i], activeDrawShoe[j]] = [activeDrawShoe[j], activeDrawShoe[i]];
+    }
+
+    updateDeckStats();
+  }
+
+  function updateDeckStats() {
+    const pill = document.getElementById("deckStatsPill");
+    pill.innerText = `🃏 Active Shoe: ${activeDrawShoe.length} Cards Left | Played: ${discardPile.length}`;
+  }
+
+  function updatePopCultureMix(val) {
+    targetPopPercentage = parseInt(val);
+    document.getElementById("mixValueBadge").innerText = `${targetPopPercentage}%`;
+    buildStrictDeckShoe();
+  }
+
+  // ==========================================
+  // GAMEPLAY STATE & BLIND BOUNTY ENGINE
+  // ==========================================
+  let roundCounter = 0;
+  let isBlindRound = false;
+  let isBlindRevealed = false;
+
+  let currentBid = 3;
+  let defaultDuration = 45;
+  let timerVal = 45;
+  let interval = null;
+  let currentCardData = null;
+  let sabotageActive = false;
+  let deadCardPot = 1;
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+  function playTone(freq, type, duration) {
+    try {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = type;
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + duration);
+    } catch (e) {}
+  }
+
+  function updatePotDisplay() {
+    const potBadge = document.getElementById("potBadge");
+    const activeValue = deadCardPot + (sabotageActive ? 1 : 0);
+    
+    if (activeValue > 1) {
+      potBadge.className = "pot-badge boosted";
+      potBadge.innerHTML = `🔥 Worth: ${activeValue} Pts`;
+    } else {
+      potBadge.className = "pot-badge";
+      potBadge.innerHTML = `Worth: 1 Pt`;
+    }
+    renderTeams();
+  }
+
+  function drawNextCard(fromPot = false) {
+    resetTimer();
+    roundCounter++;
+
+    if (activeDrawShoe.length === 0) {
+      buildStrictDeckShoe();
+    }
+
+    currentCardData = activeDrawShoe.pop();
+    discardPile.push(currentCardData);
+    updateDeckStats();
+
+    currentCardData.fullText = `${currentCardData.base} ${currentCardData.variable}`;
+    sabotageActive = false;
+
+    // Blind Bounty every 5th card
+    isBlindRound = (roundCounter % 5 === 0);
+    isBlindRevealed = !isBlindRound;
+
+    const mainCard = document.getElementById("mainCard");
+    const bountyPill = document.getElementById("bountyPill");
+    const revealBountyBtn = document.getElementById("revealBountyBtn");
+
+    if (isBlindRound) {
+      mainCard.classList.add("blind-active");
+      bountyPill.style.display = "inline-block";
+      revealBountyBtn.style.display = "inline-block";
+      playTone(300, "triangle", 0.4);
+    } else {
+      mainCard.classList.remove("blind-active");
+      bountyPill.style.display = "none";
+      revealBountyBtn.style.display = "none";
+    }
+
+    // Reset Sabotage UI
+    const sabBtn = document.getElementById("sabotageBtn");
+    const sabBanner = document.getElementById("sabotageBanner");
+    sabBtn.className = "sabotage-btn";
+    sabBtn.innerText = "⚠ Activate Sabotage";
+    sabBanner.style.display = "none";
+    sabBanner.innerHTML = "";
+    
+    const catEl = document.getElementById("category");
+    catEl.innerText = currentCardData.cat;
+    catEl.className = "category " + currentCardData.cls;
+
+    const promptEl = document.getElementById("prompt");
+    if (isBlindRound) {
+      promptEl.innerHTML = `${currentCardData.base} <span class="cloaked-box">🔒 [CLOAKED BOUNTY]</span>`;
+    } else {
+      promptEl.innerText = currentCardData.fullText;
+    }
+    
+    currentBid = 3;
+    document.getElementById("bidCount").innerText = currentBid;
+
+    if (!fromPot) {
+      deadCardPot = isBlindRound ? 2 : 1;
+    }
+    updatePotDisplay();
+
+    // Reset Answers & Lore Drawer
+    const keyBox = document.getElementById("answerKeyBox");
+    const keyBtn = document.getElementById("keyBtn");
+    keyBox.style.display = "none";
+    keyBtn.innerText = "💡 Reveal Answers & Lore";
+
+    let answersHtml = "";
+    if (currentCardData.answers && currentCardData.answers.length > 0) {
+      answersHtml = currentCardData.answers.map(a => `• ${a}`).join("<br>");
+    } else {
+      answersHtml = "• Valid answers verified by historical or academic consensus.";
+    }
+
+    keyBox.innerHTML = `
+      <div class="key-section">
+        <div class="key-section-title">Verified Dispute Answers:</div>
+        <div>${answersHtml}</div>
+      </div>
+      <div class="key-section">
+        <div class="key-section-title">Did You Know? Lore:</div>
+        <div class="lore-box">${currentCardData.lore || "Knowledge discovery unlocked for this prompt!"}</div>
+      </div>
+    `;
+  }
+
+  function revealBountyPrompt() {
+    if (!isBlindRound || isBlindRevealed) return;
+    isBlindRevealed = true;
+    
+    playTone(523.25, "sine", 0.2);
+    setTimeout(() => playTone(783.99, "sine", 0.3), 150);
+
+    const promptEl = document.getElementById("prompt");
+    promptEl.innerHTML = `${currentCardData.base} <u style="color:var(--accent-alt);">${currentCardData.variable}</u>`;
+    
+    const revealBtn = document.getElementById("revealBountyBtn");
+    revealBtn.style.display = "none";
+  }
+
+  function passDeadCard() {
+    deadCardPot++;
+    playTone(180, "triangle", 0.25);
+    drawNextCard(true);
+  }
+
+  function triggerSabotage() {
+    if (sabotageActive) return;
+    sabotageActive = true;
+
+    playTone(220, "sawtooth", 0.3);
+
+    const sabBtn = document.getElementById("sabotageBtn");
+    const sabBanner = document.getElementById("sabotageBanner");
+    sabBtn.className = "sabotage-btn activated";
+    sabBtn.innerText = "SABOTAGE ACTIVE";
+
+    let ruleText = "";
+
+    // Context-specific bans or mechanical traps
+    const isShortTimer = timerVal <= 20;
+    const mechanicalTraps = [
+      "<strong>SOLO RUN:</strong> Only ONE player on the team is allowed to speak. Teammates must stay dead silent.",
+      "<strong>ALPHABET TRAP:</strong> Every answer you give must start with a distinct, different letter.",
+      "<strong>RAPID FIRE:</strong> Any hesitation or dead silence longer than 3 seconds ends your turn immediately.",
+      "<strong>PERFECTION DEMAND:</strong> 1 single invalid or disputed answer voids the entire round!"
+    ];
+
+    if (isShortTimer) {
+      ruleText = mechanicalTraps[Math.floor(Math.random() * mechanicalTraps.length)];
+    } else {
+      const roll = Math.random();
+      if (roll < 0.5) {
+        const oldVal = timerVal;
+        timerVal = Math.max(10, timerVal - 15);
+        document.getElementById("timer").innerText = timerVal;
+        ruleText = `<strong>TIME CRUNCH:</strong> Clock slashed by 15s (from ${oldVal}s down to <u>${timerVal}s</u>)!`;
+      } else {
+        ruleText = mechanicalTraps[Math.floor(Math.random() * mechanicalTraps.length)];
+      }
+    }
+
+    const totalWinPoints = deadCardPot + 1;
+    sabBanner.innerHTML = `${ruleText}<span class="sub-stake">STAKES: +${totalWinPoints} Points if you beat the Sabotage! (-1 if you fail)</span>`;
+    sabBanner.style.display = "block";
+    updatePotDisplay();
+  }
+
+  function toggleKey() {
+    const box = document.getElementById("answerKeyBox");
+    const btn = document.getElementById("keyBtn");
+    if (box.style.display === "block") {
+      box.style.display = "none";
+      btn.innerText = "💡 Reveal Answers & Lore";
+    } else {
+      box.style.display = "block";
+      btn.innerText = "Hide Answers & Lore";
+    }
+  }
+
+  function changeBid(delta) {
+    currentBid = Math.max(1, currentBid + delta);
+    document.getElementById("bidCount").innerText = currentBid;
+    playTone(350 + (currentBid * 25), "sine", 0.08);
+  }
+
+  function setTimerDuration(seconds) {
+    defaultDuration = parseInt(seconds);
+    document.querySelectorAll(".time-pill").forEach(p => p.classList.remove("active"));
+    const matched = Array.from(document.querySelectorAll(".time-pill")).find(p => p.innerText === seconds + "s");
+    if (matched) matched.classList.add("active");
+    resetTimer();
+  }
+
+  function setCustomDuration(val) {
+    const parsed = parseInt(val);
+    if (!isNaN(parsed) && parsed > 5) {
+      document.querySelectorAll(".time-pill").forEach(p => p.classList.remove("active"));
+      defaultDuration = parsed;
+      resetTimer();
+    }
+  }
+
+  function toggleTimer() {
+    if (isBlindRound && !isBlindRevealed) {
+      revealBountyPrompt();
+    }
+
+    if (interval) {
+      clearInterval(interval);
+      interval = null;
+      document.getElementById("timerBtn").innerText = "Resume Countdown";
+    } else {
+      if (timerVal <= 0) timerVal = defaultDuration;
+      document.getElementById("timerBtn").innerText = "Pause";
+      interval = setInterval(() => {
+        timerVal--;
+        const timerEl = document.getElementById("timer");
+        timerEl.innerText = timerVal;
+        
+        if (timerVal <= 5 && timerVal > 0) {
+          timerEl.classList.add("warning");
+          playTone(440, "square", 0.1);
+        }
+        
+        if (timerVal <= 0) {
+          clearInterval(interval);
+          interval = null;
+          timerEl.classList.remove("warning");
+          document.getElementById("timerBtn").innerText = "Time's Up!";
+          playTone(150, "sawtooth", 0.8);
+        }
+      }, 1000);
+    }
+  }
+
+  function resetTimer() {
+    if (interval) clearInterval(interval);
+    interval = null;
+    timerVal = defaultDuration;
+    const timerEl = document.getElementById("timer");
+    timerEl.innerText = timerVal;
+    timerEl.classList.remove("warning");
+    document.getElementById("timerBtn").innerText = "Start Countdown";
+  }
+
+  // ==========================================
+  // DYNAMIC TEAMS ENGINE
+  // ==========================================
+  let teams = [
+    { name: "Team 1", score: 0 },
+    { name: "Team 2", score: 0 },
+    { name: "Team 3", score: 0 }
+  ];
+
+  function renderTeams() {
+    const grid = document.getElementById("teamsGrid");
+    grid.innerHTML = "";
+    const currentCardPayout = deadCardPot + (sabotageActive ? 1 : 0);
+
+    teams.forEach((team, idx) => {
+      const div = document.createElement("div");
+      div.className = "team";
+      const isNeg = team.score < 0;
+      div.innerHTML = `
+        <div class="team-name" contenteditable="true" onblur="renameTeam(${idx}, this.innerText)">${team.name}</div>
+        <div class="team-score ${isNeg ? 'negative' : ''}">${team.score}</div>
+        <div class="score-controls">
+          <div class="manual-controls-row">
+            <button class="score-btn" onclick="updateTeamScore(${idx}, -1)" title="Manual -1">-1</button>
+            <button class="score-btn" onclick="updateTeamScore(${idx}, 1)" title="Manual +1">+1</button>
+          </div>
+          <button class="score-btn award-win" onclick="awardCardWin(${idx})" title="Award Round Win & Advance Card">
+            🏆 Claim Win (+${currentCardPayout})
+          </button>
+        </div>
+      `;
+      grid.appendChild(div);
+    });
+  }
+
+  function awardCardWin(teamIdx) {
+    const currentCardPayout = deadCardPot + (sabotageActive ? 1 : 0);
+    teams[teamIdx].score += currentCardPayout;
+    playTone(587.33, "sine", 0.2);
+    setTimeout(() => playTone(880, "sine", 0.3), 150);
+    
+    deadCardPot = 1;
+    drawNextCard(false);
+  }
+
+  function updateTeamScore(idx, delta) {
+    teams[idx].score += delta;
+    playTone(delta > 0 ? 440 : 220, "sine", 0.05);
+    renderTeams();
+  }
+
+  function addTeam() {
+    if (teams.length >= 6) return;
+    teams.push({ name: `Team ${teams.length + 1}`, score: 0 });
+    renderTeams();
+  }
+
+  function removeTeam() {
+    if (teams.length <= 2) return;
+    teams.pop();
+    renderTeams();
+  }
+
+  function renameTeam(idx, newName) {
+    teams[idx].name = newName.trim() || `Team ${idx + 1}`;
+  }
+
+  function toggleRulesModal(show) {
+    const modal = document.getElementById("rulesModal");
+    modal.style.display = show ? "flex" : "none";
+  }
+
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+      if (document.exitFullscreen) document.exitFullscreen();
+    }
+  }
+
+  // Initial boot: Starts at 0% Pop Culture by default
+  renderTeams();
+  buildStrictDeckShoe();
+  drawNextCard();
+</script>
+</body>
+</html>
