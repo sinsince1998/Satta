@@ -1,0 +1,1978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gambling - Kids Edition</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Roboto+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07090e;
+      --card-bg: rgba(18, 22, 33, 0.85);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --accent: #ff2a5f;
+      --accent-glow: rgba(255, 42, 95, 0.35);
+      --accent-alt: #00d2ff;
+      --accent-alt-glow: rgba(0, 210, 255, 0.3);
+      --accent-science: #00ff88;
+      --accent-chaos: #f7b731;
+      --accent-bolly: #ff8500;
+      --accent-sports: #2ecc71;
+      --accent-gaming: #9b59b6;
+      --text: #f8fafc;
+      --text-muted: #8492a6;
+      --border: #1e2638;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; }
+
+    body {
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(0, 210, 255, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 10% 90%, rgba(255, 42, 95, 0.06) 0%, transparent 40%),
+        radial-gradient(circle at 90% 85%, rgba(247, 183, 49, 0.05) 0%, transparent 40%);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: clamp(1rem, 2vw, 2rem) clamp(0.75rem, 2vw, 1.25rem);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 860px;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(1rem, 2vw, 1.5rem);
+      position: relative;
+    }
+
+    header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.25rem;
+      padding-bottom: 0.5rem;
+      width: 100%;
+    }
+
+    .header-top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 0.25rem;
+    }
+
+    .nav-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-muted);
+      font-size: clamp(0.7rem, 2vw, 0.8rem);
+      font-weight: 700;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover { color: var(--text); background: rgba(255, 255, 255, 0.1); border-color: var(--accent-alt); }
+
+    h1 {
+      font-size: clamp(1.6rem, 5vw, 2.2rem);
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #ffffff 40%, var(--accent-alt) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 30px rgba(0, 210, 255, 0.2);
+      text-align: center;
+    }
+
+    .header-sub {
+      font-size: clamp(0.65rem, 2vw, 0.75rem);
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .deck-stats-pill {
+      font-size: 0.75rem;
+      font-family: 'Roboto Mono', monospace;
+      color: var(--text-muted);
+      background: rgba(0, 0, 0, 0.3);
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      margin-top: 0.35rem;
+    }
+
+    .mix-control-box {
+      width: 100%;
+      background: rgba(18, 22, 33, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .mix-label-group { display: flex; align-items: center; gap: 0.5rem; }
+    .mix-title { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); }
+    .mix-value-badge {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--accent-alt);
+      background: rgba(0, 210, 255, 0.1);
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      border: 1px solid rgba(0, 210, 255, 0.2);
+    }
+
+    .slider-wrapper { display: flex; align-items: center; gap: 0.75rem; flex: 1 1 240px; max-width: 400px; }
+    .mix-slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.1);
+      outline: none;
+    }
+    .mix-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--accent-alt);
+      cursor: pointer;
+      box-shadow: 0 0 10px var(--accent-alt);
+    }
+    .slider-limit-label { font-size: 0.7rem; color: var(--text-muted); font-family: 'Roboto Mono', monospace; }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: clamp(16px, 3vw, 24px);
+      padding: clamp(1.5rem, 3.5vw, 2.5rem) clamp(1rem, 3vw, 2.25rem);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1.25rem;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      min-height: 330px;
+      justify-content: center;
+      position: relative;
+    }
+
+    .card.blind-active {
+      border-color: rgba(255, 42, 95, 0.5);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 25px rgba(255, 42, 95, 0.25);
+    }
+
+    .card-top-row { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; justify-content: center; }
+
+    .category {
+      font-size: clamp(0.7rem, 2vw, 0.8rem);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .cat-music, .cat-movies, .cat-pop { color: var(--accent-alt); border-color: rgba(0, 210, 255, 0.3); box-shadow: 0 0 15px rgba(0, 210, 255, 0.15); }
+    .cat-bollywood { color: var(--accent-bolly); border-color: rgba(255, 133, 0, 0.3); box-shadow: 0 0 15px rgba(255, 133, 0, 0.15); }
+    .cat-science { color: var(--accent-science); border-color: rgba(0, 255, 136, 0.3); box-shadow: 0 0 15px rgba(0, 255, 136, 0.15); }
+    .cat-chaos { color: var(--accent-chaos); border-color: rgba(247, 183, 49, 0.3); box-shadow: 0 0 15px rgba(247, 183, 49, 0.15); }
+    .cat-sports { color: var(--accent-sports); border-color: rgba(46, 204, 113, 0.3); box-shadow: 0 0 15px rgba(46, 204, 113, 0.15); }
+    .cat-gaming { color: var(--accent-gaming); border-color: rgba(155, 89, 182, 0.3); box-shadow: 0 0 15px rgba(155, 89, 182, 0.15); }
+
+    .bounty-pill {
+      font-size: clamp(0.65rem, 1.8vw, 0.75rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      background: rgba(255, 42, 95, 0.15);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      display: none;
+      animation: pulse 1s infinite alternate;
+    }
+
+    .pot-badge {
+      font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0.4rem 1.2rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s;
+    }
+
+    .pot-badge.boosted {
+      background: linear-gradient(135deg, rgba(247, 183, 49, 0.25), rgba(255, 42, 95, 0.25));
+      color: #ffd166;
+      border-color: rgba(247, 183, 49, 0.6);
+      font-size: clamp(1.1rem, 3vw, 1.35rem);
+      padding: 0.45rem 1.4rem;
+      animation: potPulse 1.4s infinite alternate;
+    }
+
+    @keyframes potPulse {
+      from { transform: scale(1); box-shadow: 0 0 15px rgba(247, 183, 49, 0.3); }
+      to { transform: scale(1.05); box-shadow: 0 0 30px rgba(247, 183, 49, 0.7); }
+    }
+
+    .prompt {
+      font-size: clamp(1.35rem, 4vw, 2.1rem);
+      font-weight: 800;
+      line-height: 1.35;
+      max-width: 720px;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .cloaked-box {
+      display: inline-block;
+      background: rgba(255, 42, 95, 0.15);
+      border: 1px dashed var(--accent);
+      color: #ff85a1;
+      padding: 0.15rem 0.55rem;
+      border-radius: 8px;
+      letter-spacing: 1px;
+      font-size: clamp(1.1rem, 3vw, 1.6rem);
+      animation: pulse 1s infinite alternate;
+    }
+
+    .bidding-box {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      margin-top: 0.25rem;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 0.5rem 1.25rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .bid-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text);
+      font-size: 1.3rem;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .bid-btn:hover { background: rgba(255, 42, 95, 0.2); border-color: var(--accent); color: #fff; }
+
+    .bid-display {
+      font-family: 'Roboto Mono', monospace;
+      font-size: clamp(2.6rem, 7vw, 3.4rem);
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 70px;
+      text-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .bid-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
+
+    .timer-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.9rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .time-selector {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 0.3rem 0.5rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .time-pill {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .time-pill.active {
+      background: linear-gradient(135deg, var(--accent-alt), #0088ff);
+      color: #040810;
+      box-shadow: 0 0 15px var(--accent-alt-glow);
+    }
+
+    .custom-time-input {
+      width: 44px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      color: var(--text);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-align: center;
+      padding: 0.25rem 0.2rem;
+      outline: none;
+      font-family: 'Roboto Mono', monospace;
+    }
+
+    .timer {
+      font-family: 'Roboto Mono', monospace;
+      font-size: clamp(3.2rem, 8vw, 4.2rem);
+      font-weight: 700;
+      letter-spacing: -2px;
+      font-variant-numeric: tabular-nums;
+      color: #ffffff;
+      text-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
+    }
+
+    .timer.warning { 
+      color: var(--accent); 
+      text-shadow: 0 0 35px var(--accent-glow);
+      animation: pulse 0.5s infinite alternate; 
+    }
+
+    @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.05); } }
+
+    .actions { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; width: 100%; }
+
+    button.primary {
+      background: linear-gradient(135deg, var(--accent), #d61b4a);
+      color: #fff;
+      border: none;
+      padding: 0.8rem 1.6rem;
+      font-weight: 800;
+      font-size: clamp(0.85rem, 2vw, 0.95rem);
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 8px 25px var(--accent-glow);
+      transition: all 0.2s;
+    }
+
+    button.primary:hover { transform: translateY(-2px); box-shadow: 0 12px 30px var(--accent-glow); }
+
+    button.secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 0.8rem 1.25rem;
+      font-weight: 700;
+      font-size: clamp(0.8rem, 2vw, 0.9rem);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    button.secondary:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.2); }
+
+    button.reveal-bounty-btn {
+      background: linear-gradient(135deg, #00d2ff, #0051ff);
+      color: #fff;
+      border: none;
+      padding: 0.8rem 1.4rem;
+      font-weight: 900;
+      font-size: clamp(0.85rem, 2vw, 0.95rem);
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 0 25px rgba(0, 210, 255, 0.4);
+      display: none;
+      animation: pulse 1s infinite alternate;
+    }
+
+    button.wash-btn {
+      background: rgba(247, 183, 49, 0.1);
+      border: 1px solid rgba(247, 183, 49, 0.3);
+      color: #ffd166;
+      padding: 0.8rem 1.25rem;
+      font-weight: 800;
+      font-size: clamp(0.8rem, 2vw, 0.9rem);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    button.wash-btn:hover { background: rgba(247, 183, 49, 0.2); border-color: var(--accent-chaos); }
+
+    .button-group-row { display: flex; gap: 0.6rem; flex-wrap: wrap; justify-content: center; margin-top: 0.25rem; }
+
+    .key-btn {
+      background: rgba(0, 210, 255, 0.08);
+      border: 1px solid rgba(0, 210, 255, 0.3);
+      color: var(--accent-alt);
+      font-size: clamp(0.75rem, 2vw, 0.8rem);
+      font-weight: 800;
+      padding: 0.4rem 0.9rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .key-btn:hover { background: rgba(0, 210, 255, 0.18); }
+
+    .sabotage-btn {
+      background: rgba(255, 42, 95, 0.08);
+      border: 1px solid rgba(255, 42, 95, 0.3);
+      color: #ff5e84;
+      font-size: clamp(0.75rem, 2vw, 0.8rem);
+      font-weight: 800;
+      padding: 0.4rem 0.9rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .sabotage-btn:hover { background: rgba(255, 42, 95, 0.2); border-color: var(--accent); }
+    .sabotage-btn.activated {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+      cursor: default;
+    }
+
+    .sabotage-banner {
+      display: none;
+      width: 100%;
+      background: rgba(255, 42, 95, 0.1);
+      border: 1px solid var(--accent);
+      border-radius: 12px;
+      padding: 0.85rem 1.15rem;
+      margin-top: 0.6rem;
+      font-size: clamp(0.85rem, 2vw, 0.95rem);
+      color: #ffb8c7;
+      text-align: center;
+      line-height: 1.5;
+      box-shadow: 0 0 30px rgba(255, 42, 95, 0.15);
+      animation: fadeIn 0.25s ease-in-out;
+    }
+
+    .sabotage-banner strong { color: #ffffff; }
+    .sabotage-banner .sub-stake {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--accent-chaos);
+      margin-top: 0.3rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+
+    .answer-key-box {
+      display: none;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(0, 210, 255, 0.25);
+      border-radius: 14px;
+      padding: 1.1rem 1.25rem;
+      margin-top: 0.6rem;
+      font-size: 0.85rem;
+      color: #d1d5db;
+      text-align: left;
+      line-height: 1.6;
+    }
+
+    .key-section { margin-bottom: 0.75rem; }
+    .key-section-title {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--accent-alt);
+      margin-bottom: 0.35rem;
+    }
+
+    .lore-box {
+      background: rgba(0, 210, 255, 0.05);
+      border-left: 3px solid var(--accent-alt);
+      padding: 0.6rem 0.85rem;
+      border-radius: 4px;
+      margin-top: 0.5rem;
+      font-size: 0.82rem;
+      color: #e2e8f0;
+      font-style: italic;
+    }
+
+    .scoreboard-container {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: clamp(1rem, 2.5vw, 1.5rem);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .scoreboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding-bottom: 0.6rem;
+    }
+
+    .scoreboard-title {
+      font-size: clamp(0.75rem, 2vw, 0.85rem);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--text-muted);
+    }
+
+    .team-manage-btns { display: flex; gap: 0.4rem; }
+    .team-ctrl-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.3rem 0.65rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .team-ctrl-btn:hover { background: rgba(255, 255, 255, 0.1); border-color: var(--accent-alt); }
+
+    .teams-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(0.75rem, 2vw, 1.5rem);
+    }
+
+    .team {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+      flex: 1 1 125px;
+      max-width: 170px;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 0.75rem 0.85rem;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .team-name {
+      font-size: clamp(0.8rem, 2vw, 0.9rem);
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      outline: none;
+      padding-bottom: 0.15rem;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .team-name:focus { border-bottom-color: var(--accent); color: var(--text); }
+
+    .team-score { 
+      font-family: 'Roboto Mono', monospace;
+      font-size: clamp(1.6rem, 4vw, 2rem); 
+      font-weight: 700;
+      color: #ffffff;
+      transition: color 0.2s;
+    }
+
+    .team-score.negative { color: var(--accent); text-shadow: 0 0 15px var(--accent-glow); }
+
+    .score-controls { display: flex; flex-direction: column; gap: 0.4rem; width: 100%; align-items: center; }
+    .manual-controls-row { display: flex; gap: 0.3rem; width: 100%; justify-content: center; }
+
+    .score-btn {
+      width: 34px;
+      height: 30px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 0.85rem;
+      transition: all 0.15s;
+    }
+
+    .score-btn:hover { background: rgba(255, 255, 255, 0.12); }
+
+    .score-btn.award-win {
+      width: 100%;
+      padding: 0.35rem 0.5rem;
+      background: linear-gradient(135deg, rgba(0, 210, 255, 0.2), rgba(0, 136, 255, 0.2));
+      border: 1px solid rgba(0, 210, 255, 0.4);
+      color: var(--accent-alt);
+      font-weight: 800;
+      font-size: clamp(0.7rem, 1.8vw, 0.8rem);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .score-btn.award-win:hover {
+      background: linear-gradient(135deg, rgba(0, 210, 255, 0.35), rgba(0, 136, 255, 0.35));
+      border-color: var(--accent-alt);
+      transform: scale(1.02);
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+      animation: fadeIn 0.2s ease-out;
+    }
+
+    .modal-content {
+      background: #10141f;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      max-width: 680px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: clamp(1.25rem, 3vw, 2rem);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 0.75rem;
+    }
+
+    .modal-title { font-size: clamp(1.1rem, 3vw, 1.25rem); font-weight: 900; letter-spacing: 1px; text-transform: uppercase; color: #fff; }
+    .modal-close-btn { background: transparent; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; }
+    .rule-block { display: flex; flex-direction: column; gap: 0.35rem; font-size: clamp(0.85rem, 2vw, 0.9rem); line-height: 1.55; color: #cbd5e1; }
+    .rule-heading { font-size: clamp(0.85rem, 2vw, 0.95rem); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--accent-alt); }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="header-top-nav">
+      <button class="nav-btn" onclick="toggleFullscreen()">⛶ Fullscreen</button>
+      <button class="nav-btn" onclick="toggleRulesModal(true)">📖 Official Rules</button>
+    </div>
+    <h1>Gambling</h1>
+    <div class="header-sub">Kids Edition</div>
+    <div class="deck-stats-pill" id="deckStatsPill">Deck: Initializing...</div>
+  </header>
+
+  <div class="mix-control-box">
+    <div class="mix-label-group">
+      <span class="mix-title">Pop Culture Mix:</span>
+      <span class="mix-value-badge" id="mixValueBadge">60%</span>
+    </div>
+    <div class="slider-wrapper">
+      <span class="slider-limit-label">25%</span>
+      <input type="range" min="25" max="100" value="60" step="5" class="mix-slider" id="popMixSlider" oninput="updatePopCultureMix(this.value)">
+      <span class="slider-limit-label">100%</span>
+    </div>
+  </div>
+
+  <div class="card" id="mainCard">
+    <div class="card-top-row">
+      <div class="bounty-pill" id="bountyPill">⚡ Blind Bounty Round</div>
+      <div class="category" id="category">Category</div>
+      <div class="pot-badge" id="potBadge">Worth: 1 Pt</div>
+    </div>
+
+    <div class="prompt" id="prompt">Name items matching the criteria...</div>
+
+    <div style="display:flex; flex-direction:column; align-items:center;">
+      <div class="bid-label">Current High Bid</div>
+      <div class="bidding-box">
+        <button class="bid-btn" onclick="changeBid(-1)">-</button>
+        <div class="bid-display" id="bidCount">3</div>
+        <button class="bid-btn" onclick="changeBid(1)">+</button>
+      </div>
+    </div>
+
+    <div class="timer-section">
+      <div class="time-selector">
+        <button class="time-pill" onclick="setTimerDuration(30)">30s</button>
+        <button class="time-pill active" onclick="setTimerDuration(45)">45s</button>
+        <button class="time-pill" onclick="setTimerDuration(60)">60s</button>
+        <button class="time-pill" onclick="setTimerDuration(90)">90s</button>
+        <input type="number" id="customTime" class="custom-time-input" placeholder="sec" onchange="setCustomDuration(this.value)">
+      </div>
+
+      <div class="timer" id="timer">45</div>
+      <div class="actions">
+        <button class="reveal-bounty-btn" id="revealBountyBtn" onclick="revealBountyPrompt()">🔓 Reveal Cloaked Bounty</button>
+        <button class="primary" id="timerBtn" onclick="toggleTimer()">Start Countdown</button>
+        <button class="secondary" onclick="resetTimer()">Reset Timer</button>
+        <button class="secondary" onclick="drawNextCard(false)">Next Card 🎲</button>
+        <button class="wash-btn" onclick="passDeadCard()">☠️ Dead Pot (+1)</button>
+      </div>
+
+      <div class="button-group-row">
+        <button id="sabotageBtn" class="sabotage-btn" onclick="triggerSabotage()">⚠ Activate Sabotage</button>
+        <button id="keyBtn" class="key-btn" onclick="toggleKey()">💡 Reveal Answers & Lore</button>
+      </div>
+
+      <div id="sabotageBanner" class="sabotage-banner"></div>
+      <div id="answerKeyBox" class="answer-key-box"></div>
+    </div>
+  </div>
+
+  <div class="scoreboard-container">
+    <div class="scoreboard-header">
+      <span class="scoreboard-title">Live Scoreboard (Option A: -1 on Choke)</span>
+      <div class="team-manage-btns">
+        <button class="team-ctrl-btn" onclick="removeTeam()">- Team</button>
+        <button class="team-ctrl-btn" onclick="addTeam()">+ Team</button>
+      </div>
+    </div>
+    <div class="teams-grid" id="teamsGrid"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="rulesModal" onclick="if(event.target === this) toggleRulesModal(false)">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="modal-title">Rulebook & Table Mechanics</span>
+      <button class="modal-close-btn" onclick="toggleRulesModal(false)">&times;</button>
+    </div>
+
+    <div class="rule-block">
+      <span class="rule-heading">1. The Objective</span>
+      First team to reach the target points (typically 7 or 10) wins. Negative scores are fully allowed.
+    </div>
+    <div class="rule-block">
+      <span class="rule-heading">2. The Auction Phase</span>
+      Starting bid minimum is 3. Teams raise or pass in clockwise rotation. Last team standing attempts the prompt within the countdown.
+    </div>
+    <div class="rule-block">
+      <span class="rule-heading">3. Scoring</span>
+      • <strong>Success:</strong> Tap <strong>🏆 Claim Win (+X)</strong> on the winning team. Adds the pot points and draws the next card.<br>
+      • <strong>Choke / Fail:</strong> Tap <strong>-1</strong> on the failing team. Card stays active until passed or manually advanced.
+    </div>
+    <div class="rule-block">
+      <span class="rule-heading">4. Blind Bounty (Every 5th Card)</span>
+      Every 5th card conceals the exact prompt variable. Teams bid blind based on the category and lead-in. Hit <strong>🔓 Reveal Cloaked Bounty</strong> before running the timer.
+    </div>
+    <div class="rule-block">
+      <span class="rule-heading">5. Verified Dispute Drawer</span>
+      Hit <strong>💡 Reveal Answers & Lore</strong> post-round to inspect verified examples and historical lore.
+    </div>
+  </div>
+</div>
+
+<script>
+  // ==========================================
+  // COMPLETE 100+ NON-REPETITIVE FRESH PROMPT DECK
+  // Macro-level, high-energy, broad questions only
+  // ==========================================
+  const CARD_DATABASE = [
+    // --- 1. WORLD HISTORY & ANCIENT CIVILIZATIONS (14 Cards) ---
+    {
+      group: "nonpop", cat: "World History", cls: "cat-history",
+      base: "Ancient civilizations or sovereign realms that", variable: "developed their own independent writing or hieroglyphic script",
+      answers: ["Sumerians / Mesopotamia (Cuneiform)", "Ancient Egyptians (Hieroglyphs)", "Shang Dynasty China (Oracle Bone script)", "Maya Civilization (Maya glyphs)", "Indus Valley Civilization (Indus script)", "Minoan Crete (Linear A)", "Phoenicians (Alphabet)", "Olmec Civilization"],
+      lore: "The Phoenician alphabet, invented around 1050 BC, discarded complex pictograms for just 22 sound letters—directly ancestor to Greek, Latin, Arabic, and Cyrillic alphabets."
+    },
+    {
+      group: "nonpop", cat: "World History", cls: "cat-history",
+      base: "Historical conquerors, commanders, or rulers who", variable: "remained completely undefeated in recorded battlefield warfare",
+      answers: ["Alexander the Great", "Khalid ibn al-Walid", "Scipio Africanus", "Admiral Yi Sun-sin", "Subutai (Mongol General)", "Arthur Wellesley, Duke of Wellington", "Julius Caesar (never lost a campaign)"],
+      lore: "Korean Admiral Yi Sun-sin defeated 133 Japanese naval warships with only 13 turtle ships of his own at the 1597 Battle of Myeongnyang without losing a single ship."
+    },
+    {
+      group: "nonpop", cat: "World History", cls: "cat-history",
+      base: "Famous historical mystery artifacts, lost treasures, or", variable: "ancient relics whose true origin or location remains contested",
+      answers: ["The Holy Grail", "Ark of the Covenant", "Dead Sea Scrolls", "Amber Room", "Antikythera Mechanism", "Voynich Manuscript", "Oak Island Money Pit", "Lost Gold of El Dorado"],
+      lore: "The Antikythera Mechanism, salvaged from a 2,000-year-old Greek shipwreck, is an intricate 30-gear bronze mechanical computer that accurately predicted solar and lunar eclipses."
+    },
+    {
+      group: "nonpop", cat: "World History", cls: "cat-history",
+      base: "Historical kingdoms or sovereign empires that", variable: "dominated territories across Sub-Saharan Africa before 1800",
+      answers: ["Mali Empire", "Songhai Empire", "Kingdom of Aksum", "Kingdom of Benin", "Great Zimbabwe", "Ashanti Empire", "Kingdom of Kongo", "Nubia / Kingdom of Kush"],
+      lore: "Mansa Musa, ruler of the Mali Empire in 1324, distributed so much gold on his pilgrimage to Mecca that he caused hyperinflation and depressed gold prices in Cairo for over a decade."
+    },
+    {
+      group: "nonpop", cat: "World History", cls: "cat-history",
+      base: "Major historical revolutions or regime collapses that", variable: "occurred in the watershed year of 1848 (Spring of Nations)",
+      answers: ["France (overthrow of King Louis-Philippe)", "Austrian Empire (Metternich resignation)", "Kingdom of Prussia (Berlin uprisings)", "Kingdom of Hungary (Lajos Kossuth revolt)", "Papal States / Rome (Mazzini Republic)", "Kingdom of the Two Sicilies", "German Confederation parliament at Frankfurt"],
+      lore: "Over 50 countries were gripped by simultaneous political revolutions in 1848, marking the most widespread revolutionary wave in modern European history."
+    },
+    {
+      group: "nonpop", cat: "World History", cls: "cat-history",
+      base: "Pioneering female monarchs, heads of state, or regents who", variable: "ruled sovereign nations before 1900",
+      answers: ["Queen Elizabeth I (England)", "Catherine the Great (Russia)", "Empress Wu Zetian (Tang China)", "Queen Victoria (British Empire)", "Cleopatra VII (Egypt)", "Hatshepsut (Egypt)", "Queen Isabella I (Castile/Spain)", "Maria Theresa (Habsburg Empire)"],
+      lore: "Wu Zetian ruled China as its only acknowledged female emperor in over four thousand years, founding the Zhou Dynasty in 690 AD and dramatically expanding imperial civil service meritocracy."
+    },
+    {
+      group: "nonpop", cat: "World History", cls: "cat-history",
+      base: "Historic worldwide pandemics or plague outbreaks that", variable: "decimated human populations before the 20th century",
+      answers: ["The Black Death (1346–1353)", "Plague of Justinian (541–542)", "Antonine Plague (165–180)", "Great Plague of London (1665)", "Cocoliztli Epidemics (1545–1576)", "Third Cholera Pandemic (1852–1860)", "Plague of Athens (430 BC)"],
+      lore: "The Black Death wiped out an estimated 30% to 60% of Europe's entire population in under a decade, radically shifting peasant wages and ending feudalism."
+    },
+    {
+      group: "nonpop", cat: "World History", cls: "cat-history",
+      base: "Famous explorers or expeditions that successfully", variable: "circumnavigated the globe or reached the geographic poles",
+      answers: ["Ferdinand Magellan / Juan Sebastián Elcano (first global sail)", "Francis Drake", "Roald Amundsen (South Pole 1911)", "Robert Falcon Scott", "Jeanne Baret (first woman to circumnavigate)", "Vitus Bering", "James Cook", "Fridtjof Nansen"],
+      lore: "French botanist Jeanne Baret disguised herself as a man named Jean on Louis-Antoine de Bougainville's 1766 expedition, becoming the first woman to circumnavigate the globe."
+    },
+    {
+      group: "nonpop", cat: "World History", cls: "cat-history",
+      base: "Historic ancient fortifications or defensive walls built", variable: "to protect against nomadic invaders or rival armies",
+      answers: ["Great Wall of China", "Hadrian's Wall (Britain)", "Antonine Wall (Scotland)", "Theodosian Walls of Constantinople", "Long Walls of Athens", "Walls of Babylon", "Western Wall / Temple Mount (Jerusalem)", "Aurelian Walls of Rome"],
+      lore: "The Theodosian Walls of Constantinople repelled over 20 sieges by Huns, Arabs, Persians, and Rus over a thousand years before falling to gunpowder siege cannons in 1453."
+    },
+    {
+      group: "nonpop", cat: "World History", cls: "cat-history",
+      base: "Decisive naval warfare engagements fought with", variable: "wooden sail ships or ancient oared galleys",
+      answers: ["Battle of Salamis (480 BC)", "Battle of Actium (31 BC)", "Battle of Lepanto (1571)", "Battle of Trafalgar (1805)", "Spanish Armada (1588)", "Battle of the Nile (1798)", "Battle of Red Cliffs (208 AD)"],
+      lore: "At Trafalgar in 1805, Lord Nelson ordered his British fleet to cut perpendicularly through the Franco-Spanish line, winning decisive naval dominance without losing a single British vessel."
+    },
+    {
+      group: "nonpop", cat: "World History", cls: "cat-history",
+      base: "Ancient civilizations that built massive ceremonial pyramids", variable: "outside of modern Egypt",
+      answers: ["Maya (Tikal, Chichen Itza)", "Aztec (Tenochtitlan / Templo Mayor)", "Teotihuacan (Pyramid of the Sun)", "Nubian / Kingdom of Kush (Meroë)", "Moche Civilization (Huaca del Sol, Peru)", "Zapotec (Monte Albán)", "Caral-Supe (Peru)", "Mesopotamian Ziggurats (Ur)"],
+      lore: "Sudan actually contains more individual pyramids (over 250 in ancient Nubia) than Egypt, built as tombs for the kings and queens of Napata and Meroë."
+    },
+    {
+      group: "nonpop", cat: "World History", cls: "cat-history",
+      base: "Cold War espionage flashpoints, partition zones, or", variable: "proxy conflict states between 1947 and 1991",
+      answers: ["Berlin Wall / Checkpoint Charlie", "Korean Demilitarized Zone (DMZ)", "Bay of Pigs (Cuba)", "Suez Canal Crisis", "Nicaragua (Contras/Sandinistas)", "Soviet-Afghan War", "Angolan Civil War", "Greek Civil War"],
+      lore: "During the 1962 Cuban Missile Crisis, Soviet submarine B-59 came within minutes of launching a nuclear torpedo until flotilla commander Vasili Arkhipov alone refused authorization."
+    },
+    {
+      group: "nonpop", cat: "World History", cls: "cat-history",
+      base: "Signatories of historic declarations, charters, or", variable: "constitutional conventions that founded modern democracies",
+      answers: ["Magna Carta (King John & Barons - 1215)", "United States Declaration of Independence (1776)", "French Declaration of the Rights of Man (1789)", "Universal Declaration of Human Rights (UN 1948)", "Constitution of India (Dr. B.R. Ambedkar - 1950)", "Bill of Rights 1689 (English Parliament)"],
+      lore: "Dr. B.R. Ambedkar, chairman of India's Constitution drafting committee, studied constitutions of over 60 nations to synthesize the longest written constitution in the world."
+    },
+    {
+      group: "nonpop", cat: "World History", cls: "cat-history",
+      base: "Historical cities that were destroyed or buried by", variable: "cataclysmic natural earthquakes, tsunamis, or volcanic flows",
+      answers: ["Pompeii (Mount Vesuvius - 79 AD)", "Herculaneum (Mount Vesuvius)", "Port Royal, Jamaica (1692 Earthquake)", "Lisbon, Portugal (1755 Earthquake & Tsunami)", "San Francisco (1906 Earthquake & Fire)", "Messina, Italy (1908)", "Antioch (526 AD)"],
+      lore: "Port Royal, Jamaica, known as the 'wickedest city on earth' for its pirate haven status, sank two-thirds into Kingston Harbor during a single earthquake liquefaction event in 1692."
+    },
+
+    // --- 2. GEOGRAPHY & EARTH WONDERS (14 Cards) ---
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Sovereign microstates with a total territorial area of", variable: "less than 500 square kilometers",
+      answers: ["Vatican City", "Monaco", "Nauru", "Tuvalu", "San Marino", "Liechtenstein", "Marshall Islands", "Saint Kitts and Nevis", "Maldives", "Malta"],
+      lore: "Vatican City is the smallest independent state in the world at just 0.49 square kilometers, completely encircled by the city of Rome."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Strategic maritime straits or natural choke-points that", variable: "connect two major oceans or enclosed seas",
+      answers: ["Strait of Gibraltar (Atlantic to Mediterranean)", "Strait of Malacca (Indian Ocean to Pacific)", "Strait of Hormuz (Persian Gulf to Gulf of Oman)", "Bosphorus Strait (Black Sea to Marmara)", "Bering Strait (Pacific to Arctic)", "Strait of Magellan", "Bab-el-Mandeb", "Dardanelles"],
+      lore: "Roughly 20% to 30% of all global petroleum maritime commerce passes through the narrow 39-kilometer bottleneck of the Strait of Hormuz."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Arid or polar deserts on Earth with an area", variable: "larger than 250,000 square kilometers",
+      answers: ["Antarctic Desert (largest overall)", "Arctic Desert", "Sahara Desert", "Arabian Desert", "Gobi Desert", "Kalahari Desert", "Great Victoria Desert (Australia)", "Patagonian Desert", "Karakum Desert"],
+      lore: "Antarctica is technically the world's largest desert because it receives less than 50 millimeters of annual precipitation on average across its interior plateau."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Major global megacity metropolitan areas with", variable: "populations exceeding 20 Million residents",
+      answers: ["Tokyo (Japan)", "Delhi (India)", "Shanghai (China)", "São Paulo (Brazil)", "Mexico City (Mexico)", "Cairo (Egypt)", "Mumbai (India)", "Dhaka (Bangladesh)", "Beijing (China)", "New York City Metro (USA)"],
+      lore: "Greater Tokyo's metropolitan area houses roughly 37 million people—more than the entire national population of Canada."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Large geographic peninsulas that extend", variable: "prominently into surrounding oceans or seas",
+      answers: ["Arabian Peninsula (largest on Earth)", "Iberian Peninsula (Spain & Portugal)", "Scandinavian Peninsula (Norway & Sweden)", "Baja California Peninsula", "Kamchatka Peninsula (Russia)", "Italian (Apennine) Peninsula", "Florida Peninsula", "Yucatan Peninsula", "Korean Peninsula"],
+      lore: "The Arabian Peninsula covers over 3.2 million square kilometers, making it the largest peninsula on Earth, with zero permanent natural surface rivers."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Sovereign countries that are completely landlocked inside", variable: "a single other country (Enclaves)",
+      answers: ["Lesotho (entirely surrounded by South Africa)", "Vatican City (surrounded by Italy)", "San Marino (surrounded by Italy)"],
+      lore: "Lesotho is the only independent state in the world that lies entirely above 1,000 meters in elevation, earning it the title 'Kingdom in the Sky'."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Natural UNESCO World Heritage sites celebrated for", variable: "unique geological formations or extreme biodiversity",
+      answers: ["Galápagos Islands (Ecuador)", "Great Barrier Reef (Australia)", "Grand Canyon (USA)", "Serengeti National Park (Tanzania)", "Iguazu Falls (Argentina/Brazil)", "Ha Long Bay (Vietnam)", "Giant's Causeway (Northern Ireland)", "Pamukkale (Turkey)", "Yellowstone (USA)"],
+      lore: "Charles Darwin's observations of beak variations among finches and mockingbirds across the volcanic Galápagos Islands in 1835 catalyzed his theory of natural selection."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Countries bordered by both", variable: "the Atlantic Ocean and the Pacific Ocean",
+      answers: ["United States", "Canada", "Mexico", "Guatemala", "Honduras", "Nicaragua", "Costa Rica", "Panama", "Colombia", "Chile (via Drake Passage)"],
+      lore: "Colombia is the only sovereign country in South America with coastlines bordering both the Pacific Ocean and the Caribbean Sea (Atlantic)."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Major world waterfalls with drops", variable: "exceeding 100 meters or immense flow volume",
+      answers: ["Angel Falls (Venezuela - 979m)", "Victoria Falls (Zambia/Zimbabwe)", "Niagara Falls (USA/Canada)", "Iguazu Falls (Argentina/Brazil)", "Tugela Falls (South Africa)", "Yosemite Falls (USA)", "Sutherland Falls (New Zealand)", "Gullfoss (Iceland)"],
+      lore: "Angel Falls in Canaima National Park, Venezuela, is so tall that much of the cascading water evaporates into mist before reaching the canyon floor below."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Major salt flats, salars, or hypersaline lagoons", variable: "found on continental landmasses",
+      answers: ["Salar de Uyuni (Bolivia)", "Bonneville Salt Flats (USA)", "Etosha Pan (Namibia)", "Lake Natron (Tanzania)", "Makgadikgadi Pan (Botswana)", "Salinas Grandes (Argentina)", "Rann of Kutch (India)"],
+      lore: "Salar de Uyuni in Bolivia spans over 10,000 square kilometers of lithium-rich salt crust; when flooded in rainy season, it becomes the world's largest natural mirror, used to calibrate satellite orbits."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Extreme meteorological regions known for holding", variable: "world weather records (rain, heat, cold, or wind)",
+      answers: ["Death Valley, California (Highest recorded surface air temp 56.7°C)", "Mawsynram / Cherrapunji, India (Highest annual rainfall)", "Vostok Station, Antarctica (Lowest recorded temp -89.2°C)", "Atacama Desert (Driest non-polar region)", "Mount Washington, New Hampshire (Wind gusts 372 km/h)", "Commonwealth Bay, Antarctica"],
+      lore: "Parts of the Atacama Desert in Chile have recorded zero rainfall for over 400 continuous years, making its dry soil a prime testing ground for Mars rovers."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "International sovereign borders that are entirely demarcated by", variable: "a natural freshwater river",
+      answers: ["Rio Grande (USA and Mexico)", "Amur River (Russia and China)", "Niagara River (USA and Canada)", "Danube (Romania and Bulgaria)", "Rhine (France and Germany)", "Mekong (Laos and Thailand)", "Zambezi (Zambia and Zimbabwe)", "Oder-Neisse (Germany and Poland)"],
+      lore: "The Rio Grande's shifting meanders caused a century-long border dispute between the US and Mexico called the Chamizal dispute, finally settled in 1963 by cementing the riverbed."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Famous natural caves or subterranean caverns", variable: "renowned for massive chambers or crystal structures",
+      answers: ["Son Doong Cave (Vietnam - largest cave passage)", "Mammoth Cave (USA - longest cave system)", "Cave of the Crystals / Naica (Mexico)", "Carlsbad Caverns (USA)", "Waitomo Glowworm Caves (New Zealand)", "Postojna Cave (Slovenia)", "Krubera Cave (Georgia)"],
+      lore: "Vietnam's Hang Son Doong is so massive that a Boeing 747 could fly through its largest chamber, which contains its own localized rain clouds, weather system, and primary jungle."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Independent island nations located entirely in", variable: "the Caribbean Sea",
+      answers: ["Cuba", "Jamaica", "Haiti", "Dominican Republic", "Bahamas", "Barbados", "Trinidad and Tobago", "Saint Lucia", "Antigua and Barbuda", "Grenada"],
+      lore: "Hispaniola is one of only two islands in the Caribbean shared by two sovereign nations (Haiti and the Dominican Republic), the other being Saint Martin."
+    },
+
+    // --- 3. SCIENCE, NATURE & TECH DISCOVERIES (14 Cards) ---
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Robotic space probes or planetary rovers that", variable: "successfully landed on or studied another planet or asteroid",
+      answers: ["Voyager 1 & 2", "Curiosity Rover (Mars)", "Perseverance Rover (Mars)", "New Horizons (Pluto)", "Cassini-Huygens (Saturn/Titan)", "Venera 7 (Venus)", "Juno (Jupiter)", "Hayabusa2 (Asteroid Ryugu)", "Rosetta / Philae (Comet 67P)"],
+      lore: "Soviet probe Venera 7 in 1970 became the first human spacecraft to successfully land on another planet, surviving for 23 minutes under Venus's 475°C sulfuric acid inferno."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Fundamental medical discoveries or pharmaceutical breakthroughs that", variable: "were awarded a Nobel Prize in Physiology or Medicine",
+      answers: ["Penicillin / Antibiotics (Alexander Fleming)", "Insulin (Banting and Macleod)", "DNA Double Helix structure (Watson, Crick, Wilkins)", "X-rays (Wilhelm Röntgen)", "Blood Groups ABO (Karl Landsteiner)", "CRISPR gene editing (Doudna and Charpentier)", "Malaria treatments (Tu Youyou)"],
+      lore: "Alexander Fleming discovered penicillin in 1928 only because he left a stack of staphylococcus culture petri dishes unwashed near an open window before taking a two-week vacation."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Deep-sea marine species that inhabit the", variable: "abyssal or hadal zones of the ocean (below 3,000 meters)",
+      answers: ["Giant Isopod", "Viperfish", "Anglerfish", "Gulper Eel", "Dumbo Octopus", "Barreleye Fish", "Snailfish (Hadal zone)", "Fangtooth", "Colossal Squid"],
+      lore: "The Barreleye fish has a completely transparent, fluid-filled dome skull through which its glowing green tubular eyes rotate upward to spot silhouettes of prey above."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Types of optical or atmospheric visual phenomena produced by", variable: "light refraction, diffraction, or plasma in Earth's atmosphere",
+      answers: ["Aurora Borealis / Australis", "Mirage (Fata Morgana)", "Solar Halo (22° ring)", "Sundog (Parhelion)", "Green Flash", "Crepuscular Rays", "Moonbow (lunar rainbow)", "Light Pillars", "St. Elmo's Fire"],
+      lore: "A Fata Morgana mirage bends light rays over thermal inversions, projecting ghostly floating cities or towering cliffs at sea; historians suspect it gave birth to the Flying Dutchman legend."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Synthetic chemical elements on the periodic table that are", variable: "superheavy transuranium elements (Atomic Number 100+)",
+      answers: ["Fermium (100)", "Mendelevium (101)", "Nobelium (102)", "Lawrencium (103)", "Rutherfordium (104)", "Oganesson (118)", "Tennessine (117)", "Livermorium (116)", "Moscovium (115)", "Flerovium (114)"],
+      lore: "Oganesson, element 118, is named after nuclear physicist Yuri Oganessian; only a handful of individual atoms have ever been synthesized in particle accelerators, decaying in milliseconds."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Famous scientific thought experiments or conceptual paradoxes in", variable: "quantum mechanics, relativity, or philosophy",
+      answers: ["Schrödinger's Cat", "Maxwell's Demon", "Twin Paradox (Special Relativity)", "Fermi Paradox (Where are the aliens?)", "Trolley Problem", "Ship of Theseus", "Chinese Room (Searle)", "Einstein-Podolsky-Rosen (EPR) Paradox"],
+      lore: "Erwin Schrödinger originally devised the famous cat paradox in 1935 to highlight what he saw as the ridiculous absurdity of the Copenhagen interpretation of quantum superposition."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Astronomical objects classified as", variable: "stellar remnants or end-stage stellar corpses",
+      answers: ["White Dwarf", "Neutron Star", "Pulsar", "Magnetar", "Black Hole (Stellar Mass)", "Supermassive Black Hole", "Brown Dwarf", "Quark Star (theoretical)"],
+      lore: "A single teaspoon of matter from a neutron star would weigh roughly 6 billion tons on Earth—approximately equal to the weight of Mount Everest."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Types of naturally occurring volcanic or igneous rocks", variable: "formed from cooled lava or magma",
+      answers: ["Basalt", "Obsidian", "Pumice", "Granite", "Rhyolite", "Andesite", "Gabbro", "Diorite", "Scoria"],
+      lore: "Pumice is the only rock that can float on water because its sponge-like matrix of gas bubbles trapped during explosive volcanic eruptions gives it a density lower than water."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Biological cell organelles that contain their own", variable: "distinct independent DNA or double membrane",
+      answers: ["Mitochondria", "Chloroplasts (plant cells)", "Cell Nucleus"],
+      lore: "According to the endosymbiotic theory, mitochondria were once independent primitive aerobic bacteria that were swallowed by another single-celled organism roughly 1.5 billion years ago."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Species of birds that have completely lost", variable: "the ability to fly (flightless birds)",
+      answers: ["Ostrich", "Emu", "Penguin (all species)", "Kiwi", "Cassowary", "Kakapo (owl parrot)", "Rhea", "Takahe", "Flightless Cormorant"],
+      lore: "The Kakapo of New Zealand is the world's only flightless parrot; with no natural mammalian predators on the islands historically, it evolved to freeze motionless instead of fleeing."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Types of subatomic electromagnetic radiation on the spectrum", variable: "with wavelengths shorter than visible green light",
+      answers: ["Blue light", "Violet light", "Ultraviolet (UV)", "X-rays", "Gamma rays"],
+      lore: "Gamma-ray bursts from collapsing massive stars release more raw energy in ten seconds than our Sun will produce over its entire 10-billion-year lifespan."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Living reptile species with venom glands capable of", variable: "delivering medically significant bites to humans",
+      answers: ["King Cobra", "Black Mamba", "Inland Taipan", "Gila Monster", "Saw-scaled Viper", "Komodo Dragon", "Russell's Viper", "Boomslang", "Mexican Beaded Lizard"],
+      lore: "Australia's Inland Taipan has the most toxic venom of any reptile on Earth; a single strike contains enough neurotoxin to kill an estimated 100 adult humans."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Famous scientific spacecraft or observatories placed in orbit", variable: "specifically to image deep space or exoplanets",
+      answers: ["Hubble Space Telescope", "James Webb Space Telescope (JWST)", "Kepler Space Telescope", "Chandra X-ray Observatory", "Spitzer Space Telescope", "TESS (Transiting Exoplanet Survey Satellite)", "Gaia Observatory"],
+      lore: "The James Webb Space Telescope orbits the Sun 1.5 million kilometers away from Earth at the Second Lagrange Point (L2), shielded by a five-layer tennis-court-sized sunshield."
+    },
+    {
+      group: "nonpop", cat: "Science & Nature", cls: "cat-science",
+      base: "Types of renewable energy technology systems currently generating", variable: "commercial electrical grid power globally",
+      answers: ["Hydroelectric Dams", "Photovoltaic Solar Panels", "Onshore Wind Turbines", "Offshore Wind Farms", "Geothermal Power Plants", "Tidal Barrages", "Wave Energy Converters", "Biomass Incineration"],
+      lore: "Iceland generates nearly 100% of its domestic electricity and home heating purely from volcanic geothermal springs and glacial hydroelectric runoff."
+    },
+
+    // --- 4. SPORTS LORE (NO RUGBY / NO AMERICAN FOOTBALL) (14 Cards) ---
+    {
+      group: "nonpop", cat: "Sports Lore", cls: "cat-sports",
+      base: "Soccer players who have scored over", variable: "700 official senior career goals for club and country",
+      answers: ["Cristiano Ronaldo (900+)", "Lionel Messi (800+)", "Pelé", "Romário", "Ferenc Puskás", "Josef Bican", "Gerd Müller", "Robert Lewandowski"],
+      lore: "Josef Bican scored over 800 certified competitive goals across Austria and Czechoslovakia between 1931 and 1955, sprinting 100 meters in 10.8 seconds while wearing heavy leather boots."
+    },
+    {
+      group: "nonpop", cat: "Sports Lore", cls: "cat-sports",
+      base: "Formula 1 constructors (racing teams) that have captured", variable: "the FIA World Constructors' Championship multiple times",
+      answers: ["Ferrari (16 titles)", "Williams (9 titles)", "McLaren (8 titles)", "Mercedes (8 titles)", "Red Bull Racing (6 titles)", "Team Lotus (7 titles)", "Renault (2 titles)", "Brabham (2 titles)"],
+      lore: "Ferrari is the only constructor that has competed in every single season of the Formula 1 World Championship since the inaugural 1950 British Grand Prix at Silverstone."
+    },
+    {
+      group: "nonpop", cat: "Sports Lore", cls: "cat-sports",
+      base: "Male or female tennis champions who have achieved", variable: "the Career Grand Slam (winning Australian Open, French Open, Wimbledon, and US Open)",
+      answers: ["Roger Federer", "Rafael Nadal", "Novak Djokovic", "Serena Williams", "Steffi Graf", "Andre Agassi", "Rod Laver", "Maria Sharapova", "Fred Perry", "Billie Jean King"],
+      lore: "Steffi Graf in 1988 achieved the only 'Golden Slam' in tennis history by winning all four Grand Slam singles titles AND the Olympic Gold medal in Seoul in the same calendar year."
+    },
+    {
+      group: "nonpop", cat: "Sports Lore", cls: "cat-sports",
+      base: "Host countries of the FIFA Men's World Cup that", variable: "went on to win the tournament on their own home soil",
+      answers: ["Uruguay (1930)", "Italy (1934)", "England (1966)", "West Germany (1974)", "Argentina (1978)", "France (1998)"],
+      lore: "France won its first-ever World Cup at the Stade de France in 1998, with Zinedine Zidane scoring two first-half headers to defeat reigning champions Brazil 3–0."
+    },
+    {
+      group: "nonpop", cat: "Sports Lore", cls: "cat-sports",
+      base: "Legendary long-distance runners who have won", variable: "multiple Olympic Gold medals in track or marathon events",
+      answers: ["Usain Bolt (8 Golds)", "Mo Farah (4 Golds)", "Eliud Kipchoge (2 Marathon Golds)", "Haile Gebrselassie", "Kenenisa Bekele", "Emil Zátopek", "Paavo Nurmi (9 Golds)", "Abebe Bikila"],
+      lore: "Ethiopian runner Abebe Bikila won the 1960 Olympic Marathon through the cobblestone streets of Rome running completely barefoot, setting a new world record."
+    },
+    {
+      group: "nonpop", cat: "Sports Lore", cls: "cat-sports",
+      base: "Cricket bowlers who have taken over", variable: "500 career wickets in Men's Test Match cricket",
+      answers: ["Muttiah Muralitharan (800)", "Shane Warne (708)", "James Anderson (704)", "Anil Kumble (619)", "Stuart Broad (604)", "Glenn McGrath (563)", "Courtney Walsh (519)", "Nathan Lyon (500+)"],
+      lore: "Sri Lankan spin wizard Muttiah Muralitharan took an astounding 800 Test wickets, capturing his 800th wicket with the final ball of his final Test match in Galle in 2010."
+    },
+    {
+      group: "nonpop", cat: "Sports Lore", cls: "cat-sports",
+      base: "Professional combat sports heavyweights who won the", variable: "Undisputed World Heavyweight Boxing Championship",
+      answers: ["Muhammad Ali", "Mike Tyson", "Lennox Lewis", "Evander Holyfield", "Oleksandr Usyk", "Joe Frazier", "George Foreman", "Sonny Liston", "Larry Holmes"],
+      lore: "Mike Tyson became the youngest undisputed heavyweight champion in boxing history in 1986 at just 20 years and 4 months old after stopping Trevor Berbick in two rounds."
+    },
+    {
+      group: "nonpop", cat: "Sports Lore", cls: "cat-sports",
+      base: "Cities that have staged the famous", variable: "Formula 1 Monaco, British, Italian, or Belgian Grand Prix tracks",
+      answers: ["Monte Carlo (Monaco)", "Silverstone (UK)", "Monza (Italy)", "Spa-Francorchamps (Belgium)", "Imola (San Marino/Italy)", "Brands Hatch (UK)"],
+      lore: "The Monza circuit in Italy, nicknamed 'The Temple of Speed', has staged F1 Grands Prix where cars run at full throttle for over 75% of the total lap."
+    },
+    {
+      group: "nonpop", cat: "Sports Lore", cls: "cat-sports",
+      base: "Track and field athletes who held the", variable: "official World Record in the Men's 100-Meter Sprint (since 1980)",
+      answers: ["Usain Bolt (9.58s)", "Tyson Gay", "Asafa Powell (9.74s)", "Justin Gatlin", "Maurice Greene (9.79s)", "Donovan Bailey (9.84s)", "Carl Lewis (9.86s)"],
+      lore: "Usain Bolt ran 9.58 seconds at the 2009 Berlin World Championships, reaching a recorded peak foot speed of 44.72 km/h (27.78 mph) between meters 60 and 80."
+    },
+    {
+      group: "nonpop", cat: "Sports Lore", cls: "cat-sports",
+      base: "European soccer clubs that have won the domestic league, cup, and European Cup in a single season", variable: "(The Continental Treble)",
+      answers: ["Manchester City (2023)", "FC Barcelona (2009, 2015)", "Bayern Munich (2013, 2020)", "Inter Milan (2010)", "Manchester United (1999)", "Ajax (1972)", "PSV Eindhoven (1988)", "Celtic (1967)"],
+      lore: "Barcelona under Pep Guardiola in 2009 won all six available trophies in a single calendar year (the Sextuple), a feat matched only by Bayern Munich in 2020."
+    },
+    {
+      group: "nonpop", cat: "Sports Lore", cls: "cat-sports",
+      base: "Male basketball icons who have won", variable: "4 or more NBA Championships during their careers",
+      answers: ["Bill Russell (11)", "Michael Jordan (6)", "Kobe Bryant (5)", "Tim Duncan (5)", "Magic Johnson (5)", "Kareem Abdul-Jabbar (6)", "LeBron James (4)", "Stephen Curry (4)", "Shaquille O'Neal (4)"],
+      lore: "Boston Celtics center Bill Russell won 11 NBA Championships in his 13 seasons, meaning he has more championship rings than fingers to wear them on."
+    },
+    {
+      group: "nonpop", cat: "Sports Lore", cls: "cat-sports",
+      base: "Nations that have won the ICC Men's", variable: "T20 Cricket World Cup trophy",
+      answers: ["India (2007, 2024)", "England (2010, 2022)", "West Indies (2012, 2016)", "Pakistan (2009)", "Sri Lanka (2014)", "Australia (2021)"],
+      lore: "The inaugural 2007 ICC World Twenty20 in South Africa culminated in an iconic final over where India beat arch-rivals Pakistan by just 5 runs, triggering the creation of the IPL."
+    },
+    {
+      group: "nonpop", cat: "Sports Lore", cls: "cat-sports",
+      base: "Athletes who won 4 or more Gold medals at", variable: "a single Olympic Games competition",
+      answers: ["Michael Phelps (8 Golds in Beijing 2008)", "Mark Spitz (7 Golds in 1972)", "Jesse Owens (4 Golds in Berlin 1936)", "Carl Lewis (4 Golds in 1984)", "Simone Biles (4 Golds in 2016)", "Fanny Blankers-Koen (4 Golds in 1948)"],
+      lore: "Swimmer Michael Phelps has won 28 total Olympic medals—23 of them gold—making him by far the most decorated Olympian of all time."
+    },
+    {
+      group: "nonpop", cat: "Sports Lore", cls: "cat-sports",
+      base: "Active or historic cycling Grand Tour events", variable: "held annually across Europe",
+      answers: ["Tour de France", "Giro d'Italia", "Vuelta a España"],
+      lore: "Only seven cyclists in history have won all three Grand Tours over their careers: Jacques Anquetil, Felice Gimondi, Eddy Merckx, Bernard Hinault, Alberto Contador, Vincenzo Nibali, and Chris Froome."
+    },
+
+    // --- 5. GAMING & DIGITAL ECOSYSTEMS (POST-1990) (14 Cards) ---
+    {
+      group: "nonpop", cat: "Gaming & Tech", cls: "cat-gaming",
+      base: "Massive commercial video game hits that began life as", variable: "free community player mods of existing games",
+      answers: ["Counter-Strike (Half-Life mod)", "Dota 2 (Warcraft III mod)", "PlayerUnknown's Battlegrounds / PUBG (ARMA 2 mod)", "Team Fortress (Quake mod)", "DayZ (ARMA 2 mod)", "Garry's Mod (Half-Life 2)", "The Stanley Parable (Source mod)", "Auto Chess / Teamfight Tactics"],
+      lore: "Counter-Strike was created in 1999 by college students Minh Le and Jess Cliffe as a free hobby mod of Valve's Half-Life before Valve bought the rights and hired them."
+    },
+    {
+      group: "nonpop", cat: "Gaming & Tech", cls: "cat-gaming",
+      base: "Classic 1990s real-time strategy (RTS) PC games that", variable: "defined competitive PC gaming esports",
+      answers: ["StarCraft (Brood War)", "Warcraft: Orcs & Humans / Warcraft II", "Age of Empires (I & II)", "Command & Conquer (Red Alert)", "Total Annihilation", "Dune II: The Building of a Dynasty", "Homeworld"],
+      lore: "StarCraft: Brood War became so popular in South Korea during the 2000s that competitive matches were broadcast live 24/7 across dedicated cable TV stations to packed stadiums."
+    },
+    {
+      group: "nonpop", cat: "Gaming & Tech", cls: "cat-gaming",
+      base: "Video games celebrated by the speedrunning community for", variable: "record-breaking movement glitches and sequence breaks",
+      answers: ["Super Mario 64", "The Legend of Zelda: Ocarina of Time", "Portal", "Super Metroid", "Dark Souls", "Celeste", "Half-Life", "Doom (1993)"],
+      lore: "Speedrunners beat The Legend of Zelda: Ocarina of Time in under 7 minutes using an arbitrary code execution bug that writes new instructions directly into Nintendo 64 RAM using controller inputs."
+    },
+    {
+      group: "nonpop", cat: "Gaming & Tech", cls: "cat-gaming",
+      base: "First-person shooter multiplayer games renowned for", variable: "distinct hero character abilities or operator gadgets",
+      answers: ["Overwatch / Overwatch 2", "Valorant", "Tom Clancy's Rainbow Six Siege", "Apex Legends", "Team Fortress 2", "Paladins"],
+      lore: "Team Fortress 2 spent nine years in development hell starting in 1998 with hyper-realistic military graphics before Valve completely scrapped it for 1960s Pixar-style comic art."
+    },
+    {
+      group: "nonpop", cat: "Gaming & Tech", cls: "cat-gaming",
+      base: "Iconic video game items or power-ups that grant", variable: "temporary invincibility, revival, or flight",
+      answers: ["Super Star / Starman (Super Mario)", "Fairy in a Bottle (Zelda)", "Aegis of the Immortal (Dota 2)", "P.E.N.T.A. / Golden Gun", "Halo Overshield", "Chaos Emeralds / Super Sonic", "Mega Mushroom"],
+      lore: "The Super Star invincibility theme in Super Mario Bros. was composed by Koji Kondo on an 8-bit synthesizer using rapid calypso syncopation to convey frantic urgency."
+    },
+    {
+      group: "nonpop", cat: "Gaming & Tech", cls: "cat-gaming",
+      base: "Indie video games developed by small teams that went on to", variable: "sell over 5 Million copies worldwide",
+      answers: ["Undertale (Toby Fox)", "Hollow Knight (Team Cherry)", "Stardew Valley (ConcernedApe)", "Cuphead (Studio MDHR)", "Hades (Supergiant Games)", "Terraria (Re-Logic)", "Shovel Knight", "Among Us (Innersloth)"],
+      lore: "Eric Barone (ConcernedApe) developed Stardew Valley completely by himself over four and a half years, authoring every single line of code, dialogue, pixel art sprite, and musical note."
+    },
+    {
+      group: "nonpop", cat: "Gaming & Tech", cls: "cat-gaming",
+      base: "Iconic fighting game franchises with", variable: "active tournament circuits at EVO (Evolution Championship Series)",
+      answers: ["Street Fighter (Capcom)", "Tekken (Bandai Namco)", "Mortal Kombat (NetherRealm)", "Super Smash Bros. (Nintendo)", "Guilty Gear (Arc System Works)", "The King of Fighters (SNK)", "Dragon Ball FighterZ"],
+      lore: "At EVO 2004, Daigo Umehara pulled off 'Evo Moment #37' by parrying 15 consecutive airborne kicks from Justin Wong's Chun-Li with 1 pixel of health before winning the match."
+    },
+    {
+      group: "nonpop", cat: "Gaming & Tech", cls: "cat-gaming",
+      base: "Open-world role-playing games developed by", variable: "Bethesda Game Studios or CD Projekt Red",
+      answers: ["The Elder Scrolls V: Skyrim", "The Elder Scrolls IV: Oblivion", "The Elder Scrolls III: Morrowind", "Fallout 3", "Fallout 4", "The Witcher 3: Wild Hunt", "Cyberpunk 2077"],
+      lore: "Skyrim's iconic voice line 'I used to be an adventurer like you, then I took an arrow in the knee' was penned as a throwaway ambient line by Bethesda designer Emil Pagliarulo."
+    },
+    {
+      group: "nonpop", cat: "Gaming & Tech", cls: "cat-gaming",
+      base: "Survival crafting sandbox games where players", variable: "gather raw materials to construct shelter from hostile wildlife",
+      answers: ["Minecraft", "Terraria", "Rust", "The Forest / Sons of the Forest", "Ark: Survival Evolved", "Valheim", "Don't Starve", "Subnautica", "Raft"],
+      lore: "Subnautica was intentionally designed without lethal firearms following the Sandy Hook school shooting, forcing players to rely on evasion, scanners, and submarines."
+    },
+    {
+      group: "nonpop", cat: "Gaming & Tech", cls: "cat-gaming",
+      base: "Signature sound design effects in gaming that are", variable: "instantly recognizable within one second of audio",
+      answers: ["Metal Gear Solid Alert sound (!) ", "Sonic the Hedgehog Ring collection", "Super Mario Coin ding", "Minecraft Hurt sound (Oof)", "Pac-Man Waka-Waka", "Zelda Secret Discovery chime", "Counter-Strike 'Bomb has been planted'"],
+      lore: "The iconic Metal Gear Solid alert noise ('!') was synthesized by combining an orchestral brass hit with a high-pitched Japanese electronic alert tone."
+    },
+    {
+      group: "nonpop", cat: "Gaming & Tech", cls: "cat-gaming",
+      base: "Major video game publishers with annual revenues", variable: "exceeding $3 Billion USD",
+      answers: ["Sony Interactive Entertainment", "Tencent Games", "Microsoft Gaming / Xbox", "Nintendo", "Electronic Arts (EA)", "Take-Two Interactive", "Ubisoft", "Bandai Namco"],
+      lore: "Microsoft acquired Activision Blizzard in 2023 for $68.7 Billion, making it the largest corporate transaction in video game history."
+    },
+    {
+      group: "nonpop", cat: "Gaming & Tech", cls: "cat-gaming",
+      base: "Games that feature post-apocalyptic nuclear wastelands", variable: "as their primary setting",
+      answers: ["Fallout series", "Metro 2033 / Metro Exodus", "S.T.A.L.K.E.R. series", "Wasteland series", "Mad Max (2015)", "RAGE", "Far Cry New Dawn"],
+      lore: "The S.T.A.L.K.E.R. video game series was developed by Ukrainian studio GSC Game World, whose developers personally toured the Chernobyl Exclusion Zone to map reactor ruins accurately."
+    },
+    {
+      group: "nonpop", cat: "Gaming & Tech", cls: "cat-gaming",
+      base: "Iconic video game companions, sidekicks, or AI assistants who", variable: "travel alongside the main protagonist",
+      answers: ["Cortana (Halo / Master Chief)", "Ellie (The Last of Us)", "Atreus (God of War)", "Clank (Ratchet & Clank)", "Diddy Kong (Donkey Kong)", "Garrus Vakarian (Mass Effect)", "Tails (Sonic)", "Navi (Zelda)"],
+      lore: "Microsoft liked Bungie's Halo AI character Cortana so much that they named their real-world Windows voice assistant software after her, hiring original voice actress Jen Taylor."
+    },
+    {
+      group: "nonpop", cat: "Gaming & Tech", cls: "cat-gaming",
+      base: "Rhythm and music simulation video games that", variable: "used physical instrument peripherals or dance pads",
+      answers: ["Guitar Hero", "Rock Band", "Dance Dance Revolution (DDR)", "Beat Saber (VR controllers)", "Taiko no Tatsujin (drum)", "Donkey Konga (bongos)", "DJ Hero (turntable)"],
+      lore: "Guitar Hero III: Legends of Rock was the first individual video game retail release in history to surpass $1 Billion in total sales."
+    },
+
+    // --- 6. GLOBAL BRANDS, FOOD LORE & POP DISASTERS (12 Cards) ---
+    {
+      group: "nonpop", cat: "Brands & Chaos", cls: "cat-chaos",
+      base: "Culinary dishes or foods with a geographic city or country in their name", variable: "that did NOT actually originate in that place",
+      answers: ["French Fries (originated in Belgium)", "Hawaiian Pizza (invented in Ontario, Canada)", "German Chocolate Cake (named after American baker Samuel German)", "Fortune Cookies (invented in Japan/San Francisco)", "Chop Suey (invented in the USA)", "English Muffin (invented in New York)", "Danishes (invented in Austria)"],
+      lore: "Greek-Canadian cook Sam Panopoulos invented Hawaiian Pizza at the Satellite Restaurant in Chatham, Ontario in 1962, naming it 'Hawaiian' simply after the brand of canned pineapple used."
+    },
+    {
+      group: "nonpop", cat: "Brands & Chaos", cls: "cat-chaos",
+      base: "Global airline alliance consortiums or their", variable: "founding flagship member carriers",
+      answers: ["Star Alliance (Lufthansa, United, Air Canada, Singapore Airlines)", "SkyTeam (Delta, Air France, KLM)", "oneworld (British Airways, American Airlines, Qantas, Cathay Pacific)"],
+      lore: "Star Alliance was founded in 1997 by five airlines from three continents, establishing the first global codeshare loyalty system in commercial aviation history."
+    },
+    {
+      group: "nonpop", cat: "Brands & Chaos", cls: "cat-chaos",
+      base: "Billion-dollar luxury goods conglomerates that own", variable: "dozens of high-fashion and jewelry houses",
+      answers: ["LVMH (Moët Hennessy Louis Vuitton)", "Kering (Gucci, Balenciaga, Saint Laurent)", "Richemont (Cartier, Montblanc, IWC)", "Capri Holdings (Versace, Michael Kors)", "Prada Group", "Tapestry (Coach, Kate Spade)"],
+      lore: "LVMH chairman Bernard Arnault briefly became the richest person in the world in 2023, presiding over an empire of 75 luxury houses including Dior, Tiffany & Co., and Dom Pérignon."
+    },
+    {
+      group: "nonpop", cat: "Brands & Chaos", cls: "cat-chaos",
+      base: "Fast-food menu innovations that were permanent runaway successes", variable: "invented by individual franchise operators",
+      answers: ["Filet-O-Fish (McDonald's - Lou Groen for Catholic Lent)", "Big Mac (McDonald's - Jim Delligatti)", "Egg McMuffin (McDonald's - Herb Peterson)", "Whopper (Burger King)", "KFC Extra Crispy Chicken", "Wendy's Frosty"],
+      lore: "Cincinnati McDonald's franchisee Lou Groen created the Filet-O-Fish in 1962 because his store was losing Friday sales to a nearby Frisch's Big Boy in a heavily Roman Catholic neighborhood."
+    },
+    {
+      group: "nonpop", cat: "Brands & Chaos", cls: "cat-chaos",
+      base: "Household consumer products that were originally invented", variable: "for a completely different purpose than how they are used today",
+      answers: ["Play-Doh (invented as wallpaper soot cleaner)", "Bubble Wrap (invented as textured wallpaper)", "Listerine (invented as surgical floor antiseptic)", "Viagra (tested as heart medication for angina)", "Kotex (surgical bandage material)", "Silly Putty (failed synthetic rubber)"],
+      lore: "Play-Doh was manufactured in the 1930s by Kutol Products to clean coal residue from wallpaper; when gas furnaces replaced coal, the company reformulated the dough into a non-toxic modeling clay toy."
+    },
+    {
+      group: "nonpop", cat: "Brands & Chaos", cls: "cat-chaos",
+      base: "Famous marketing campaigns with signature catchphrases", variable: "that entered the cultural lexicon",
+      answers: ["Nike ('Just Do It')", "Apple ('Think Different')", "McDonald's ('I'm Lovin' It')", "De Beers ('A Diamond is Forever')", "Wendy's ('Where's the Beef?')", "L'Oréal ('Because You're Worth It')", "KFC ('Finger Lickin' Good')", "Mastercard ('Priceless')"],
+      lore: "Advertising executive Dan Wieden credited murderer Gary Gilmore's final words before execution ('Let's do it') as the direct inspiration for Nike's 'Just Do It' slogan in 1988."
+    },
+    {
+      group: "nonpop", cat: "Brands & Chaos", cls: "cat-chaos",
+      base: "Iconic coffee drink varieties recognized", variable: "in espresso bar terminology worldwide",
+      answers: ["Espresso", "Cappuccino", "Caffè Latte", "Americano", "Flat White", "Macchiato", "Mocha", "Cortado", "Affogato"],
+      lore: "The Caffè Americano was coined during World War II when American GIs stationed in Italy found local espresso too strong and diluted it with hot water."
+    },
+    {
+      group: "nonpop", cat: "Brands & Chaos", cls: "cat-chaos",
+      base: "Famous food or soda products that were", variable: "officially banned or recalled in multiple countries for health regulations",
+      answers: ["Original Four Loko (caffeine and alcohol combo banned)", "Olestra / WOW Potato Chips (digestive leakage warnings)", "Mountain Dew (brominated vegetable oil BVO ban)", "Chlorinated Chicken", "Kinder Surprise Eggs (US choking hazard ban)", "Red Bull (temporarily banned in France)"],
+      lore: "The US banned Kinder Surprise chocolate eggs under the 1938 Food, Drug, and Cosmetic Act, which forbids embedding non-nutritive toy objects inside confectionary products."
+    },
+    {
+      group: "nonpop", cat: "Brands & Chaos", cls: "cat-chaos",
+      base: "World-renowned alcoholic spirits classified by", variable: "strict protected designation of origin (PDO) geographic laws",
+      answers: ["Champagne (Champagne region, France)", "Cognac (Cognac, France)", "Tequila (Jalisco, Mexico)", "Scotch Whisky (Scotland)", "Bourbon (USA)", "Pisco (Peru/Chile)", "Chianti (Tuscany, Italy)", "Port Wine (Douro Valley, Portugal)"],
+      lore: "Under international treaty law, sparkling wine cannot legally be labeled 'Champagne' anywhere in the European Union unless the grapes are grown and bottled in the Champagne region of France."
+    },
+    {
+      group: "nonpop", cat: "Brands & Chaos", cls: "cat-chaos",
+      base: "Global tech hardware device flops that", variable: "were pulled from shelves after catastrophic market failure",
+      answers: ["Samsung Galaxy Note 7 (exploding batteries)", "Apple Newton", "Google Glass", "Amazon Fire Phone", "Microsoft Zune", "Segway (never met sales projections)", "PlayStation 3D Display"],
+      lore: "The Federal Aviation Administration made it a federal crime to bring a Samsung Galaxy Note 7 onto any commercial flight in 2016 due to over 100 cases of spontaneous battery fires."
+    },
+    {
+      group: "nonpop", cat: "Brands & Chaos", cls: "cat-chaos",
+      base: "Major retail department stores or big-box chains that", variable: "filed for Chapter 11 bankruptcy or liquidated all physical stores",
+      answers: ["Toys 'R' Us", "Blockbuster Video", "Sears", "Kmart", "Circuit City", "RadioShack", "Bed Bath & Beyond", "JCPenney", "Borders Books"],
+      lore: "In the year 2000, Blockbuster had the opportunity to purchase an upstart DVD-by-mail company named Netflix for $50 Million; Blockbuster's CEO laughed the offer out of the boardroom."
+    },
+    {
+      group: "nonpop", cat: "Brands & Chaos", cls: "cat-chaos",
+      base: "Types of internationally recognized cheeses protected by", variable: "strict European appellation of origin laws",
+      answers: ["Parmigiano-Reggiano (Italy)", "Roquefort (France)", "Feta (Greece)", "Gorgonzola (Italy)", "Camembert de Normandie (France)", "Manchego (Spain)", "Gouda (Netherlands)", "Stilton (UK)"],
+      lore: "Authentic Parmigiano-Reggiano wheels are tested with a special silver hammer by master inspectors who listen to the acoustic vibration of each cheese wheel to detect internal structural cracks."
+    },
+
+    // --- 7. BOLLYWOOD & PUNJABI MUSIC/CINEMA (14 Cards) ---
+    {
+      group: "nonpop", cat: "Bollywood & Punjabi", cls: "cat-bollywood",
+      base: "Classic Hindi multi-starrer blockbuster movies featuring", variable: "three or more A-list lead superstars sharing top billing",
+      answers: ["Sholay (Amitabh, Dharmendra, Sanjeev Kumar)", "Kabhi Khushi Kabhie Gham (SRK, Amitabh, Hrithik)", "Amar Akbar Anthony", "Dil Chahta Hai (Aamir, Saif, Akshaye Khanna)", "Zindagi Na Milegi Dobara (Hrithik, Farhan, Abhay Deol)", "War (Hrithik & Tiger)", "Border (Sunny Deol, Suniel Shetty, Akshaye Khanna)"],
+      lore: "Director Ramesh Sippy's 1975 epic 'Sholay' ran continuously for over five years at Mumbai's Minerva Theatre, pioneering stereophonic sound in Indian cinema."
+    },
+    {
+      group: "nonpop", cat: "Bollywood & Punjabi", cls: "cat-bollywood",
+      base: "Legendary Indian poets and lyricists who wrote", variable: "defining lyrics for generations of Hindi film soundtracks",
+      answers: ["Javed Akhtar", "Gulzar", "Sahir Ludhianvi", "Anand Bakshi", "Majrooh Sultanpuri", "Prasoon Joshi", "Sameer", "Amitabh Bhattacharya", "Irshad Kamil"],
+      lore: "Gulzar won both an Academy Award and a Grammy Award in 2009 for penning the lyrics to 'Jai Ho' from Slumdog Millionaire, composed by A.R. Rahman."
+    },
+    {
+      group: "nonpop", cat: "Bollywood & Punjabi", cls: "cat-bollywood",
+      base: "Hindi cinema movies that swept the Filmfare Awards by", variable: "winning Best Film, Best Director, Best Actor, and Best Actress",
+      answers: ["Dilwale Dulhania Le Jayenge (1995)", "Kuch Kuch Hota Hai (1998)", "Devdas (2002)", "Black (2005)", "Gully Boy (2019 - won record 13 Filmfare awards)", "Barfi! (2012)"],
+      lore: "Zoya Akhtar's 'Gully Boy' set an all-time record at the 65th Filmfare Awards in 2020 by winning 13 awards, breaking the previous 11-award record held by 'Black'."
+    },
+    {
+      group: "nonpop", cat: "Bollywood & Punjabi", cls: "cat-bollywood",
+      base: "Legendary Punjabi folk instruments played in", variable: "traditional Bhangra, Malwai, and Sufi compositions",
+      answers: ["Dhol", "Tumbi", "Algoze (double flute)", "Chimta", "Sarangi", "Dhad", "Bugchu", "Kato"],
+      lore: "The single-stringed Tumbi was popularized worldwide by Punjabi folk legend Lal Chand Yamla Jatt and producer Panjabi MC on the crossover smash 'Mundian To Bach Ke'."
+    },
+    {
+      group: "nonpop", cat: "Bollywood & Punjabi", cls: "cat-bollywood",
+      base: "Famous fictional movie characters or screen aliases", variable: "whose names became pop culture nicknames across India",
+      answers: ["Gabbar Singh (Sholay)", "Mogambo (Mr. India)", "Crime Master Gogo (Andaz Apna Apna)", "Vijay Dinanath Chauhan (Agneepath)", "Chulbul Pandey (Dabangg)", "Kabir Khan (Chak De! India)", "Circuit (Munna Bhai M.B.B.S.)", "Virus (3 Idiots)"],
+      lore: "Amrish Puri's catchphrase 'Mogambo khush hua' from the 1987 sci-fi superhero film Mr. India became one of the most quoted villain lines in South Asian cinematic history."
+    },
+    {
+      group: "nonpop", cat: "Bollywood & Punjabi", cls: "cat-bollywood",
+      base: "Popular Punjabi diaspora record labels or music collectives that", variable: "pioneered the UK or Canadian Punjabi urban sound",
+      answers: ["Moviebox (UK)", "Panjabi MC Productions", "VIP Records", "Speed Records", "Run-Up Records", "4N Records (Ikky)", "Brown Studios", "Vehli Janta Records"],
+      lore: "Panjabi MC's 1998 track 'Mundian To Bach Ke' combined Labh Janjua's folk vocals with the bassline from the Knight Rider theme, eventually featuring Jay-Z on a global remix."
+    },
+    {
+      group: "nonpop", cat: "Bollywood & Punjabi", cls: "cat-bollywood",
+      base: "Hindi sports drama movies inspired by", variable: "real-life Indian athletic heroes and true events",
+      answers: ["Dangal (Phogat sisters / wrestling)", "Bhaag Milkha Bhaag (Milkha Singh / track)", "Chak De! India (Mir Ranjan Negi / field hockey)", "M.S. Dhoni: The Untold Story (cricket)", "Mary Kom (boxing)", "83 (1983 Cricket World Cup)", "Paan Singh Tomar (steeplechase)"],
+      lore: "Milkha Singh sold the rights to film his life story 'Bhaag Milkha Bhaag' to director Rakeysh Omprakash Mehra for the ceremonial fee of just 1 Rupee."
+    },
+    {
+      group: "nonpop", cat: "Bollywood & Punjabi", cls: "cat-bollywood",
+      base: "Blockbuster franchise sequel film series in", variable: "mainstream Hindi Bollywood cinema",
+      answers: ["Dhoom (1, 2, 3)", "Krrish / Koi... Mil Gaya series", "Don (1 & 2 - Farhan Akhtar)", "Hera Pheri / Phir Hera Pheri", "Dabangg (1, 2, 3)", "Tiger spy franchise (Ek Tha Tiger, Tiger Zinda Hai)", "Singham / Cop Universe", "Golmaal (1, 2, 3, 4)"],
+      lore: "The YRF Spy Universe officially linked Shah Rukh Khan's 'Pathaan', Salman Khan's 'Tiger', and Hrithik Roshan's 'War' into a shared crossover cinematic universe."
+    },
+    {
+      group: "nonpop", cat: "Bollywood & Punjabi", cls: "cat-bollywood",
+      base: "Punjabi vocalists who gained international fame for", variable: "heartfelt Sufi, qawwali, or emotional folk ballads",
+      answers: ["Gurdas Maan", "Nusrat Fateh Ali Khan", "Satinder Sartaaj", "Harbhajan Mann", "Surinder Kaur", "Wadali Brothers", "Kanwar Grewal", "Lakhwinder Wadali"],
+      lore: "Gurdas Maan's 1980 national television performance of 'Dil Da Mamla Hai' on Doordarshan revolutionized modern Punjabi popular recorded music overnight."
+    },
+    {
+      group: "nonpop", cat: "Bollywood & Punjabi", cls: "cat-bollywood",
+      base: "Bollywood horror-comedy movies that became", variable: "major box office hits",
+      answers: ["Bhool Bhulaiyaa (1 & 2)", "Stree (1 & 2)", "Bhediya", "Munjya", "Go Goa Gone (Zombie comedy)", "Bhoothnath", "Roohi"],
+      lore: "Stree 2 shattered box office records in 2024 to become the highest-grossing Hindi language film in Indian domestic box office history."
+    },
+    {
+      group: "nonpop", cat: "Bollywood & Punjabi", cls: "cat-bollywood",
+      base: "Classic Hindi songs composed by the iconic", variable: "trio Shankar-Ehsaan-Loy",
+      answers: ["Kal Ho Naa Ho", "Dil Chahta Hai title track", "Mitwa (Kabhi Alvida Naa Kehna)", "Maa (Taare Zameen Par)", "Rock On!!", "Kajra Re (Bunty Aur Babli)", "Uff Teri Ada", "Senorita (ZNMD)"],
+      lore: "'Kajra Re' from Bunty Aur Babli featured Amitabh Bachchan, Abhishek Bachchan, and Aishwarya Rai dancing together on screen for the first time before Abhishek and Aishwarya married."
+    },
+    {
+      group: "nonpop", cat: "Bollywood & Punjabi", cls: "cat-bollywood",
+      base: "Punjabi singers who successfully transitioned into", variable: "superstar leading actors in Punjabi and Hindi feature cinema",
+      answers: ["Diljit Dosanjh", "Ammy Virk", "Gippy Grewal", "Amrinder Gill", "Harbhajan Mann", "Parmish Verma", "Jassie Gill", "Babbu Maan"],
+      lore: "Diljit Dosanjh won the Filmfare Award for Best Male Debut for his Bollywood debut in 2016's crime drama 'Udta Punjab' alongside Kareena Kapoor and Shahid Kapoor."
+    },
+    {
+      group: "nonpop", cat: "Bollywood & Punjabi", cls: "cat-bollywood",
+      base: "Acclaimed Hindi crime and underworld films directed by", variable: "Anurag Kashyap or Ram Gopal Varma",
+      answers: ["Gangs of Wasseypur (Part 1 & 2)", "Satya (1998)", "Company (2002)", "Black Friday (2004)", "Sarkar", "Raman Raghav 2.0", "Ugly"],
+      lore: "Ram Gopal Varma's 'Satya' in 1998 launched the realistic Mumbai underworld cinema movement and made Manoj Bajpayee a national star for playing gangster Bhiku Mhatre."
+    },
+    {
+      group: "nonpop", cat: "Bollywood & Punjabi", cls: "cat-bollywood",
+      base: "Acclaimed Indian parallel or indie films that", variable: "premiered or won awards at the Cannes Film Festival",
+      answers: ["All We Imagine as Light (Payal Kapadia - Grand Prix 2024)", "The Lunchbox (Ritesh Batra)", "Gangs of Wasseypur (Directors' Fortnight)", "Masaan (Neeraj Ghaywan)", "Pather Panchali (Satyajit Ray)", "Salaam Bombay! (Mira Nair)"],
+      lore: "Payal Kapadia's 'All We Imagine as Light' won the prestigious Grand Prix at the 2024 Cannes Film Festival, the first Indian film to win the honor in 30 years."
+    },
+
+    // --- 8. WESTERN POP CULTURE (POST-1980 ONLY) (18 Cards) ---
+    {
+      group: "pop", cat: "Pop Culture", cls: "cat-pop",
+      base: "Feature films that won 9 or more", variable: "Academy Awards (Oscars) in a single night (post-1980)",
+      answers: ["The Lord of the Rings: The Return of the King (11 wins - 2003)", "Titanic (11 wins - 1997)", "The English Patient (9 wins - 1996)", "The Last Emperor (9 wins - 1987)"],
+      lore: "'The Return of the King' won all 11 Oscars it was nominated for in 2004, achieving the biggest clean sweep in Academy Awards history."
+    },
+    {
+      group: "pop", cat: "Music", cls: "cat-music",
+      base: "Original soundtrack songs written for Hollywood movies that", variable: "topped the Billboard Hot 100 chart (post-1980)",
+      answers: ["Whitney Houston – 'I Will Always Love You' (The Bodyguard)", "Celine Dion – 'My Heart Will Go On' (Titanic)", "Eminem – 'Lose Yourself' (8 Mile)", "Pharrell Williams – 'Happy' (Despicable Me 2)", "Coolio – 'Gangsta's Paradise' (Dangerous Minds)", "Bryan Adams – '(Everything I Do) I Do It for You' (Robin Hood)", "Prince – 'Batdance' (Batman)", "Will Smith – 'Men in Black'"],
+      lore: "Eminem was so convinced he had no chance of winning the Best Original Song Oscar for 'Lose Yourself' in 2003 that he didn't attend the ceremony and fell asleep at home watching cartoons with his daughter."
+    },
+    {
+      group: "pop", cat: "Movies", cls: "cat-movies",
+      base: "Films distributed by independent studio A24 that", variable: "earned critical acclaim or won Academy Awards",
+      answers: ["Everything Everywhere All at Once", "Moonlight", "Uncut Gems", "Hereditary", "Midsommar", "Lady Bird", "The Whale", "Ex Machina", "The Zone of Interest", "Past Lives"],
+      lore: "'Everything Everywhere All at Once' became the most-awarded film in cinema history, surpassing 'The Return of the King' across all international film bodies."
+    },
+    {
+      group: "pop", cat: "Music", cls: "cat-music",
+      base: "Iconic music videos that caused intense controversy and were", variable: "censored or banned from daytime broadcast by MTV (post-1980)",
+      answers: ["Madonna – 'Justify My Love' (1990)", "Robin Thicke ft. Pharrell – 'Blurred Lines' (2013)", "The Prodigy – 'Smack My Bitch Up' (1997)", "Nine Inch Nails – 'Closer' (1994)", "Blink-182 – 'What's My Age Again?' (nudity blur)", "Michael Jackson – 'Black or White' (street panther vandalism ending)", "Queen – 'I Want to Break Free' (cross-dressing drag parody)"],
+      lore: "MTV banned Madonna's 'Justify My Love' video in 1990 for explicit sexual content; Madonna released it commercially on VHS single, making it the best-selling video single of all time."
+    },
+    {
+      group: "pop", cat: "Pop Culture", cls: "cat-pop",
+      base: "Critically acclaimed television series that concluded with", variable: "widely polarizing or highly debated finale episodes",
+      answers: ["Game of Thrones", "Lost", "The Sopranos (cut to black)", "Dexter", "How I Met Your Mother", "Seinfeld (jail sentence)", "Battlestar Galactica", "True Blood"],
+      lore: "The Sopranos finale cut abruptly to silent black mid-sentence while Journey's 'Don't Stop Believin'' played in 2007, prompting millions of viewers to call their cable providers believing their signals had died."
+    },
+    {
+      group: "pop", cat: "Movies", cls: "cat-movies",
+      base: "Celebrated coming-of-age teen movies released in", variable: "the 1980s or 1990s directed by John Hughes or Amy Heckerling",
+      answers: ["The Breakfast Club", "Ferris Bueller's Day Off", "Clueless", "Fast Times at Ridgemont High", "Pretty in Pink", "Sixteen Candles", "Weird Science", "Look Who's Talking"],
+      lore: "John Hughes wrote the entire 90-page script for 'Ferris Bueller's Day Off' in under a week to avoid an impending Writers Guild strike in 1985."
+    },
+    {
+      group: "pop", cat: "Music", cls: "cat-music",
+      base: "Solo female vocalists who had", variable: "5 or more Billboard Hot 100 #1 singles in the 1990s decade",
+      answers: ["Mariah Carey (14 #1 hits in the 90s)", "Janet Jackson", "Whitney Houston", "Celine Dion", "Madonna"],
+      lore: "Mariah Carey spent a staggering 60 cumulative weeks at #1 on the Billboard Hot 100 in the 1990s alone, more than any other artist in that decade."
+    },
+    {
+      group: "pop", cat: "Pop Culture", cls: "cat-pop",
+      base: "Celebrity reality TV franchises that have produced", variable: "more than 10 broadcast seasons on television",
+      answers: ["Keeping Up with the Kardashians", "The Real Housewives (Orange County, NYC, Beverly Hills)", "Survivor", "The Bachelor / The Bachelorette", "RuPaul's Drag Race", "Big Brother", "American Idol", "The Voice"],
+      lore: "Survivor has filmed continuously on the Mamanuca Islands of Fiji for every single season since 2016 due to an exclusive multi-year tax rebate agreement with the Fijian government."
+    },
+    {
+      group: "pop", cat: "Movies", cls: "cat-movies",
+      base: "Cyberpunk or virtual reality sci-fi movies released", variable: "between 1980 and 2005",
+      answers: ["The Matrix (1999)", "Blade Runner (1982)", "Total Recall (1990)", "Minority Report (2002)", "Ghost in the Shell (1995)", "Tron (1982)", "RoboCop (1987)", "Strange Days (1995)", "Johnny Mnemonic (1995)"],
+      lore: "The cascading green digital rain code in The Matrix was created by production designer Simon Whiteley, who scanned symbols directly from his Japanese wife's sushi cookbooks."
+    },
+    {
+      group: "pop", cat: "Music", cls: "cat-music",
+      base: "Bands or artists who performed at the historic", variable: "Live Aid charity concerts at Wembley and JFK Stadium in July 1985",
+      answers: ["Queen (Freddie Mercury)", "U2 (Bono)", "David Bowie", "Elton John", "Phil Collins (performed in London AND Philadelphia same day)", "Madonna", "Led Zeppelin", "Paul McCartney", "The Who", "Run-D.M.C."],
+      lore: "Phil Collins performed his set at Wembley Stadium in London, boarded a supersonic British Airways Concorde flight across the Atlantic, and played his second set at JFK Stadium in Philadelphia that same afternoon."
+    },
+    {
+      group: "pop", cat: "Movies", cls: "cat-movies",
+      base: "Horror franchise killers or supernatural stalkers that", variable: "headline 4 or more movie installments (post-1980)",
+      answers: ["Jason Voorhees (Friday the 13th)", "Freddy Krueger (A Nightmare on Elm Street)", "Chucky (Child's Play)", "Ghostface (Scream)", "Jigsaw / John Kramer (Saw)", "Pinhead (Hellraiser)", "Leatherface", "Michael Myers"],
+      lore: "Freddy Krueger's look in Wes Craven's 'A Nightmare on Elm Street' was based on an eerie disfigured beggar who stared at Craven through his childhood window, combined with his phobia of clashing red and olive-green sweater dyes."
+    },
+    {
+      group: "pop", cat: "Music", cls: "cat-music",
+      base: "Hip-hop and pop albums that achieved", variable: "over 1 Million first-week sales in the United States",
+      answers: ["Eminem – The Marshall Mathers LP (1.76M in 2000)", "Adele – 25 (3.38M in 2015)", "NSYNC – No Strings Attached (2.42M in 2000)", "Taylor Swift – 1989 (1.28M)", "Britney Spears – Oops!... I Did It Again (1.31M)", "50 Cent – The Massacre (1.14M)", "Lil Wayne – Tha Carter III (1M+)"],
+      lore: "Adele's '25' sold 3.38 million copies in its first week in the US in November 2015, shattering the all-time SoundScan era record held for 15 years by NSYNC."
+    },
+    {
+      group: "pop", cat: "Movies", cls: "cat-movies",
+      base: "Feature films where an actor was nominated for an Oscar for", variable: "playing a real-life US President or British Royal family monarch (post-1980)",
+      answers: ["Daniel Day-Lewis as Abraham Lincoln (Lincoln)", "Colin Firth as King George VI (The King's Speech)", "Helen Mirren as Queen Elizabeth II (The Queen)", "Anthony Hopkins as Richard Nixon (Nixon)", "Josh Brolin as George W. Bush (W.)", "Kristen Stewart as Princess Diana (Spencer)"],
+      lore: "Colin Firth took private vocal therapy for five months to learn King George VI's debilitating stammer for 'The King's Speech', admitting he struggled to drop the vocal tic for months after filming wrapped."
+    },
+    {
+      group: "pop", cat: "Pop Culture", cls: "cat-pop",
+      base: "Late-night American comedic television show hosts who", variable: "anchored their own network broadcast show for over a decade",
+      answers: ["David Letterman", "Jay Leno", "Conan O'Brien", "Jimmy Fallon", "Jimmy Kimmel", "Jon Stewart (The Daily Show)", "Stephen Colbert", "Craig Ferguson"],
+      lore: "David Letterman hosted 6,080 late-night episodes across NBC and CBS over 33 continuous years, surpassing his mentor Johnny Carson as the longest-serving late-night talk show host in US history."
+    },
+    {
+      group: "pop", cat: "Music", cls: "cat-music",
+      base: "Pop and rock music bands composed entirely of", variable: "real-life brothers or sisters",
+      answers: ["The Jonas Brothers", "Oasis (Liam and Noel Gallagher)", "HAIM", "Kings of Leon (Followill brothers & cousin)", "The Corrs", "Hanson", "Bee Gees", "The Jackson 5"],
+      lore: "Oasis abruptly disbanded backstage in Paris in August 2009 after Noel Gallagher and Liam Gallagher had a physical fistfight where Liam smashed Noel's acoustic guitar minutes before showtime."
+    },
+    {
+      group: "pop", cat: "Movies", cls: "cat-movies",
+      base: "Disaster films where Earth faces an existential", variable: "extinction-level event from space, climate, or seismic shock (post-1980)",
+      answers: ["Armageddon (1998)", "Deep Impact (1998)", "The Day After Tomorrow (2004)", "2012 (2009)", "Interstellar (2014)", "The Core (2003)", "Don't Look Up (2021)", "Independence Day (1996)"],
+      lore: "NASA reportedly screens Michael Bay's 'Armageddon' in its management training program as a joke test, challenging engineers to identify at least 168 scientifically impossible errors."
+    },
+    {
+      group: "pop", cat: "Music", cls: "cat-music",
+      base: "Collaborative duet singles that topped the", variable: "Billboard Hot 100 for 8 or more consecutive weeks (post-1980)",
+      answers: ["Mariah Carey & Boyz II Men – 'One Sweet Day' (16 weeks)", "Luis Fonsi & Daddy Yankee ft. Justin Bieber – 'Despacito' (16 weeks)", "Brandy & Monica – 'The Boy Is Mine' (13 weeks)", "Rihanna & Calvin Harris – 'We Found Love' (10 weeks)", "Drake & Rihanna – 'Work' (9 weeks)", "Lady Gaga & Bradley Cooper – 'Shallow'"],
+      lore: "'One Sweet Day' held the undisputed Billboard Hot 100 record for longest-running #1 song in history at 16 weeks from 1995 until Lil Nas X's 'Old Town Road' notched 19 weeks in 2019."
+    },
+    {
+      group: "pop", cat: "Pop Culture", cls: "cat-pop",
+      base: "Famous movie trilogies where all three installments were", variable: "critically acclaimed and commercial box-office triumphs (post-1980)",
+      answers: ["The Lord of the Rings trilogy (Peter Jackson)", "The Dark Knight trilogy (Christopher Nolan)", "Back to the Future trilogy (Robert Zemeckis)", "Toy Story (1, 2, 3)", "Before trilogy (Linklater)", "Planet of the Apes reboot trilogy (Caesar)", "Indiana Jones original trilogy"],
+      lore: "Peter Jackson filmed all three 'The Lord of the Rings' films simultaneously in New Zealand over 438 shooting days, with over 20,000 extras and 1,000 hand-crafted suits of armor."
+    }
+  ];
+
+  // ==========================================
+  // CONTEXT-AWARE SMART SABOTAGE BANS
+  // ==========================================
+  const BANNED_ITEMS_MAP = {
+    "Roman Empire": ["Rome", "Julius Caesar", "Constantinople", "Colosseum"],
+    "UEFA Champions League": ["Real Madrid", "Barcelona", "Bayern Munich", "Liverpool"],
+    "FIFA World Cup": ["Brazil", "Germany", "Argentina", "France"],
+    "Equator": ["Brazil", "Colombia", "Ecuador", "Kenya"],
+    "Minecraft": ["Creeper", "Steve", "Pickaxe", "Nether"],
+    "F1": ["Lewis Hamilton", "Max Verstappen", "Michael Schumacher", "Ferrari"],
+    "UFC": ["Conor McGregor", "Jon Jones", "Khabib", "Israel Adesanya"],
+    "Diamond Albums": ["Thriller", "Nevermind", "21", "The Eminem Show"],
+    "Noble Gases": ["Helium", "Neon", "Argon"],
+    "Greek Ruins": ["Parthenon", "Athens", "Colosseum", "Pyramids"]
+  };
+
+  function pickMultiple(arr, count) {
+    const shuffled = [...arr].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, Math.min(count, arr.length));
+  }
+
+  // ==========================================
+  // MATHEMATICAL SLIDER QUOTA ENGINE (0% TO 100%)
+  // At 0%: Strictly zero pop cards are ever drawn!
+  // ==========================================
+  let targetPopPercentage = 0;
+  let activeDrawShoe = [];
+  let discardPile = [];
+
+  function buildStrictDeckShoe() {
+    activeDrawShoe = [];
+    discardPile = [];
+
+    const popCards = CARD_DATABASE.filter(c => c.group === "pop");
+    const nonPopCards = CARD_DATABASE.filter(c => c.group === "nonpop");
+
+    const shuffledPop = [...popCards].sort(() => 0.5 - Math.random());
+    const shuffledNonPop = [...nonPopCards].sort(() => 0.5 - Math.random());
+
+    const totalShoeSize = 40;
+    const popRatio = targetPopPercentage / 100;
+    const targetPopCards = Math.round(totalShoeSize * popRatio);
+    const targetNonPopCards = totalShoeSize - targetPopCards;
+
+    // Pull pop cards only if targetPopCards > 0
+    if (targetPopCards > 0) {
+      for (let i = 0; i < targetPopCards; i++) {
+        activeDrawShoe.push(shuffledPop[i % shuffledPop.length]);
+      }
+    }
+
+    // Pull non-pop cards (History, Science, Bollywood/Punjabi, Sports, Chaos, Gaming)
+    for (let i = 0; i < targetNonPopCards; i++) {
+      activeDrawShoe.push(shuffledNonPop[i % shuffledNonPop.length]);
+    }
+
+    // True Fisher-Yates shuffle
+    for (let i = activeDrawShoe.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [activeDrawShoe[i], activeDrawShoe[j]] = [activeDrawShoe[j], activeDrawShoe[i]];
+    }
+
+    updateDeckStats();
+  }
+
+  function updateDeckStats() {
+    const pill = document.getElementById("deckStatsPill");
+    pill.innerText = `🃏 Active Shoe: ${activeDrawShoe.length} Cards Left | Played: ${discardPile.length}`;
+  }
+
+  function updatePopCultureMix(val) {
+    targetPopPercentage = parseInt(val);
+    document.getElementById("mixValueBadge").innerText = `${targetPopPercentage}%`;
+    buildStrictDeckShoe();
+  }
+
+  // ==========================================
+  // GAMEPLAY STATE & BLIND BOUNTY ENGINE
+  // ==========================================
+  let roundCounter = 0;
+  let isBlindRound = false;
+  let isBlindRevealed = false;
+
+  let currentBid = 3;
+  let defaultDuration = 45;
+  let timerVal = 45;
+  let interval = null;
+  let currentCardData = null;
+  let sabotageActive = false;
+  let deadCardPot = 1;
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+  function playTone(freq, type, duration) {
+    try {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = type;
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + duration);
+    } catch (e) {}
+  }
+
+  function updatePotDisplay() {
+    const potBadge = document.getElementById("potBadge");
+    const activeValue = deadCardPot + (sabotageActive ? 1 : 0);
+    
+    if (activeValue > 1) {
+      potBadge.className = "pot-badge boosted";
+      potBadge.innerHTML = `🔥 Worth: ${activeValue} Pts`;
+    } else {
+      potBadge.className = "pot-badge";
+      potBadge.innerHTML = `Worth: 1 Pt`;
+    }
+    renderTeams();
+  }
+
+  function drawNextCard(fromPot = false) {
+    resetTimer();
+    roundCounter++;
+
+    if (activeDrawShoe.length === 0) {
+      buildStrictDeckShoe();
+    }
+
+    currentCardData = activeDrawShoe.pop();
+    discardPile.push(currentCardData);
+    updateDeckStats();
+
+    currentCardData.fullText = `${currentCardData.base} ${currentCardData.variable}`;
+    sabotageActive = false;
+
+    // Blind Bounty every 5th card
+    isBlindRound = (roundCounter % 5 === 0);
+    isBlindRevealed = !isBlindRound;
+
+    const mainCard = document.getElementById("mainCard");
+    const bountyPill = document.getElementById("bountyPill");
+    const revealBountyBtn = document.getElementById("revealBountyBtn");
+
+    if (isBlindRound) {
+      mainCard.classList.add("blind-active");
+      bountyPill.style.display = "inline-block";
+      revealBountyBtn.style.display = "inline-block";
+      playTone(300, "triangle", 0.4);
+    } else {
+      mainCard.classList.remove("blind-active");
+      bountyPill.style.display = "none";
+      revealBountyBtn.style.display = "none";
+    }
+
+    // Reset Sabotage UI
+    const sabBtn = document.getElementById("sabotageBtn");
+    const sabBanner = document.getElementById("sabotageBanner");
+    sabBtn.className = "sabotage-btn";
+    sabBtn.innerText = "⚠ Activate Sabotage";
+    sabBanner.style.display = "none";
+    sabBanner.innerHTML = "";
+    
+    const catEl = document.getElementById("category");
+    catEl.innerText = currentCardData.cat;
+    catEl.className = "category " + currentCardData.cls;
+
+    const promptEl = document.getElementById("prompt");
+    if (isBlindRound) {
+      promptEl.innerHTML = `${currentCardData.base} <span class="cloaked-box">🔒 [CLOAKED BOUNTY]</span>`;
+    } else {
+      promptEl.innerText = currentCardData.fullText;
+    }
+    
+    currentBid = 3;
+    document.getElementById("bidCount").innerText = currentBid;
+
+    if (!fromPot) {
+      deadCardPot = isBlindRound ? 2 : 1;
+    }
+    updatePotDisplay();
+
+    // Reset Answers & Lore Drawer
+    const keyBox = document.getElementById("answerKeyBox");
+    const keyBtn = document.getElementById("keyBtn");
+    keyBox.style.display = "none";
+    keyBtn.innerText = "💡 Reveal Answers & Lore";
+
+    let answersHtml = "";
+    if (currentCardData.answers && currentCardData.answers.length > 0) {
+      answersHtml = currentCardData.answers.map(a => `• ${a}`).join("<br>");
+    } else {
+      answersHtml = "• Valid answers verified by historical or academic consensus.";
+    }
+
+    keyBox.innerHTML = `
+      <div class="key-section">
+        <div class="key-section-title">Verified Dispute Answers:</div>
+        <div>${answersHtml}</div>
+      </div>
+      <div class="key-section">
+        <div class="key-section-title">Did You Know? Lore:</div>
+        <div class="lore-box">${currentCardData.lore || "Knowledge discovery unlocked for this prompt!"}</div>
+      </div>
+    `;
+  }
+
+  function revealBountyPrompt() {
+    if (!isBlindRound || isBlindRevealed) return;
+    isBlindRevealed = true;
+    
+    playTone(523.25, "sine", 0.2);
+    setTimeout(() => playTone(783.99, "sine", 0.3), 150);
+
+    const promptEl = document.getElementById("prompt");
+    promptEl.innerHTML = `${currentCardData.base} <u style="color:var(--accent-alt);">${currentCardData.variable}</u>`;
+    
+    const revealBtn = document.getElementById("revealBountyBtn");
+    revealBtn.style.display = "none";
+  }
+
+  function passDeadCard() {
+    deadCardPot++;
+    playTone(180, "triangle", 0.25);
+    drawNextCard(true);
+  }
+
+  function triggerSabotage() {
+    if (sabotageActive) return;
+    sabotageActive = true;
+
+    playTone(220, "sawtooth", 0.3);
+
+    const sabBtn = document.getElementById("sabotageBtn");
+    const sabBanner = document.getElementById("sabotageBanner");
+    sabBtn.className = "sabotage-btn activated";
+    sabBtn.innerText = "SABOTAGE ACTIVE";
+
+    let ruleText = "";
+
+    if (currentCardData.entity && BANNED_ITEMS_MAP[currentCardData.entity]) {
+      const fullPool = BANNED_ITEMS_MAP[currentCardData.entity];
+      const numToBan = (Math.random() < 0.5 && fullPool.length >= 3) ? 3 : 2;
+      const bannedAnswers = pickMultiple(fullPool, numToBan);
+      
+      let formattedBans = "";
+      if (bannedAnswers.length === 1) {
+        formattedBans = `<u>"${bannedAnswers[0]}"</u>`;
+      } else if (bannedAnswers.length === 2) {
+        formattedBans = `<u>"${bannedAnswers[0]}"</u> or <u>"${bannedAnswers[1]}"</u>`;
+      } else {
+        formattedBans = `<u>"${bannedAnswers[0]}"</u>, <u>"${bannedAnswers[1]}"</u>, or <u>"${bannedAnswers[2]}"</u>`;
+      }
+
+      ruleText = `<strong>BANNED ANSWERS (${bannedAnswers.length} BLOCKED):</strong> You cannot use ${formattedBans}!`;
+    } else {
+      const isShortTimer = timerVal <= 20;
+      const mechanicalTraps = [
+        "<strong>SOLO RUN:</strong> Only ONE player on the team is allowed to speak. Teammates must stay dead silent.",
+        "<strong>ALPHABET TRAP:</strong> Every answer you give must start with a distinct, different letter.",
+        "<strong>RAPID FIRE:</strong> Any hesitation or dead silence longer than 3 seconds ends your turn immediately.",
+        "<strong>PERFECTION DEMAND:</strong> 1 single invalid or disputed answer voids the entire round!"
+      ];
+
+      if (isShortTimer) {
+        ruleText = mechanicalTraps[Math.floor(Math.random() * mechanicalTraps.length)];
+      } else {
+        const roll = Math.random();
+        if (roll < 0.5) {
+          const oldVal = timerVal;
+          timerVal = Math.max(10, timerVal - 15);
+          document.getElementById("timer").innerText = timerVal;
+          ruleText = `<strong>TIME CRUNCH:</strong> Clock slashed by 15s (from ${oldVal}s down to <u>${timerVal}s</u>)!`;
+        } else {
+          ruleText = mechanicalTraps[Math.floor(Math.random() * mechanicalTraps.length)];
+        }
+      }
+    }
+
+    const totalWinPoints = deadCardPot + 1;
+    sabBanner.innerHTML = `${ruleText}<span class="sub-stake">STAKES: +${totalWinPoints} Points if you beat the Sabotage! (-1 if you fail)</span>`;
+    sabBanner.style.display = "block";
+    updatePotDisplay();
+  }
+
+  function toggleKey() {
+    const box = document.getElementById("answerKeyBox");
+    const btn = document.getElementById("keyBtn");
+    if (box.style.display === "block") {
+      box.style.display = "none";
+      btn.innerText = "💡 Reveal Answers & Lore";
+    } else {
+      box.style.display = "block";
+      btn.innerText = "Hide Answers & Lore";
+    }
+  }
+
+  function changeBid(delta) {
+    currentBid = Math.max(1, currentBid + delta);
+    document.getElementById("bidCount").innerText = currentBid;
+    playTone(350 + (currentBid * 25), "sine", 0.08);
+  }
+
+  function setTimerDuration(seconds) {
+    defaultDuration = parseInt(seconds);
+    document.querySelectorAll(".time-pill").forEach(p => p.classList.remove("active"));
+    const matched = Array.from(document.querySelectorAll(".time-pill")).find(p => p.innerText === seconds + "s");
+    if (matched) matched.classList.add("active");
+    resetTimer();
+  }
+
+  function setCustomDuration(val) {
+    const parsed = parseInt(val);
+    if (!isNaN(parsed) && parsed > 5) {
+      document.querySelectorAll(".time-pill").forEach(p => p.classList.remove("active"));
+      defaultDuration = parsed;
+      resetTimer();
+    }
+  }
+
+  function toggleTimer() {
+    if (isBlindRound && !isBlindRevealed) {
+      revealBountyPrompt();
+    }
+
+    if (interval) {
+      clearInterval(interval);
+      interval = null;
+      document.getElementById("timerBtn").innerText = "Resume Countdown";
+    } else {
+      if (timerVal <= 0) timerVal = defaultDuration;
+      document.getElementById("timerBtn").innerText = "Pause";
+      interval = setInterval(() => {
+        timerVal--;
+        const timerEl = document.getElementById("timer");
+        timerEl.innerText = timerVal;
+        
+        if (timerVal <= 5 && timerVal > 0) {
+          timerEl.classList.add("warning");
+          playTone(440, "square", 0.1);
+        }
+        
+        if (timerVal <= 0) {
+          clearInterval(interval);
+          interval = null;
+          timerEl.classList.remove("warning");
+          document.getElementById("timerBtn").innerText = "Time's Up!";
+          playTone(150, "sawtooth", 0.8);
+        }
+      }, 1000);
+    }
+  }
+
+  function resetTimer() {
+    if (interval) clearInterval(interval);
+    interval = null;
+    timerVal = defaultDuration;
+    const timerEl = document.getElementById("timer");
+    timerEl.innerText = timerVal;
+    timerEl.classList.remove("warning");
+    document.getElementById("timerBtn").innerText = "Start Countdown";
+  }
+
+  // ==========================================
+  // DYNAMIC TEAMS ENGINE
+  // ==========================================
+  let teams = [
+    { name: "Team 1", score: 0 },
+    { name: "Team 2", score: 0 },
+    { name: "Team 3", score: 0 }
+  ];
+
+  function renderTeams() {
+    const grid = document.getElementById("teamsGrid");
+    grid.innerHTML = "";
+    const currentCardPayout = deadCardPot + (sabotageActive ? 1 : 0);
+
+    teams.forEach((team, idx) => {
+      const div = document.createElement("div");
+      div.className = "team";
+      const isNeg = team.score < 0;
+      div.innerHTML = `
+        <div class="team-name" contenteditable="true" onblur="renameTeam(${idx}, this.innerText)">${team.name}</div>
+        <div class="team-score ${isNeg ? 'negative' : ''}">${team.score}</div>
+        <div class="score-controls">
+          <div class="manual-controls-row">
+            <button class="score-btn" onclick="updateTeamScore(${idx}, -1)" title="Manual -1">-1</button>
+            <button class="score-btn" onclick="updateTeamScore(${idx}, 1)" title="Manual +1">+1</button>
+          </div>
+          <button class="score-btn award-win" onclick="awardCardWin(${idx})" title="Award Round Win & Advance Card">
+            🏆 Claim Win (+${currentCardPayout})
+          </button>
+        </div>
+      `;
+      grid.appendChild(div);
+    });
+  }
+
+  function awardCardWin(teamIdx) {
+    const currentCardPayout = deadCardPot + (sabotageActive ? 1 : 0);
+    teams[teamIdx].score += currentCardPayout;
+    playTone(587.33, "sine", 0.2);
+    setTimeout(() => playTone(880, "sine", 0.3), 150);
+    
+    deadCardPot = 1;
+    drawNextCard(false);
+  }
+
+  function updateTeamScore(idx, delta) {
+    teams[idx].score += delta;
+    playTone(delta > 0 ? 440 : 220, "sine", 0.05);
+    renderTeams();
+  }
+
+  function addTeam() {
+    if (teams.length >= 6) return;
+    teams.push({ name: `Team ${teams.length + 1}`, score: 0 });
+    renderTeams();
+  }
+
+  function removeTeam() {
+    if (teams.length <= 2) return;
+    teams.pop();
+    renderTeams();
+  }
+
+  function renameTeam(idx, newName) {
+    teams[idx].name = newName.trim() || `Team ${idx + 1}`;
+  }
+
+  function toggleRulesModal(show) {
+    const modal = document.getElementById("rulesModal");
+    modal.style.display = show ? "flex" : "none";
+  }
+
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+      if (document.exitFullscreen) document.exitFullscreen();
+    }
+  }
+
+  // Initial boot (Defaults to 0% Pop Culture)
+  renderTeams();
+  buildStrictDeckShoe();
+  drawNextCard();
+</script>
+</body>
+</html>
